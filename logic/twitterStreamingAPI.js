@@ -5,7 +5,7 @@ var twitter = require('twitter');
 var config = require('./config.json');
 var sentimentAnalysis = require('./sentimentAnalysis.js');
 var mongoose = require('mongoose');
-var Tweet = require('./tweet.js');
+var Tweet = require('../db/tweet');
 //config
 var apiAccess = {
   	consumer_key: config.twitter.consumer_key,
@@ -32,11 +32,12 @@ db.on('error', function (err){
   console.log('Connection Error: ' + err);
 })
 /*
-Currently only logs results to console. Needs to be stored in a database
-to later process. 
-Include timeframe/number of tweets to end stream?
+searchTerm should be a characterName and will be put in Database as characterName
+timeFrame is in seconds
+Function will record atleast one tweet!
 */
-exports.getStream = function(searchTerm) {
+exports.getStream = function(searchTerm,timeFrame) {
+  var startTime = new Date();
 	client.stream('statuses/filter', {track: searchTerm}, function(stream) {
   	stream.on('data', function(tweet) {
       var resp = {}; //response JSON
@@ -55,8 +56,14 @@ exports.getStream = function(searchTerm) {
       newTweet.save(function(err){
         if (err) throw err;
         console.log('Tweet saved!');
+        var currentTime = new Date();
+      if(currentTime.getTime()>=(startTime.getTime()+timeFrame*1000)){
+          console.log('Timelimit reached!');
+          stream.destroy();
+          process.exit();
+      }
       });
-  	});
+        	});
   	stream.on('error', function(error) {
     	throw error;
   	});
