@@ -5,7 +5,7 @@ var twitter = require('twitter');
 var config = require('./config.json');
 var sentimentAnalysis = require('./sentimentAnalysis.js');
 var mongoose = require('mongoose');
-var Tweet = require('./db/tweet');
+var Tweet = require('./tweet.js');
 //config
 var apiAccess = {
   	consumer_key: config.twitter.consumer_key,

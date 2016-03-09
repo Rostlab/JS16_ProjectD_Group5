@@ -1,3 +1,3 @@
 var api = require('./twitterStreamingAPI');
 
-api.getStream('Banana');
+api.getStream('Jon Snow');
