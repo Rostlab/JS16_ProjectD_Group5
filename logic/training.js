@@ -4,6 +4,6 @@ https://github.com/thisandagain/sentiment/blob/master/build/AFINN.txt
 */
 
 module.exports = {
-  poopyhead: 4,
-  dickbutt: 5
+  poopyhead: -4,
+  dickbutt: -5
 };
