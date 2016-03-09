@@ -4,7 +4,7 @@ module.exports=function (grunt){
 			all: ['*.js', 'db/**/*.js','logic/**/*.js']
 		}
 	});
-	grunt.loadNpmTask('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.registerTask('test',['jshint']);
 
 };
