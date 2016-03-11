@@ -32,4 +32,4 @@ var airDate = function(season, episode, callback){
 module.exports.getAirDate = function(season, episode){
 	airDate(season, episode, makeDateObject);
 	console.log(airDate);
-}
+};
