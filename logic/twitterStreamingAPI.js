@@ -26,11 +26,11 @@ var db = mongoose.connection;
 
 db.once('open', function(){
   console.log('Connected to Database!');
-})
+});
 
 db.on('error', function (err){
   console.log('Connection Error: ' + err);
-})
+});
 /*
 searchTerm should be a characterName and will be put in Database as characterName
 timeFrame is in seconds
@@ -68,4 +68,4 @@ exports.getStream = function(searchTerm,timeFrame) {
     	throw error;
   	});
 	});
-}
+};
