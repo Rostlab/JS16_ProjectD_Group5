@@ -1,0 +1,16 @@
+{
+	"twitter" : {
+  		"consumer_key": "xxx",
+  		"consumer_secret": "xxx",
+  		"access_token_key": "xxx",
+  		"access_token_secret": "xxx"
+	}
+	"database" : {
+		"user" : "Username goes here",
+		"password" : "obvious",
+		"port" : "23438",
+		"uri" : "ds023438.mlab.com",
+		"name" : "js16group5",
+		"collection" : "sentimentData"
+	}
+}
