@@ -24,21 +24,25 @@ exports.airDate = function(season, episode, callback){
 		}
 	});
 };
+
 /*
 Callback function gets JSON with all character Names as parameter
 */
 exports.characterNames = function(callback){
 	//URL to API by ProjectA
 	var url = 'https://got-api.bruck.me/api/characters/';
-	//Helper function to transform repsonce in JSON of names
-	
+	//GET request to API
 	var answer = request.get(url, function(err, resp, body){
+		//check foŕ valid response
 		if(!err && resp.statusCode === 200){
+			//parse answer String to a JSON Object
 			var json = JSON.parse(body);
 			var formatted = {};
 			for ( var i=0;i<json.length;i++){
+				//only include the names
 				formatted[i] = json[i].name;
-			}				
+			}	
+		//give JSON object to the callback function	
 		callback(formatted);
 		}
 	});
