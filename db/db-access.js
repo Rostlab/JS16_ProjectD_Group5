@@ -37,10 +37,12 @@ exports.characterNames = function(callback){
 		if(!err && resp.statusCode === 200){
 			//parse answer String to a JSON Object
 			var json = JSON.parse(body);
-			var formatted = {};
+			var formatted = []; //make it an array for easier iteration
 			for ( var i=0;i<json.length;i++){
 				//only include the names
-				formatted[i] = json[i].name;
+				formatted.push({
+					name : json[i].name 
+				});
 			}	
 		//give JSON object to the callback function	
 		callback(formatted);
