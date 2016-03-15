@@ -2,6 +2,23 @@ var request = require('request');
 var mongoose = require('mongoose');
 var Tweet = require('./tweet');
 var config = require('../cfg/config.json');
+/*
+Cofiguaration of Database access
+*/
+var dbConfig = config.database;
+var dbConnection = "mongodb://"+dbConfig.user + ":" + dbConfig.password + "@" + dbConfig.uri + ":" + dbConfig.port + "/" + dbConfig.name;
+//Connect to Database
+console.log(dbConnection);
+mongoose.connect(dbConnection);
+var db = mongoose.connection;
+
+db.once('open', function(){
+  console.log('Connected to Database!');
+});
+
+db.on('error', function (err){
+  console.log('Connection Error: ' + err);
+});
 
 /*
 The callback function must take a date object as a parameter
@@ -51,4 +68,29 @@ exports.characterNames = function(callback){
 		callback(formatted);
 		}
 	});
+};
+/*
+Saves the information gathered from a tweet in our database
+
+searchTerm: The search phrase used e.g. character name like 'Jon Snow'
+id: unique id of the tweet. Test tweets get id 0
+created_at: the date the tweet was created at in Javascript date String format
+score: Score calculated by the sentiment analysis
+*/
+exports.saveTweet = function(searchTerm,id,date,score){
+
+	var newTweet = Tweet({
+        id : id,
+        characterName : searchTerm,
+        created_at : new Date(date),
+        sentiment : score
+      });
+	newTweet.save(function(err){
+        if (err) {
+        	console.log('Error saving tweet');
+        	throw err;
+        } else {
+        	console.log('Tweet saved!');
+        }
+    });
 };
