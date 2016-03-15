@@ -7,25 +7,17 @@ Cofiguaration of Database access
 */
 var dbConfig = config.database;
 var dbConnection = "mongodb://"+dbConfig.user + ":" + dbConfig.password + "@" + dbConfig.uri + ":" + dbConfig.port + "/" + dbConfig.name;
-//Connect to Database
 console.log(dbConnection);
-mongoose.connect(dbConnection);
-var db = mongoose.connection;
 
-db.once('open', function(){
-  console.log('Connected to Database!');
-});
-
-db.on('error', function (err){
-  console.log('Connection Error: ' + err);
-});
+//Database A security token
+var tokenString = "?token="+config.databaseA.token;
 
 /*
 The callback function must take a date object as a parameter
 */
 exports.airDate = function(season, episode, callback){
 	//URL to the API provided by Project A
-	var url = 'https://got-api.bruck.me/api/episodes/find';
+	var url = 'https://got-api.bruck.me/api/episodes/find/'+tokenString;
 	//Form includes the search criteria 
 	var form =  {
 		form: {
@@ -35,6 +27,7 @@ exports.airDate = function(season, episode, callback){
 	};
 	//Make POST request to API
 	var answer = request.post(url,form, function(err, resp, body){
+		console.log(body);
 		if(!err && resp.statusCode === 200){
 			//just get the airing date information
 			var json = JSON.parse(body);
@@ -49,8 +42,9 @@ exports.airDate = function(season, episode, callback){
 Callback function gets JSON with all character Names as parameter
 */
 exports.characterNames = function(callback){
+
 	//URL to API by ProjectA
-	var url = 'https://got-api.bruck.me/api/characters/';
+	var url = 'https://got-api.bruck.me/api/characters/'+tokenString;
 	//GET request to API
 	var answer = request.get(url, function(err, resp, body){
 		//check foŕ valid response
@@ -78,13 +72,24 @@ created_at: the date the tweet was created at in Javascript date String format
 score: Score calculated by the sentiment analysis
 */
 exports.saveTweet = function(searchTerm,id,date,score){
+	//connect to db
+	mongoose.connect(dbConnection);
+	var db = mongoose.connection;
+	db.once('open', function(){
+  		console.log('Connected to Database!');
+	});
 
+	db.on('error', function (err){
+  		console.log('Connection Error: ' + err);
+	});
+	//make tweet
 	var newTweet = Tweet({
         id : id,
         characterName : searchTerm,
         created_at : new Date(date),
         sentiment : score
       });
+	//save
 	newTweet.save(function(err){
         if (err) {
         	console.log('Error saving tweet');
