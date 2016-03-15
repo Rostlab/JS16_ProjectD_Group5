@@ -1,4 +1,7 @@
 var request = require('request');
+var mongoose = require('mongoose');
+var Tweet = require('./tweet');
+var config = require('../cfg/config.json');
 
 /*
 The callback function must take a date object as a parameter
