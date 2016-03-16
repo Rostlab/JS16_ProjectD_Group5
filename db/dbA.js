@@ -59,7 +59,7 @@ exports.airDate = function (season, episode, callback) {
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
-    var url = 'https://got-api.bruck.me/api/characters/56e38be36363e2222d6d0a3b' + tokenString;
+    var url = 'https://got-api.bruck.me/api/characters/' + tokenString;
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
