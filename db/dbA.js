@@ -12,7 +12,7 @@ var tokenString = "?token=" + config.databaseA.token;
 
 var jsonToCSV = function (json) {
     return json.date + "," + json.pos + "," + json.neg + "," + json.posT + "," + json.negT + "," + json.nullT;
-}
+};
 
 
 /*
@@ -29,7 +29,7 @@ var jsonToCSV = function (json) {
  */
 exports.saveSentiment = function (charName, json) {
     //TODO
-}
+};
 
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
