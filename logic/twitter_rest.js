@@ -35,7 +35,7 @@ exports.launchSearch = function(character, startDate, endDate) {
     currentCharacter = character;
     var searchArguments = getSearchArguments(character, startDate, endDate);
     client.get('search/tweets', searchArguments, callback);
-}
+};
 
 
 function getSearchArguments(character, startDate, endDate) {
@@ -61,9 +61,11 @@ function saveTweets(tweetArray){
         created_at: currentTweet.created_at,
         sentiment: 0
       });
-      newTweet.save(function(err){
-        if (err) throw err;
-        console.log('Tweet saved!');
-      });
+      newTweet.save(tweetSaved);
     }
+}
+
+function tweetSaved(err){
+  if (err) throw err;
+  console.log('Tweet saved!');
 }
