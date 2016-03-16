@@ -34,7 +34,7 @@ db.on('error', function (err){
 exports.launchSearch = function(character, startDate, endDate) {
     currentCharacter = character;
     var searchArguments = getSearchArguments(character, startDate, endDate);
-    client.get('search/tweets', arguments, callback);
+    client.get('search/tweets', searchArguments, callback);
 }
 
 
@@ -43,7 +43,7 @@ function getSearchArguments(character, startDate, endDate) {
 }
 
 function callback(error, tweets, response){
-    var statuses = tweets['statuses'];
+    var statuses = tweets.statuses;
     var tweetArray = [];
     for (var index in statuses) {
       var tweet = statuses[index];
