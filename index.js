@@ -9,27 +9,33 @@
 		{name:'Arya Stark', posSent:30, negSent:-50, numTweets:300}, 
 		{name:'Khal Drogo',posSent:0, negSent:-1, numTweets:1},
 		{name:'Joffrey Baratheon', posSent:0, negSent:-3000, numTweets:200}];
+	function SearchError(text, date, searchedName){
+		this.name='SearchError';
+		this.message=text || 'Some Failure happpened while searching for a SentimentAnalyses';
+		this.stack= (new Error()).stack;
+		this.date= date;
+		this.searchedName= searchedName;
+	}
+	SearchError.prototype= Object.create(Error.prototype);
+	SearchError.prototype.constructor= SearchError;
 module.exports={
 
 		// returns {posSent: Number, negSent:Number, numTweets:Number}
 	getSentimentForName: function(name,date){
-		var error = new Error();
-		error.date = date;
-		error.searchedName=name;
 		//TODO
-		if (!date) {throw new Error('Date is empty');}
-		if (date===new Date(1990,1,1)){
-			error.message="For this date does no Twitterdata exist!";
-			throw error;
-		}
-		for (var i=0; i<listA.length;i+=1){
-			
-			if(listA[i].name===name){
-				return {posSent:listA[i].posSent, negSent:listA[i].negSent,numTweets:listA[i].numTweets};
+		
+			if (!date) {throw new Error('Date is empty');}
+			if (date.getTime()===(new Date(1990,1,1)).getTime()){
+				throw new Error("For this date does no Twitterdata exist");
 			}
-		}
-		error.message= "This is not a GoT-Character";
-		throw error;
+			for (var i=0; i<listA.length;i+=1){
+				if(listA[i].name===name){
+					return {posSent:listA[i].posSent, negSent:listA[i].negSent,numTweets:listA[i].numTweets};
+				}
+			}
+			throw new SearchError('This is not a GoT-Character',date, name);
+		
+		//	console.log(e.name +": "+e.message +"\n"+e.searchedName+" Date: "+e.date);
 		
 	},
 	//returns Analysis over a timeframe (same as above)
