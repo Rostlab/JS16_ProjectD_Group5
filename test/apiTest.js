@@ -3,7 +3,7 @@ var api = require ('../index.js'); //In index.js should be the export method. TO
 
 describe('API gets tested', function (){
 	describe('getSentimentForName(name,date)',function(){
-		context.skip('Name is present and on the Specific day exists a Tweet',function(){
+		context('Name is present and on the Specific day exists a Tweet',function(){
 			var list = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'];//automation... but needs approval if something in the DB exists.
 			var date = new Date();
 			it ('should return the Sentiment for Jon Snow on 16.03.2016');// Still missing!!!
