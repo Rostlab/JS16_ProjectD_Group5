@@ -2,7 +2,7 @@
 var util = require('util');
 var twitter = require('twitter');
     //make a local JSON file with access codes. see configDUMMY.json for example
-var config = require('./config.json');
+var config = require('../cfg/config.json');
 var sentimentAnalysis = require('./sentimentAnalysis.js');
 var mongoose = require('mongoose');
 var Tweet = require('../db/tweet');
