@@ -1,7 +1,7 @@
 {
-  "name": "sentiment_group5",
+  "name": "gotsentiments",
   "version": "1.0.0",
-  "description": "Seminar 16: JavaScript: Sentiment-App_Group5",
+  "description": "Project D (Sentiments) of Group 5, JavaScript Seminar 2016, Rostlab",
   "main": "index.js",
   "scripts": {
     "test": "grunt test"
@@ -13,7 +13,9 @@
   "keywords": [
     "TUM",
     "GoT",
-    "Twitter"
+    "Twitter",
+    "rostlab",
+    "sentiment"
   ],
   "author": "Group 5",
   "license": "ISC",
