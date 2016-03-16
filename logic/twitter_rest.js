@@ -33,12 +33,12 @@ db.on('error', function (err){
 
 exports.launchSearch = function(character, startDate, endDate) {
     currentCharacter = character;
-    var arguments = getArguments(character, startDate, endDate);
+    var searchArguments = getSearchArguments(character, startDate, endDate);
     client.get('search/tweets', arguments, callback);
 }
 
 
-function getArguments(character, startDate, endDate) {
+function getSearchArguments(character, startDate, endDate) {
   return {q: character, result_type: 'mixed', since: startDate, until: endDate, lang: 'en'};
 }
 
@@ -56,9 +56,9 @@ function saveTweets(tweetArray){
     for (var tweet in tweetArray) {
       var currentTweet = tweetArray[tweet];
       var newTweet = Tweet({
-        id: currentTweet['id'],
+        id: currentTweet.id,
         characterName: currentCharacter,
-        created_at: currentTweet['created_at'],
+        created_at: currentTweet.created_at,
         sentiment: 0
       });
       newTweet.save(function(err){
