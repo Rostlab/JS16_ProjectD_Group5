@@ -64,6 +64,6 @@ function saveTweets(tweetArray){
       newTweet.save(function(err){
         if (err) throw err;
         console.log('Tweet saved!');
-      })
+      });
     }
 }
