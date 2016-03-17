@@ -46,3 +46,14 @@ exports.saveTweet = function (json) {
         }
     });
 };
+/*
+ Creates a json array with all tweets that match the search query
+ The json parameter has the search Query items. Example:
+ {
+ "characterID" : "12345",
+ "startDate" : "someDate",
+ "endDate": "someDate",
+ */
+exports.getTweets = function (json, callback) {
+
+}
