@@ -45,7 +45,7 @@ exports.getStream = function(searchTerm,timeFrame) {
       resp.sentiment = sentimentAnalysis(tweet.text).score; //gets sentiment score based on AFINN and training
   		resp.date = tweet.created_at; //timestamp. format: "Wed Aug 27 13:08:45 +0000 2008"
       resp.id = tweet.id_str; //unique ID of the tweet
-      console.log(resp);      
+      console.log(resp);
       //push response to db
       var newTweet = Tweet({
         id : resp.id,
