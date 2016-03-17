@@ -7,7 +7,15 @@ var config = require('../cfg/config.json');
  */
 var dbConfig = config.database;
 var dbConnection = "mongodb://" + dbConfig.user + ":" + dbConfig.password + "@" + dbConfig.uri + ":" + dbConfig.port + "/" + dbConfig.name;
+var db = mongoose.connection;
+db.once('open', function () {
+    console.log('Connected to Database!');
+});
 
+db.on('error', function (err) {
+    console.log('Connection Error: ' + err);
+});
+mongoose.connect(dbConnection);
 /*
  Saves the information gathered from a tweet in our database
 
@@ -17,17 +25,6 @@ var dbConnection = "mongodb://" + dbConfig.user + ":" + dbConfig.password + "@" 
  score: Score calculated by the sentiment analysis
  */
 exports.saveTweet = function (json) {
-    //connect to db
-    console.log(dbConnection);
-    mongoose.connect(dbConnection);
-    var db = mongoose.connection;
-    db.once('open', function () {
-        console.log('Connected to Database!');
-    });
-
-    db.on('error', function (err) {
-        console.log('Connection Error: ' + err);
-    });
     //make tweet
     var newTweet = Tweet({
         id: json.id,
@@ -46,7 +43,6 @@ exports.saveTweet = function (json) {
             throw err;
         } else {
             console.log('Tweet saved!');
-            db.close();
         }
     });
 };
