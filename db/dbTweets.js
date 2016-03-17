@@ -56,11 +56,17 @@ exports.saveTweet = function (json) {
  The json parameter has the search Query items. Example:
  {
  "characterID" : "12345",
- "startDate" : "someDate",
- "endDate": "someDate",
+ "startDate" : "someDate",  ISOString
+ "endDate": "someDate", ISOString
  */
 exports.getTweets = function (json, callback) {
-    db.collection('tweets').find({"characterID" : json.characterID}, function(err, cursor){
+    db.collection('tweets').find({
+        characterID : json.characterID,
+        created_at : {
+            $gte : new Date(json.startDate),
+            $lt : new Date(json.endDate)
+        }
+    }, function(err, cursor){
         var json = [];
         cursor.each(function(err, doc){
             if(doc!=null){
