@@ -23,7 +23,7 @@
   "homepage": "https://github.com/Rostlab/JS16_ProjectD_Group5#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^1.0.0"
+    "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
     "mocha": "^2.4.5",
     "should": "^8.2.2"
