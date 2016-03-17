@@ -16,6 +16,10 @@ db.on('error', function (err) {
     console.log('Connection Error: ' + err);
 });
 mongoose.connect(dbConnection);
+var onErr = function(err, callback){
+    db.close();
+    callback(err);
+};
 /*
  Saves the information gathered from a tweet in our database
 
@@ -43,6 +47,7 @@ exports.saveTweet = function (json) {
             throw err;
         } else {
             console.log('Tweet saved!');
+            db.close();
         }
     });
 };
@@ -55,5 +60,15 @@ exports.saveTweet = function (json) {
  "endDate": "someDate",
  */
 exports.getTweets = function (json, callback) {
+    db.collection('tweets').find({"characterID" : json.characterID}, function(err, cursor){
+        var json = [];
+        cursor.each(function(err, doc){
+            if(doc!=null){
+                json.push(doc);
+            } else {
+                callback(json);
+            }
+        });
 
-}
+    })
+};
