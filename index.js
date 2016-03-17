@@ -26,7 +26,7 @@ module.exports={
 		
 			if (!date) {throw new Error('Date is empty');}
 			if (date.getTime()===(new Date(1990,1,1)).getTime()){
-				throw new Error("For this date does no Twitterdata exist");
+				throw new SearchError("For this date does no Twitterdata exist",date,name);
 			}
 			for (var i=0; i<listA.length;i+=1){
 				if(listA[i].name===name){
