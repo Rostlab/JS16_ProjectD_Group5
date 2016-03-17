@@ -69,12 +69,12 @@ exports.getTweets = function (json, callback) {
     }, function (err, cursor) {
         var json = [];
         cursor.each(function (err, doc) {
-            if (doc != null) {
+            if (doc !== null) {
                 json.push(doc);
             } else {
                 callback(json);
             }
         });
 
-    })
+    });
 };
