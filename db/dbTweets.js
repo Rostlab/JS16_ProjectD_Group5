@@ -8,7 +8,6 @@ var config = require('../cfg/config.json');
 var dbConfig = config.database;
 var dbConnection = "mongodb://" + dbConfig.user + ":" + dbConfig.password + "@" + dbConfig.uri + ":" + dbConfig.port + "/" + dbConfig.name;
 
-
 /*
  Saves the information gathered from a tweet in our database
 
@@ -17,8 +16,9 @@ var dbConnection = "mongodb://" + dbConfig.user + ":" + dbConfig.password + "@" 
  created_at: the date the tweet was created at in Javascript date String format
  score: Score calculated by the sentiment analysis
  */
-exports.saveTweet = function (searchTerm, id, date, score) {
+exports.saveTweet = function (json) {
     //connect to db
+    console.log(dbConnection);
     mongoose.connect(dbConnection);
     var db = mongoose.connection;
     db.once('open', function () {
@@ -30,10 +30,14 @@ exports.saveTweet = function (searchTerm, id, date, score) {
     });
     //make tweet
     var newTweet = Tweet({
-        id: id,
-        characterName: searchTerm,
-        created_at: new Date(date),
-        sentiment: score
+        id: json.id,
+        characterName: json.characterName,
+        created_at: json.created_at,
+        characterID: json.characterID,
+        text: json.text,
+        retweeted: json.retweeted,
+        fav: json.fav,
+        lang: json.lang
     });
     //save
     newTweet.save(function (err) {
@@ -42,6 +46,7 @@ exports.saveTweet = function (searchTerm, id, date, score) {
             throw err;
         } else {
             console.log('Tweet saved!');
+            db.close();
         }
     });
 };
