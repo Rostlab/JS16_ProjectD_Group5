@@ -16,7 +16,7 @@ db.on('error', function (err) {
     console.log('Connection Error: ' + err);
 });
 mongoose.connect(dbConnection);
-var onErr = function(err, callback){
+var onErr = function (err, callback) {
     db.close();
     callback(err);
 };
@@ -61,15 +61,15 @@ exports.saveTweet = function (json) {
  */
 exports.getTweets = function (json, callback) {
     db.collection('tweets').find({
-        characterID : json.characterID,
-        created_at : {
-            $gte : new Date(json.startDate),
-            $lt : new Date(json.endDate)
+        characterID: json.characterID,
+        created_at: {
+            $gte: new Date(json.startDate),
+            $lt: new Date(json.endDate)
         }
-    }, function(err, cursor){
+    }, function (err, cursor) {
         var json = [];
-        cursor.each(function(err, doc){
-            if(doc!=null){
+        cursor.each(function (err, doc) {
+            if (doc != null) {
                 json.push(doc);
             } else {
                 callback(json);

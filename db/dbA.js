@@ -25,7 +25,7 @@ var jsonToCSV = function (json) {
  "posT" : "6",   //number of positive tweets
  "negT" : "4",   // number of negative tweets
  "nullT" : "23"  // number of neutral tweets
-    }
+ }
  */
 exports.saveSentiment = function (charName, json) {
     //TODO
