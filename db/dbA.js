@@ -25,7 +25,7 @@ var jsonToCSV = function (json) {
  "posT" : "6",   //number of positive tweets
  "negT" : "4",   // number of negative tweets
  "nullT" : "23"  // number of neutral tweets
-    }
+ }
  */
 exports.saveSentiment = function (charName, json) {
     //TODO
@@ -59,7 +59,7 @@ exports.airDate = function (season, episode, callback) {
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
-    var url = 'https://got-api.bruck.me/api/characters/56e38be36363e2222d6d0a3b' + tokenString;
+    var url = 'https://got-api.bruck.me/api/characters/' + tokenString;
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
@@ -71,7 +71,8 @@ exports.characterNames = function (callback) {
             for (var i = 0; i < json.length; i++) {
                 //only include the names
                 formatted.push({
-                    name: json[i].name
+                    name: json[i].name,
+                    characterID: json[i]._id,
                 });
             }
             //give JSON object to the callback function
