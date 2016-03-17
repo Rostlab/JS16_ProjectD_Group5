@@ -3,10 +3,22 @@ var Schema = mongoose.Schema;
 
 //create schema
 var tweetSchema = new Schema({
-	id: String,
-	characterName: String,
-	createda_at: Date,
-	sentiment: Number
+    //unique id of the tweet
+    id: {type: String, required: true},
+    //the search term used to find the tweet
+    characterName: {type: String, required: true},
+    //Character ID assigned by Project A
+    characterID: {type: String, required: true},
+    //Date the tweet was created at
+    created_at: {type: Date, required: true},
+    //Original text of the tweet
+    text: {type: String, required: true},
+    //retweet count
+    retweeted: {type: Number, default: 0},
+    //favourite count
+    fav: {type: Number, default: 0},
+    //language of the tweet
+    lang: {type: String, default: "en"}
 });
 
 var Tweet = mongoose.model('Tweet', tweetSchema);
@@ -14,5 +26,5 @@ var Tweet = mongoose.model('Tweet', tweetSchema);
 module.exports = Tweet;
 
 /* to get this model use:
-var Tweet = require('./db/tweet');
-*/
+ var Tweet = require('./db/tweet');
+ */
