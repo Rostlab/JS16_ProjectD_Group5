@@ -13,30 +13,43 @@ var gotdailysentiment= require(gotdailysentiment);
 
 ## Get a small amout of data
 ```javascript
-var specify = {
+var json = {
     "characterName" : "Jon Snow",
     "date" : "2016-03-18T"
 };
 
-var jonSnowTweet = gotdailysentiment.getSentimentForName(specify, 
+var jonSnowTweet = gotdailysentiment.getSentimentForName(json, 
     callback //You need to specify a callback-function, as it is an asynchronous call
 );
 ```
 
 Notice that you specify the analyses, which you're about to get with an JSON-Object.It contains two properties: _characterName_ and _date_.
 
-The Method returns an array, which contains an JSON-Object with data.
-
-The Object contains the following properties. Here it is filled with some dummy data.
+The Method returns a JSON-Object with the data. It contains the following properties. Here it is filled with some dummy data.
 ```javascript
-[{
-  "characterName": "Jon Snow",
+{
+  "characterName": "Jon Snow", 
   "date": "2016-03-18T", //date of the tweets
-  "posSum": 23, //sum of the positive sentiment score on that given day
-  "negSum": 21,   //sum of the negative sentiment score on that given day
-  "posCount": 11, //count of positive tweets that day
-  "negCount": 5, //sum of negative tweets that day
-  "nullCount": 8 //sum of neutral tweets that day
-}]
+  "posSum": 23,          //sum of the positive sentiment score on that given day
+  "negSum": 21,          //sum of the negative sentiment score on that given day
+  "posCount": 11,        //count of positive tweets that day
+  "negCount": 5,         //sum of negative tweets that day
+  "nullCount": 8         //sum of neutral tweets that day
+}
 ```
-Note that it is an Array. This Function will return only one Object, but others may return more.
+
+## Get more data!
+The following functions provide you with more data. All functions get a JSON-Object, where you specify you're query, and a callback - functions as parameters.
+
+### Timeframe
+This function looks up the data for a certain timeframe. It gets the following JSON-Object:
+```javascript
+var json = {
+     "name" : "Some Name",
+     "startDate" : "ISODate",
+     "endDate" : "ISODate"
+};
+
+gotdailysentiment.getSentimentForNameTimeframe(json,callback); 
+```
+It returns an Array where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. Per day there is one JSON-Object in this Array.
