@@ -15,13 +15,13 @@ module.exports = {
     getSentimentForName: function (json, callback) {
         //DUMMY RESPOSE, TO BE REPLACED
         var resp = [{
-            'characterName': 'Jon Snow',
-            'date': '2016-03-18T14:40:42.782Z',
-            'posSum': 23,
-            'negSum': 21,
-            'posCount': 11,
-            'negCount': 5,
-            'nullCount': 8
+            'characterName': json.characterName,
+            'date': json.date, //date of the tweets
+            'posSum': 23, //sum of the positive sentiment score on that given day
+            'negSum': 21,   //sum of the negative sentiment score on that given day
+            'posCount': 11, //count of positive tweets that day
+            'negCount': 5, //sum of negative tweets that day
+            'nullCount': 8 //sum of neutral tweets that day
         }]; //not that this in array and will usually contain more than one element
         callback(resp);
     },
@@ -58,8 +58,19 @@ module.exports = {
      */
     topSentiment: function (json, callback) {
         var resp = [
-            {'name': 'Jon Snow'},
-            {'name': 'Hodor'}];
+            {'name': 'Jon Snow',
+                'posSum': 60,
+                'negSum': 21,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8},
+            {'name': 'Hodor',
+                'posSum': 59,
+                'negSum': 21,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8}
+        ];
         callback(resp);
     },
     /*
@@ -67,7 +78,12 @@ module.exports = {
      */
     worstSentiment: function (json, callback) {
         var resp = [
-            {'name': 'Jon Snow'}
+            {'name': 'Jon Snow',
+                'posSum': 23,
+                'negSum': 66,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8}
         ];
         callback(resp);
     },
@@ -76,8 +92,18 @@ module.exports = {
      */
     mostTalkedAbout: function (json, callback) {
         var resp = [
-            {'name': 'Jon Snow'},
-            {'name': 'Hodor'}];
+            {'name': 'Jon Snow',
+                'posSum': 23,
+                'negSum': 21,
+                'posCount': 110,
+                'negCount': 5,
+                'nullCount': 8},
+            {'name': 'Hodor',
+                'posSum': 23,
+                'negSum': 21,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8}];
         callback(resp);
     },
     /*
@@ -86,8 +112,22 @@ module.exports = {
      */
     topControversial: function (json, callback) {
         var resp = [
-            {'name': 'Jon Snow'},
-            {'name': 'Hodor'}];
+            {
+                'name': 'Jon Snow',
+                'posSum': 30,
+                'negSum': 30,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8
+            },
+            {
+                'name': 'Hodor',
+                'posSum': 23,
+                'negSum': 21,
+                'posCount': 11,
+                'negCount': 5,
+                'nullCount': 8
+            }];
         callback(resp);
     },
     /*
@@ -110,10 +150,17 @@ module.exports = {
         }];
         callback(resp);
     },
-    runTwitterREST: function (characterName, startDate){
+    /*
+    run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
+    in the past at most
+     */
+    runTwitterREST: function (characterName, startDate) {
         //TODO
     },
-    runTwitterStreaming: function (characterName, duration){
+    /*
+    runs the twitter streaming API to fill the database for a character and a duration in seconds
+     */
+    runTwitterStreaming: function (characterName, duration) {
         //TODO
     }
 };
