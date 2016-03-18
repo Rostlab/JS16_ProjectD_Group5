@@ -77,7 +77,7 @@ module.exports = {
     mostTalkedAbout: function (json, callback) {
         var resp = [
             {'name': 'Jon Snow'},
-            {'name': 'Hodor'}]
+            {'name': 'Hodor'}];
         callback(resp);
     },
     /*
@@ -87,7 +87,7 @@ module.exports = {
     topControversial: function (json, callback) {
         var resp = [
             {'name': 'Jon Snow'},
-            {'name': 'Hodor'}]
+            {'name': 'Hodor'}];
         callback(resp);
     },
     /*
