@@ -11,26 +11,32 @@ npm install gotdailysentiment
 var gotdailysentiment= require(gotdailysentiment);
 ```
 
-## get sentiments of a certain date from one character
+## Get a small amout of data
 ```javascript
-var jonSnowTweet = gotdailysentiment.getSentimentForName({
-    'characterName' : 'Jon Snow',    'date' : new Date()
-    }, somecallbackfunction);
-```
-Notice that you specify the analyses, which you're about to get with an JS-Object, which contains two properties: _characterName_ and _date_.
+var specify = {
+    "characterName" : "Jon Snow",
+    "date" : "2016-03-18T"
+};
 
-Returns an Array, which contains for every Tweet, which meets the specification, an Object.
+var jonSnowTweet = gotdailysentiment.getSentimentForName(specify, 
+    callback //You need to specify a callback-function, as it is an asynchronous call
+);
+```
+
+Notice that you specify the analyses, which you're about to get with an JSON-Object.It contains two properties: _characterName_ and _date_.
+
+The Method returns an array, which contains an JSON-Object with data.
 
 The Object contains the following properties. Here it is filled with some dummy data.
 ```javascript
 [{
-  'characterName': 'Jon Snow',
-  'date': json.date, //date of the tweets
-  'posSum': 23, //sum of the positive sentiment score on that given day
-  'negSum': 21,   //sum of the negative sentiment score on that given day
-  'posCount': 11, //count of positive tweets that day
-  'negCount': 5, //sum of negative tweets that day
-  'nullCount': 8 //sum of neutral tweets that day
+  "characterName": "Jon Snow",
+  "date": "2016-03-18T", //date of the tweets
+  "posSum": 23, //sum of the positive sentiment score on that given day
+  "negSum": 21,   //sum of the negative sentiment score on that given day
+  "posCount": 11, //count of positive tweets that day
+  "negCount": 5, //sum of negative tweets that day
+  "nullCount": 8 //sum of neutral tweets that day
 }]
 ```
 Note that it is an Array. This Function will return only one Object, but others may return more.
