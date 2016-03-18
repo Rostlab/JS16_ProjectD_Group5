@@ -8,7 +8,7 @@ npm install gotdailysentiment
 
 ## Usage
 ```javascript
-var gotdailysentiment= require(gotdailysentiment);
+var gotdailysentiment = require(gotdailysentiment);
 ```
 
 ## Get a small amout of data
@@ -23,9 +23,9 @@ var jonSnowTweet = gotdailysentiment.getSentimentForName(json,
 );
 ```
 
-Notice that you specify the analyses, which you're about to get with an JSON-Object.It contains two properties: _characterName_ and _date_.
+Note that you specify the analyses, which you're about to get with an JSON-Object. It contains two properties: _characterName_ and _date_.
 
-The Method returns a JSON-Object with the data. It contains the following properties. Here it is filled with some dummy data.
+The function gives a JSON-Object with the data to the callback-function. It contains the following properties. Here it is filled with some dummy data.
 ```javascript
 {
   "characterName": "Jon Snow", 
@@ -39,20 +39,20 @@ The Method returns a JSON-Object with the data. It contains the following proper
 ```
 
 ## Get more data!
-The following functions provide you with more data. All functions get a JSON-Object, where you specify you're query, and a callback-function as parameters.
+The following functions provide you with more "customized" data. All functions get a JSON-Object, where you specify your query, and a callback-function as parameters.
 
 ### Timeframe
-This function looks up the data for a certain timeframe. It gets the following JSON-Object:
+This function looks up the data for a certain timeframe. It gets the following JSON-Object as parameter:
 ```javascript
 var json = {
      "name" : "Some Name",
-     "startDate" : "ISODate",
+     "startDate" : "ISODate", //ISODate means: <JJJJ-MM-DD>T<hh:mm:ss>
      "endDate" : "ISODate"
 };
 
 gotdailysentiment.getSentimentForNameTimeframe(json,callback); 
 ```
-It returns an Array where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. Per day of the timeframe there is one JSON-Object in this Array.
+It gives the callback an Array, where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. Per day in the timeframe there is one JSON-Object in this array.
 
 ### Tops and Flops
 Those four functions provide you with the characters, which get the most positive sentiments at Twitter - or the most negative ones.
@@ -72,7 +72,7 @@ var controversial = gotailysentiment.topControversial(json, callback);
 
 `controversial` contains the characters, which have the greatest difference between the value `posSum` and `negSum`.
 
-All functions return an Array, which contains JSON-Objects. 
+All functions give the callback an array, which contains JSON-Objects. 
 Note, that this time there exists for every Character only **one** object, e.g. when you assign three to the `number`-property, the array contains three objects. The objects contain the following properties (filled with dummy-data):
 ```javascript
 {
@@ -97,7 +97,7 @@ var json = {
 var jonSnow1_1 = gotdailysentiment.sentimentPerEpisode(json,callback);
 ```
 
-It returns one JSON-Object (dummy-data):
+The callback gets one JSON-Object (In this case dummy-data):
 ```
 {
     "name": "Jon Snow",
@@ -113,7 +113,7 @@ It returns one JSON-Object (dummy-data):
 As the Twitter-APIs have some restrictions, this package populates an own database for tweets. Please make sure to run the following functions continously over your Software-Life-Cycle.
 
 ```javascript
-function runTwitterREST (characterName, startDate); //startDate can be max 2 weeks in the past. Run it two populate the database with tweets.
+function runTwitterREST (characterName, startDate); //startDate can be max 2 weeks in the past. Run it to populate the database with tweets.
 
 function runTwitterStreaming (characterName, duration); // runs the twitter streaming API to fill the database for a character and a duration in seconds.
 ```
