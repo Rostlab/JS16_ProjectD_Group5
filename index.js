@@ -136,9 +136,9 @@ module.exports = {
      returns sentiments for name from airing date and the week after on (season,episode).
      Input:
      {
-     'name' : 'Jon Snow',
-     'season' : 1,
-     'episode' : 1
+     "name" : "Jon Snow",
+     "season" : 1,
+     "episode" : 1
      }
      */
     sentimentPerEpisode: function (json, callback) {

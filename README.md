@@ -54,21 +54,26 @@ gotdailysentiment.getSentimentForNameTimeframe(json,callback);
 ```
 It returns an Array where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. Per day of the timeframe there is one JSON-Object in this Array.
 
-### Love and Hate
-Those both functions provide you with the characters, which get the most positive sentiments at Twitter - or the most negative ones.
-You decide how many characters you want in your Top-list. Therefor there is a *number*-property in the JSON-Object:
+### Tops and Flops
+Those four functions provide you with the characters, which get the most positive sentiments at Twitter - or the most negative ones.
+You decide how many characters you want in your Top-list. For that reason there is a *number*-property in the JSON-Object:
 ```javascript
 var json = {
-    "number" : 3,  //this is the count of how many you want e.g. 3 for top3
+    "number" : 3,            //this is the count of how many you want e.g. 3 for top3
     "startDate" : "ISODate", //This is for specifying a timefram like the Timeframe-function above
     "endDate" : "ISODate"
 };
 
 var top3chars = gotdailysentiment.topSentiment(json, callback);
 var worst3chars = gotdailysentiment.worstSentiment(json, callback);
+var mostTwittered = gotdailysentiment.mostTalkedAbout(json, callback);
+var controversial = gotailysentiment.topControversial(json, callback);
 ```
 
-Both functions return an Array, which contains JSON-Objects. This time there exists for every Character only **one** object, e.g. when you assign three to the `"number"`-property, the array contains three objects. The Object contains the following Properties (filled with Dummy-Data):
+`controversial` contains the characters, which have the greatest difference between the value `posSum` and `negSum`.
+
+All functions return an Array, which contains JSON-Objects. 
+Note, that this time there exists for every Character only **one** object, e.g. when you assign three to the `number`-property, the array contains three objects. The objects contain the following properties (filled with dummy-data):
 ```javascript
 {
     "name": "Jon Snow",
@@ -79,3 +84,37 @@ Both functions return an Array, which contains JSON-Objects. This time there exi
     "nullCount": 8
 }
 ```
+
+### Feeling about Episodes
+With this function you get the sentiments on a character for the specified episode and the following seven days. So you have to define the following JSON-Object:
+```javascript
+var json = {
+     "name" : "Jon Snow",
+     "season" : 1,
+     "episode" : 1
+}
+
+var jonSnow1_1 = gotdailysentiment.sentimentPerEpisode(json,callback);
+```
+
+It returns one JSON-Object (dummy-data):
+```
+{
+    "name": "Jon Snow",
+    "posSum": 23,
+    "negSum": 21,
+    "posCount": 11,
+    "negCount": 5,
+    "nullCount": 8
+}
+```
+
+## Production
+As the Twitter-APIs have some restrictions, this package populates an own database for tweets. Please make sure to run the following functions continously over your Software-Life-Cycle.
+
+```javascript
+function runTwitterREST (characterName, startDate); //startDate can be max 2 weeks in the past. Run it two populate the database with tweets.
+
+function runTwitterStreaming (characterName, duration); // runs the twitter streaming API to fill the database for a character and a duration in seconds.
+```
+
