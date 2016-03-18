@@ -9,42 +9,43 @@ module.exports = {
      Gets the score (positive and negative) for a character on a given day
      Input:
      {
-     'characterName' : 'Jon Snow'
-     'date' : '2016-03-18T'
+     "characterName" : "Jon Snow",
+     "date" : "2016-03-18T"
+     }
      */
     getSentimentForName: function (json, callback) {
         //DUMMY RESPOSE, TO BE REPLACED
-        var resp = [{
-            'characterName': json.characterName,
-            'date': json.date, //date of the tweets
-            'posSum': 23, //sum of the positive sentiment score on that given day
-            'negSum': 21,   //sum of the negative sentiment score on that given day
-            'posCount': 11, //count of positive tweets that day
-            'negCount': 5, //sum of negative tweets that day
-            'nullCount': 8 //sum of neutral tweets that day
-        }]; //not that this in array and will usually contain more than one element
+        var resp = {
+            "characterName": json.characterName,
+            "date": json.date, //date of the tweets
+            "posSum": 23, //sum of the positive sentiment score on that given day
+            "negSum": 21,   //sum of the negative sentiment score on that given day
+            "posCount": 11, //count of positive tweets that day
+            "negCount": 5, //sum of negative tweets that day
+            "nullCount": 8 //sum of neutral tweets that day
+        }; //not an array, single element response
         callback(resp);
     },
     /*
      returns Analysis over a timeframe (same as above)
      Input json:
      {
-     'name' : 'Some Name',
-     'startDate' : ISODate',
-     'endDate' : 'ISODate'
+     "name" : "Some Name",
+     "startDate" : ISODate",
+     "endDate" : 'ISODate"
      }
      */
     getSentimentForNameTimeframe: function (json, callback) {
         //DUMMY RESPOSE, TO BE REPLACED
         var resp = [{
-            'characterName': 'Jon Snow',
-            'date': '2016-03-18T14:40:42.782Z',
-            'posSum': 23,
-            'negSum': 21,
-            'posCount': 11,
-            'negCount': 5,
-            'nullCount': 8
-        }]; //not that this in array and will usually contain more than one element
+            "characterName": "Jon Snow",
+            "date": "2016-03-18T14:40:42.782Z",
+            "posSum": 23,
+            "negSum": 21,
+            "posCount": 11,
+            "negCount": 5,
+            "nullCount": 8
+        }]; //note that this in array and will usually contain more than one element
         callback(resp);
 
     },
@@ -52,24 +53,25 @@ module.exports = {
      returns Array of names, which are most loved. with length=number. Ordered!
      Input:
      {
-     'number' : 3,  //this is the count of how many you want e.g. 3 for top3
-     'startDate' : ISODate',
-     'endDate' : 'ISODate'
+     "number" : 3,  //this is the count of how many you want e.g. 3 for top3
+     "startDate' : "ISODate",
+     "endDate' : "ISODate"
      */
     topSentiment: function (json, callback) {
-        var resp = [
-            {'name': 'Jon Snow',
-                'posSum': 60,
-                'negSum': 21,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8},
-            {'name': 'Hodor',
-                'posSum': 59,
-                'negSum': 21,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8}
+        var resp = [{
+                "name": "Jon Snow",
+                "posSum": 60,
+                "negSum": 21,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8},
+            {
+                "name": "Hodor",
+                "posSum": 59,
+                "negSum": 21,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8}
         ];
         callback(resp);
     },
@@ -77,13 +79,13 @@ module.exports = {
      Same as above but most hated
      */
     worstSentiment: function (json, callback) {
-        var resp = [
-            {'name': 'Jon Snow',
-                'posSum': 23,
-                'negSum': 66,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8}
+        var resp = [{
+            "name": "Jon Snow",
+                "posSum": 23,
+                "negSum": 66,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8}
         ];
         callback(resp);
     },
@@ -91,19 +93,20 @@ module.exports = {
      Same as above but with most tweeted about
      */
     mostTalkedAbout: function (json, callback) {
-        var resp = [
-            {'name': 'Jon Snow',
-                'posSum': 23,
-                'negSum': 21,
-                'posCount': 110,
-                'negCount': 5,
-                'nullCount': 8},
-            {'name': 'Hodor',
-                'posSum': 23,
-                'negSum': 21,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8}];
+        var resp = [{
+            "name": "Jon Snow",
+                "posSum": 23,
+                "negSum": 21,
+                "posCount": 110,
+                "negCount": 5,
+                "nullCount": 8},
+            {
+                "name": "Hodor",
+                "posSum": 23,
+                "negSum": 21,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8}];
         callback(resp);
     },
     /*
@@ -111,22 +114,21 @@ module.exports = {
      Still same as above
      */
     topControversial: function (json, callback) {
-        var resp = [
-            {
-                'name': 'Jon Snow',
-                'posSum': 30,
-                'negSum': 30,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8
+        var resp = [{
+                "name": "Jon Snow",
+                "posSum": 30,
+                "negSum": 30,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8
             },
             {
-                'name': 'Hodor',
-                'posSum': 23,
-                'negSum': 21,
-                'posCount': 11,
-                'negCount': 5,
-                'nullCount': 8
+                "name": "Hodor",
+                "posSum": 23,
+                "negSum": 21,
+                "posCount": 11,
+                "negCount": 5,
+                "nullCount": 8
             }];
         callback(resp);
     },
@@ -140,14 +142,14 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
-        var resp = [{
-            'name': json.name,
-            'posSum': 23,
-            'negSum': 21,
-            'posCount': 11,
-            'negCount': 5,
-            'nullCount': 8
-        }];
+        var resp = {
+            "name": json.name,
+            "posSum": 23,
+            "negSum": 21,
+            "posCount": 11,
+            "negCount": 5,
+            "nullCount": 8
+        };
         callback(resp);
     },
     /*
