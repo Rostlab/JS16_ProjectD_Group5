@@ -18,7 +18,7 @@
     "sentiment"
   ],
   "author": "Group 5",
-  "license": "GNU",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Rostlab/JS16_ProjectD_Group5/issues"
   },
@@ -29,5 +29,12 @@
     "grunt-mocha-test": "^0.12.7",
     "mocha": "^2.4.5",
     "should": "^8.2.2"
+  },
+  "dependencies": {
+    "mongoose": "^4.4.8",
+    "request": "^2.69.0",
+    "sentiment": "^1.0.6",
+    "twitter": "^1.2.5",
+    "util": "^0.10.3"
   }
 }
