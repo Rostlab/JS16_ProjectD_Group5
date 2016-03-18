@@ -14,7 +14,7 @@ module.exports = {
      */
     getSentimentForName: function (json, callback) {
         //DUMMY RESPOSE, TO BE REPLACED
-        var resp = [{
+        var resp = {
             'characterName': json.characterName,
             'date': json.date, //date of the tweets
             'posSum': 23, //sum of the positive sentiment score on that given day
@@ -22,7 +22,7 @@ module.exports = {
             'posCount': 11, //count of positive tweets that day
             'negCount': 5, //sum of negative tweets that day
             'nullCount': 8 //sum of neutral tweets that day
-        }]; //not that this in array and will usually contain more than one element
+        }; //not an array, single element response
         callback(resp);
     },
     /*
@@ -44,7 +44,7 @@ module.exports = {
             'posCount': 11,
             'negCount': 5,
             'nullCount': 8
-        }]; //not that this in array and will usually contain more than one element
+        }]; //note that this in array and will usually contain more than one element
         callback(resp);
 
     },
