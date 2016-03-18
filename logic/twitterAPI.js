@@ -15,17 +15,7 @@ exports.getStream = function(characterName, characterID, timeFrame) {
   var startTime = new Date();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
   	stream.on('data', function(tweet) {
-      var jsonTweet = {}; //response JSON
-      jsonTweet.id = tweet.id_str;
-      jsonTweet.characterName = characterName;
-  		jsonTweet.created_at = tweet.created_at;
-      jsonTweet.characterID = characterID;
-      jsonTweet.text = tweet.text;
-      jsonTweet.retweeted = tweet.retweet_count;
-      jsonTweet.fav = tweet.favorite_count;
-      jsonTweet.lang = tweet.lang;
-      console.log(jsonTweet);
-
+      var jsonTweet = getTweetAsJSON(tweet);
       dbTweets.saveTweet(jsonTweet);
 
       var currentTime = new Date();
