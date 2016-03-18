@@ -4,7 +4,7 @@ var api = require ('../index.js'); //In index.js should be the export method. TO
 describe('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
-	describe('#getSentimentForName(name,date): ',function(){
+	describe.skip('#getSentimentForName(name,date): ',function(){
 		context('Name is present and on the Specific day exists a Tweet',function(){
 			
 			for (var i=0; i<nameCol.length-1;i+=1){
@@ -35,28 +35,28 @@ describe('API gets tested', function (){
 			});
 		});
 	});
-	describe('#getSentimentForNameTimeframe (name,startDate,endDate): ',function(){
+	describe.skip('#getSentimentForNameTimeframe (name,startDate,endDate): ',function(){
 
 	});
-	describe('#topSentiment(num, startDate,endDate',function(){
+	describe.skip('#topSentiment(num, startDate,endDate',function(){
 
 	});
-	describe('#worstSentiment(num, startDate,endDate): ',function() {
+	describe.skip('#worstSentiment(num, startDate,endDate): ',function() {
 
 	});
-	describe('#mostTalkedAbout(number,startDate, endDate): ',function(){
+	describe.skip('#mostTalkedAbout(number,startDate, endDate): ',function(){
 
 	});
-	describe('#topControversial(number,startDate, endDate): ',function(){
+	describe.skip('#topControversial(number,startDate, endDate): ',function(){
 
 	});
-	describe('#sentimentForEpisode(name,season,episode): ',function(){
+	describe.skip('#sentimentForEpisode(name,season,episode): ',function(){
 
 	});
-	describe('#runTwitterAPI(char, startDate: ',function(){
+	describe.skip('#runTwitterAPI(char, startDate: ',function(){
 
 	});
-	describe('#runStreamingAPI(char, time): ',function() {
+	describe.skip('#runStreamingAPI(char, time): ',function() {
 
 	});
 });
