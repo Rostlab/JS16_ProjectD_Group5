@@ -29,7 +29,7 @@ exports.getStream = function(characterName, characterID, timeFrame) {
   	stream.on('error', function(error) {
     	throw error;
   	});
-});
+};
 
 exports.getRest = function(characterName, characterID, startDate, endDate) {
     var searchArguments = getRestSearchArguments(character, startDate, endDate);
