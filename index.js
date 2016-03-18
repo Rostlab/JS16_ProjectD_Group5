@@ -11,6 +11,7 @@ module.exports = {
      {
      'characterName' : 'Jon Snow'
      'date' : '2016-03-18T'
+     }
      */
     getSentimentForName: function (json, callback) {
         //DUMMY RESPOSE, TO BE REPLACED
