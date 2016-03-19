@@ -1,0 +1,470 @@
+[
+    {
+        "name": "Joffrey Baratheon",
+        "score": "300.0"
+    },
+    {
+        "name": "Stannis Baratheon",
+        "score": "300.0"
+    },
+    {
+        "name": "Petyr Baelish",
+        "score": "300.0"
+    },
+    {
+        "name": "Tommen Baratheon",
+        "score": "300.0"
+    },
+    {
+        "name": "Robb Stark",
+        "score": "300.0"
+    },
+    {
+        "name": "Aegon I Targaryen",
+        "score": "300.0"
+    },
+    {
+        "name": "Theon Greyjoy",
+        "score": "300.0"
+    },
+    {
+        "name": "Daenerys Targaryen",
+        "score": "300.0"
+    },
+    {
+        "name": "Eddard Stark",
+        "score": "300.0"
+    },
+    {
+        "name": "Jaime Lannister",
+        "score": "300.0"
+    },
+    {
+        "name": "Cersei Lannister",
+        "score": "300.0"
+    },
+    {
+        "name": "Tyrion Lannister",
+        "score": "300.0"
+    },
+    {
+        "name": "Barristan Selmy",
+        "score": "300.0"
+    },
+    {
+        "name": "Tywin Lannister",
+        "score": "300.0"
+    },
+    {
+        "name": "Arya Stark",
+        "score": "300.0"
+    },
+    {
+        "name": "Sansa Stark",
+        "score": "300.0"
+    },
+    {
+        "name": "Margaery Tyrell",
+        "score": "300.0"
+    },
+    {
+        "name": "Aerys II Targaryen",
+        "score": "300.0"
+    },
+    {
+        "name": "Bran Stark",
+        "score": "300.0"
+    },
+    {
+        "name": "Renly Baratheon",
+        "score": "300.0"
+    },
+    {
+        "name": "Jon Snow",
+        "score": "300.0"
+    },
+    {
+        "name": "Roose Bolton",
+        "score": "294.0"
+    },
+    {
+        "name": "Davos Seaworth",
+        "score": "291.0"
+    },
+    {
+        "name": "Samwell Tarly",
+        "score": "291.0"
+    },
+    {
+        "name": "Varys",
+        "score": "270.0"
+    },
+    {
+        "name": "Walder Frey",
+        "score": "269.0"
+    },
+    {
+        "name": "Kevan Lannister",
+        "score": "261.0"
+    },
+    {
+        "name": "Mace Tyrell",
+        "score": "257.0"
+    },
+    {
+        "name": "Gregor Clegane",
+        "score": "251.0"
+    },
+    {
+        "name": "Jon Arryn",
+        "score": "251.0"
+    },
+    {
+        "name": "Rhaegar Targaryen",
+        "score": "240.0"
+    },
+    {
+        "name": "Oberyn Martell",
+        "score": "232.0"
+    },
+    {
+        "name": "Daeron II Targaryen",
+        "score": "230.0"
+    },
+    {
+        "name": "Aegon II Targaryen",
+        "score": "228.0"
+    },
+    {
+        "name": "Melisandre",
+        "score": "224.0"
+    },
+    {
+        "name": "Euron Greyjoy",
+        "score": "222.0"
+    },
+    {
+        "name": "Balon Greyjoy",
+        "score": "222.0"
+    },
+    {
+        "name": "Jorah Mormont",
+        "score": "217.0"
+    },
+    {
+        "name": "Jon Connington",
+        "score": "216.0"
+    },
+    {
+        "name": "Asha Greyjoy",
+        "score": "213.0"
+    },
+    {
+        "name": "Mance Rayder",
+        "score": "213.0"
+    },
+    {
+        "name": "Victarion Greyjoy",
+        "score": "212.0"
+    },
+    {
+        "name": "Maegor I Targaryen",
+        "score": "212.0"
+    },
+    {
+        "name": "Aegon V Targaryen",
+        "score": "209.0"
+    },
+    {
+        "name": "Sandor Clegane",
+        "score": "209.0"
+    },
+    {
+        "name": "Viserys I Targaryen",
+        "score": "204.0"
+    },
+    {
+        "name": "Aegon IV Targaryen",
+        "score": "203.0"
+    },
+    {
+        "name": "Daemon Targaryen",
+        "score": "201.0"
+    },
+    {
+        "name": "Loras Tyrell",
+        "score": "200.0"
+    },
+    {
+        "name": "Jaehaerys I Targaryen",
+        "score": "198.0"
+    },
+    {
+        "name": "Edmure Tully",
+        "score": "197.0"
+    },
+    {
+        "name": "Pycelle",
+        "score": "192.0"
+    },
+    {
+        "name": "Aegon III Targaryen",
+        "score": "188.0"
+    },
+    {
+        "name": "Viserys Targaryen",
+        "score": "187.0"
+    },
+    {
+        "name": "Aerys I Targaryen",
+        "score": "187.0"
+    },
+    {
+        "name": "Randyll Tarly",
+        "score": "186.0"
+    },
+    {
+        "name": "Jeor Mormont",
+        "score": "186.0"
+    },
+    {
+        "name": "Viserys II Targaryen",
+        "score": "182.0"
+    },
+    {
+        "name": "Brynden Rivers",
+        "score": "182.0"
+    },
+    {
+        "name": "Aenys I Targaryen",
+        "score": "172.0"
+    },
+    {
+        "name": "Arianne Martell",
+        "score": "172.0"
+    },
+    {
+        "name": "Janos Slynt",
+        "score": "169.0"
+    },
+    {
+        "name": "Myrcella Baratheon",
+        "score": "169.0"
+    },
+    {
+        "name": "Drogo",
+        "score": "168.0"
+    },
+    {
+        "name": "Rickon Stark",
+        "score": "166.0"
+    },
+    {
+        "name": "Quentyn Martell",
+        "score": "166.0"
+    },
+    {
+        "name": "Qyburn",
+        "score": "161.0"
+    },
+    {
+        "name": "Corlys Velaryon",
+        "score": "158.0"
+    },
+    {
+        "name": "Daeron I Targaryen",
+        "score": "156.0"
+    },
+    {
+        "name": "Paxter Redwyne",
+        "score": "154.0"
+    },
+    {
+        "name": "Criston Cole",
+        "score": "152.0"
+    },
+    {
+        "name": "Baelor I Targaryen",
+        "score": "151.0"
+    },
+    {
+        "name": "Doran Martell",
+        "score": "150.0"
+    },
+    {
+        "name": "Jaehaerys II Targaryen",
+        "score": "149.0"
+    },
+    {
+        "name": "Orys Baratheon",
+        "score": "147.0"
+    },
+    {
+        "name": "Cregan Stark",
+        "score": "146.0"
+    },
+    {
+        "name": "Lancel Lannister",
+        "score": "144.0"
+    },
+    {
+        "name": "Baelor Targaryen (son of Daeron II)",
+        "score": "143.0"
+    },
+    {
+        "name": "Bronn",
+        "score": "142.0"
+    },
+    {
+        "name": "Ramsay Snow",
+        "score": "139.0"
+    },
+    {
+        "name": "Aeron Greyjoy",
+        "score": "138.0"
+    },
+    {
+        "name": "Harys Swyft",
+        "score": "136.0"
+    },
+    {
+        "name": "Hizdahr zo Loraq",
+        "score": "134.0"
+    },
+    {
+        "name": "Elia Martell",
+        "score": "133.0"
+    },
+    {
+        "name": "Gendry",
+        "score": "132.0"
+    },
+    {
+        "name": "Merrett Frey",
+        "score": "131.0"
+    },
+    {
+        "name": "Beric Dondarrion",
+        "score": "131.0"
+    },
+    {
+        "name": "Valarr Targaryen",
+        "score": "130.0"
+    },
+    {
+        "name": "Jeyne Westerling",
+        "score": "128.0"
+    },
+    {
+        "name": "Ambrose Butterwell",
+        "score": "125.0"
+    },
+    {
+        "name": "Gerold Hightower",
+        "score": "125.0"
+    },
+    {
+        "name": "Benjen Stark",
+        "score": "121.0"
+    },
+    {
+        "name": "Selyse Florent",
+        "score": "120.0"
+    },
+    {
+        "name": "Rodrik Cassel",
+        "score": "120.0"
+    },
+    {
+        "name": "Illyrio Mopatis",
+        "score": "119.0"
+    },
+    {
+        "name": "Jeyne Poole",
+        "score": "116.0"
+    },
+    {
+        "name": "Nymeria Sand",
+        "score": "114.0"
+    },
+    {
+        "name": "Aurane Waters",
+        "score": "114.0"
+    },
+    {
+        "name": "Orton Merryweather",
+        "score": "113.0"
+    },
+    {
+        "name": "Steffon Baratheon",
+        "score": "112.0"
+    },
+    {
+        "name": "Otto Hightower",
+        "score": "112.0"
+    },
+    {
+        "name": "Rossart",
+        "score": "111.0"
+    },
+    {
+        "name": "Ryam Redwyne",
+        "score": "110.0"
+    },
+    {
+        "name": "Gyles Rosby",
+        "score": "110.0"
+    },
+    {
+        "name": "Mathis Rowan",
+        "score": "110.0"
+    },
+    {
+        "name": "Qarlton Chelsted",
+        "score": "108.0"
+    },
+    {
+        "name": "Edmyn Tully",
+        "score": "108.0"
+    },
+    {
+        "name": "Lyanna Stark",
+        "score": "107.0"
+    },
+    {
+        "name": "Tyland Lannister",
+        "score": "107.0"
+    },
+    {
+        "name": "Barth",
+        "score": "107.0"
+    },
+    {
+        "name": "Wyman Manderly",
+        "score": "107.0"
+    },
+    {
+        "name": "Luwin",
+        "score": "106.0"
+    },
+    {
+        "name": "Brandon Stark",
+        "score": "105.0"
+    },
+    {
+        "name": "Arys Oakheart",
+        "score": "104.0"
+    },
+    {
+        "name": "Brynden Tully",
+        "score": "103.0"
+    },
+    {
+        "name": "Lyonel Strong",
+        "score": "101.0"
+    },
+    {
+        "name": "Hoster Tully",
+        "score": "100.0"
+    }
+]

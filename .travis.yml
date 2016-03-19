@@ -1,7 +1,17 @@
 language: node_js
 
-node_js: 
-  - stable
+node_js:
+- stable
 
 before_script:
-  - npm install grunt-cli -g
+- npm install grunt-cli -g
+
+deploy:
+  provider: npm
+  email: "jonas.chris.ebel@t-online.de"
+  api_key:
+    secure: F9Ojp+SyE70oBAImbMHGe/BaHjBq5K/4/gz/MfZmsWgh3GgA6t/EjPPpvsOrI/R2YuPpPAjsvi85VGCWlA+lawEbCQvaCw+YGqkBmwSkIlmbFapu2THH1oT/sJCyNHL7xk+4YwwYpmrBbsChT3nqVtckucL1R59XT574EIslBeD5Av3n9cFIHXb38OrIDPHaN9lvHQN8zxm6/xsbg0uVgUroF+KVZ0DCERvCOj3KzWVjHypRKbOmsg9OQbIQhFbHrIba9HW56LZ9YqKbOA13AOdzFtTteDKGwb9ZCfTll1Nh11PMlhSE3k8D4eYtQljuta9CEtitIKK41dKtgNnyLMxGz2Eqjw/UD5DlY0Vquby2xcxmjSif4JHLAzHX7Cj103TVzya3xG2woTicdtfRvjtblW0+TB0t7NEpYF2/t9WLB8lkqrK9EkfA3QMoIRahH4WtNqbIMwXZiyFdkTf+vTVPJHPkgAenNVVj3Z4AD5JTZZknNxfwpZTxfa8ZTO49Nl1/l2mWTNEXn13uP5qNCY7dNi76wddi3vYtNPRzKNbqROYvVjbYd8Zet4g/ALwZdFOd2aBKhbu92t9BmZdMYyWaTN1MxFHzAO0jATOgCc1zuE4gYRa1Os3u1Qr4RE+xGsuW9rdqyDZYSdkJg7yr3OEmpIIouoIUB1dl/zF4Obw=
+  on: 
+   repo: Rostlab/JS16_ProjectD_Group5
+   branch: develop
+
