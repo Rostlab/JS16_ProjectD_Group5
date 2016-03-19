@@ -2,14 +2,6 @@
 //The whole thing has to be done!
 //Functions can be changed
 //Content needs to be changed.
-//listA: information in 1 day for some characters
-	var listA = [
-		{name:'Jon Snow', posSent:20, negSent:-6, numTweets:40},
-		{name:'Tyrion Lennister', posSent:500, negSent:-200, numTweets:3000},
-		{name:'Daenery Targaryen', posSent:400, negSent:-100, numTweets:3400},
-		{name:'Arya Stark', posSent:30, negSent:-50, numTweets:300}, 
-		{name:'Khal Drogo',posSent:0, negSent:-1, numTweets:1},
-		{name:'Joffrey Baratheon', posSent:0, negSent:-3000, numTweets:200}];
 	var getInformation = function(startDate, EndDate) {
 		if (testDate(startDate)) return;
 		if (EndDate === undefined){
@@ -133,4 +125,5 @@ module.exports={
 	sentimentPerEpisode: function(name, season, episode){
 		//TODO
 	} 
+
 };
