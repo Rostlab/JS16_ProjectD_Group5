@@ -32,27 +32,27 @@ exports.getStream = function(characterName, characterID, timeFrame) {
 };
 
 exports.getRest = function(characterName, characterID, startDate, endDate) {
-    var searchArguments = getRestSearchArguments(character, startDate, endDate);
+    var searchArguments = getRestSearchArguments(characterName, startDate, endDate);
     client.get('search/tweets', searchArguments, function(error, tweets, response){
       var statuses = tweets.statuses;
       var tweetArray = [];
       for (var index in statuses) {
         var tweet = statuses[index];
         tweetArray.push(tweet);
-        saveTweets(tweetArray);
+        saveTweets(tweetArray, characterName, characterID);
       }
     });
 };
 
-function saveTweets(tweetArray){
+function saveTweets(tweetArray, characterName, characterID){
     for (var tweet in tweetArray) {
       var currentTweet = tweetArray[tweet];
-      var jsonTweet = getTweetAsJSON(currentTweet);
+      var jsonTweet = getTweetAsJSON(currentTweet, characterName, characterID);
       dbTweets.saveTweet(jsonTweet);
     }
 }
 
-function getTweetAsJSON(tweet){
+function getTweetAsJSON(tweet, characterName, characterID){
   var jsonTweet = {};
   jsonTweet.id = tweet.id_str;
   jsonTweet.characterName = characterName;

@@ -1,5 +1,3 @@
-var api = require('./twitterStreamingAPI');
-var rest = require('./twitter_rest');
+var api = require('./twitterAPI');
 
-api.getStream('Jon Snow',10);
-rest.launchSearch("Jon Snow", "2016-03-09", "2016-03-16");
+api.getRest("Tyrion Lannister", "1234", "2016-03-12", "2016-03-19");

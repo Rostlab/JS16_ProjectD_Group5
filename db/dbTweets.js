@@ -75,6 +75,5 @@ exports.getTweets = function (json, callback) {
                 callback(json);
             }
         });
-
     });
 };
