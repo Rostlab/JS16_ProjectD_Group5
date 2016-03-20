@@ -12,9 +12,7 @@ module.exports = {
                 }
             });
             retObject = require('./index.js');
-            return retObject;
-        } else {
-            return retObject;
         }
+        return retObject;
     }
 };
