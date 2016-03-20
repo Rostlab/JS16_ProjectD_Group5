@@ -1,5 +1,5 @@
 var names = require('../popChars/popChars.json');
-var twitter = require('../db/dbTweets.js');
+var twitter = require('./twitterAPI');
 var intervalID;
 
 
@@ -9,7 +9,7 @@ var intervalID;
  */
 
 exports.startAutomation = function (minutes) {
-    if(minutes === undefined){
+    if (minutes === undefined) {
         minutes = 12;
     }
     var interval = minutes * 60 * 1000;
@@ -24,12 +24,10 @@ exports.startAutomation = function (minutes) {
         currentPos = (currentPos + 1) % names.length;
 
     }, interval); // interval is set here
-}; //TODO optional timeframe parameter with default 12 minutes
+};
 
 exports.stopAutomation = function () {
-
     clearInterval(intervalID);
-    console.log('automation stopped');
 };
 
 
