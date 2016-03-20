@@ -144,9 +144,9 @@ gotdailysentiment.stopAutomation();
 ```
 If you want to start the Automation again, you do this with `startAutomation()`. Here you've got the possibility to specify the interval as a number-parameter. The default is 12.
 ```javascript
-gotdailysentiment.startAutomation(100);
+gotdailysentiment.startAutomation(100); //every 100 minutes it will pull data from Twitter.
 ```
-Note that we recommend not to use a value, which is less then 10, as the Twitter-API does't allow a query so often.
+Note that we recommend not to use a value, which is less then 10, as the Twitter-API does'nt allow a query so often.
 
 ### Additional possibilities
 If you want to be certain, that the database is up to date for a special character, use the following commands. The REST-Method allows to search for Tweets in the past (Maximum 2 weeks ago!). The Streaming data scrapes real time data.
