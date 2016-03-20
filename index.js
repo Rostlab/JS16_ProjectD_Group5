@@ -182,7 +182,7 @@ module.exports = {
         automation.startAutomation(minutes);
     },
     /*
-     Stops the automation. Can be restartet again with startAutomation()
+     Stops the automation. Can be restarted again with startAutomation()
      */
     stopAutomation: function () {
         automation.stopAutomation();
