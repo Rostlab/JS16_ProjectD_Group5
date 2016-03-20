@@ -7,13 +7,13 @@ npm install gotdailysentiment
 ```
 
 ## Usage
-First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process. If no error occurs it returns an object with all functions, which are now accessible: 
+First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process (for more see **automatic update**). If no error occurs it returns an object with all functions, which are now accessible: 
 ```javascript
-var initPack = require(gotdailysentiment);
+var initPack = require('gotdailysentiment');
 
 var gotdailysentiment = initPack.init(config);
 ```
-The config-JSON needs to specify those properties:
+The config-JSON needs to specify the following properties:
 ```javascript
 {
   "twitter" : {             //These are the access tokens to the Twitter-API
@@ -35,6 +35,7 @@ The config-JSON needs to specify those properties:
 }
 ```
 **Note that you have to do the configuration to use this package.**
+
 If you call `init` a second time, after a successful configuration, you can't change the configuration anymore. Instead it will only return the same object as before.
 ## Get a small amout of data
 ```javascript
@@ -134,8 +135,21 @@ The callback gets one JSON-Object (In this case dummy-data):
 }
 ```
 
-## Production
-As the Twitter-APIs have some restrictions, this package populates an own database for tweets. Please make sure to run the following functions continously over your Software-Life-Cycle.
+## Automatic update
+As the Twitter-APIs have some restrictions, this package populates an own database for tweets. It contiuously pulls the data of the last 2 days from twitter for the 117 most popular characters and stores this data in the Database, which you've specified in the initialization-step.
+
+By default it updates every 12 minutes the data for one character, so every character gets updated per day. You may stop this automation with the following function:
+```javascript
+gotdailysentiment.stopAutomation();
+```
+If you want to start the Automation again, you do this with `startAutomation()`. Here you've got the possibility to specify the interval as a number-parameter. The default is 12.
+```javascript
+gotdailysentiment.startAutomation(100);
+```
+Note that we recommend not to use a value, which is less then 10, as the Twitter-API does't allow a query so often.
+
+### Additional possibilities
+If you want to be certain, that the database is up to date for a special character, use the following commands. The REST-Method allows to search for Tweets in the past (Maximum 2 weeks ago!). The Streaming data scrapes real time data.
 
 ```javascript
 function runTwitterREST (characterName, startDate); //startDate can be max 2 weeks in the past. Run it to populate the database with tweets.
