@@ -1,7 +1,7 @@
 var fs = require('fs');
-
+var configured = false;
 module.exports = {
-    config: function (params) {
+    init: function (params) {
         var config = {
             "twitter": {
                 "consumer_key": params.consumerkey,
@@ -20,15 +20,12 @@ module.exports = {
                 "token": params.tokenToA
             }
         };
-        fs.writeFile(filename, JSON.stringify(config, null, 4), function (err) {
+        fs.writeFileSync(filename, JSON.stringify(config, null, 4), function (err) {
             if (err) {
                 console.log(err);
             } else {
-                console.log("success");
+                return require('./index.js');
             }
         });
-    },
-    init: function () {
-        require('./index.js');
     }
 };
