@@ -164,8 +164,17 @@ module.exports = {
      */
     runTwitterStreaming: function (characterName, duration) {
         //TODO
-    }
+    },
     /*
     Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
+    startAutomation: function(minutes){
+        automation.startAutomation(minutes);
+    },
+    /*
+    Stops the automation. Can be restartet again with startAutomation()
+     */
+    stopAutomation: function(){
+        automation.stopAutomation();
+    }
 };
