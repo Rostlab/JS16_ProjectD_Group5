@@ -30,9 +30,6 @@ var onErr = function (err, callback) {
  */
 exports.saveTweet = function (json) {
     //make tweet
-
-    console.log(json);
-
     var newTweet = Tweet({
         id: json.id,
         characterName: json.characterName,
