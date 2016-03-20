@@ -1,6 +1,6 @@
 {
   "name": "gotdailysentiment",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Seminar 16: JavaScript: Sentiment-App_Group5",
   "main": "index.js",
   "scripts": {
