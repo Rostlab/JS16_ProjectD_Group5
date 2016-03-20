@@ -1,6 +1,8 @@
 var util = require('util');
 var twitter = require('twitter');
 var dbTweets = require('../db/dbTweets');
+
+//local config must be in /cfg/config.json. See configDUMMY.json for example
 var config = require('../cfg/config.json');
 var apiAccess = {
   	consumer_key: config.twitter.consumer_key,
@@ -11,6 +13,9 @@ var apiAccess = {
 
 var client = new twitter(apiAccess);
 
+
+//launch Streaming-API search
+//timeFrame in seconds
 exports.getStream = function(characterName, characterID, timeFrame) {
   var startTime = new Date();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
@@ -30,6 +35,8 @@ exports.getStream = function(characterName, characterID, timeFrame) {
   });
 };
 
+//launch Rest-API search
+//startDate, endDate in format "yyyy-mm-dd"
 exports.getRest = function(characterName, characterID, startDate, endDate) {
     var searchArguments = getRestSearchArguments(characterName, startDate, endDate);
     client.get('search/tweets', searchArguments, function(error, tweets, response){
