@@ -4,11 +4,9 @@ var Schema = mongoose.Schema;
 //create schema
 var tweetSchema = new Schema({
     //unique id of the tweet
-    id: {type: String, required: true},
+    id: {type: String, required: true, unique : true},
     //the search term used to find the tweet
     characterName: {type: String, required: true},
-    //Character ID assigned by Project A
-    characterID: {type: String, required: true},
     //Date the tweet was created at
     created_at: {type: Date, required: true},
     //Original text of the tweet
