@@ -7,10 +7,35 @@ npm install gotdailysentiment
 ```
 
 ## Usage
+First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process. If no error occurs it returns an object with all functions, which are now accessible: 
 ```javascript
-var gotdailysentiment = require(gotdailysentiment);
-```
+var initPack = require(gotdailysentiment);
 
+var gotdailysentiment = initPack.init(config);
+```
+The config-JSON needs to specify those properties:
+```javascript
+{
+  "twitter" : {             //These are the access tokens to the Twitter-API
+      "consumer_key": "xxx",
+      "consumer_secret": "xxx",
+      "access_token_key": "xxx",
+      "access_token_secret": "xxx"
+  },
+  "database" : {            //This is the access to the database, where the tweets are stored by the package
+    "user" : "Username goes here",
+    "password" : "Password here",
+    "port" : "808080",
+    "uri" : "uri to mongoDB",
+    "name" : "name of mongoDB"
+  },
+  "databaseA" : {         //This is the access token to access the databse from https://github.com/Rostlab/JS16_ProjectA
+    "token" : "xxxxxxxxxxxxxxxxx"
+  }
+}
+```
+**Note that you have to do the configuration to use this package.**
+If you call `init` a second time, after a successful configuration, you can't change the configuration anymore. Instead it will only return the same object as before.
 ## Get a small amout of data
 ```javascript
 var json = {
