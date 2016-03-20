@@ -40,6 +40,7 @@ exports.saveTweet = function (json) {
         fav: json.fav,
         lang: json.lang
     });
+
     //save
     newTweet.save(function (err) {
         if (err) {
@@ -74,6 +75,5 @@ exports.getTweets = function (json, callback) {
                 callback(json);
             }
         });
-
     });
 };
