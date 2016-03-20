@@ -20,7 +20,7 @@ exports.startAutomation = function (minutes) {
         var currentDate = new Date();
         var twoDaysAgo = currentDate.setDate(currentDate.getDay() - 2);
 
-        twitter.getRest(names[currentPos],)
+        twitter.getRest(names[currentPos].name,twoDaysAgo,currentDate);
         currentPos = (currentPos + 1) % names.length;
 
     }, interval); // interval is set here
