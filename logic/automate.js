@@ -18,9 +18,9 @@ exports.startAutomation = function (minutes) {
     intervalID = setInterval(function () {
 
         var currentDate = new Date();
-        var yesterday = currentDate.setDate(currentDate.getDay() - 1);
+        var twoDaysAgo = currentDate.setDate(currentDate.getDay() - 2);
 
-
+        twitter.getRest(names[currentPos],)
         currentPos = (currentPos + 1) % names.length;
 
     }, interval); // interval is set here

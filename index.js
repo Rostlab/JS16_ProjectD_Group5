@@ -2,7 +2,7 @@
 //The whole thing has to be done!
 //Functions can be changed
 //Content needs to be changed.
-
+var automation = require('./logic/automate.js');
 module.exports = {
 
     /*
@@ -165,4 +165,7 @@ module.exports = {
     runTwitterStreaming: function (characterName, duration) {
         //TODO
     }
+    /*
+    Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
+     */
 };
