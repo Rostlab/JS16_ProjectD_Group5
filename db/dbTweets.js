@@ -30,6 +30,9 @@ var onErr = function (err, callback) {
  */
 exports.saveTweet = function (json) {
     //make tweet
+
+    console.log(json);
+
     var newTweet = Tweet({
         id: json.id,
         characterName: json.characterName,
@@ -40,6 +43,7 @@ exports.saveTweet = function (json) {
         fav: json.fav,
         lang: json.lang
     });
+
     //save
     newTweet.save(function (err) {
         if (err) {
@@ -47,7 +51,6 @@ exports.saveTweet = function (json) {
             throw err;
         } else {
             console.log('Tweet saved!');
-            db.close();
         }
     });
 };

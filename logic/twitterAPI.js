@@ -22,9 +22,8 @@ exports.getStream = function(characterName, characterID, timeFrame) {
       if(currentTime.getTime()>=(startTime.getTime()+timeFrame*1000)){
           console.log('Timelimit reached!');
           stream.destroy();
-          process.exit();
       }
-      });
+    });
   	stream.on('error', function(error) {
     	throw error;
   	});
@@ -62,7 +61,6 @@ function getTweetAsJSON(tweet, characterName, characterID){
   jsonTweet.retweeted = tweet.retweet_count;
   jsonTweet.fav = tweet.favorite_count;
   jsonTweet.lang = tweet.lang;
-  console.log(jsonTweet);
   return jsonTweet;
 }
 
