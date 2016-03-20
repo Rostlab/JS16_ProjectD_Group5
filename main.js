@@ -1,5 +1,4 @@
 var fs = require('fs');
-var configured = false;
 module.exports = {
     init: function (params) {
         var config = {
