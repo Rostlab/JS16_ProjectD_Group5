@@ -24,7 +24,7 @@ var onErr = function (err, callback) {
  Saves the information gathered from a tweet in our database
 
  searchTerm: The search phrase used e.g. character name like 'Jon Snow'
- id: unique id of the tweet. Test tweets get id 0
+ id: unique id of the tweet. 
  created_at: the date the tweet was created at in Javascript date String format
  score: Score calculated by the sentiment analysis
  */
