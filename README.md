@@ -148,6 +148,8 @@ gotdailysentiment.startAutomation(100); //every 100 minutes it will pull data fr
 ```
 Note that we recommend not to use a value, which is less then 10, as the Twitter-API does'nt allow a query so often.
 
+If you start the automationprocess, though it already had been started, you get an Error. Same goes for the stop.
+
 ### Additional possibilities
 If you want to be certain, that the database is up to date for a special character, use the following commands. The REST-Method allows to search for Tweets in the past (Maximum 2 weeks ago!). The Streaming data scrapes real time data.
 
