@@ -15,7 +15,7 @@ exports.getStream = function(characterName, characterID, timeFrame) {
   var startTime = new Date();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
   	stream.on('data', function(tweet) {
-      var jsonTweet = getTweetAsJSON(tweet);
+      var jsonTweet = getTweetAsJSON(tweet, characterName, characterID);
       dbTweets.saveTweet(jsonTweet);
 
       var currentTime = new Date();
@@ -25,10 +25,10 @@ exports.getStream = function(characterName, characterID, timeFrame) {
           process.exit();
       }
       });
-        	});
   	stream.on('error', function(error) {
     	throw error;
   	});
+  });
 };
 
 exports.getRest = function(characterName, characterID, startDate, endDate) {
@@ -39,8 +39,8 @@ exports.getRest = function(characterName, characterID, startDate, endDate) {
       for (var index in statuses) {
         var tweet = statuses[index];
         tweetArray.push(tweet);
-        saveTweets(tweetArray, characterName, characterID);
       }
+      saveTweets(tweetArray, characterName, characterID);
     });
 };
 
