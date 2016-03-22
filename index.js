@@ -30,19 +30,19 @@
 		error.searchedName=name;
 		if (!date) {
 			//throw new Error('Date is empty');
-			SearchError('Date is empty',date, null, name);
+			SearchError('Date is empty',date, name);
 			return true	;
 		}
 		if (date===new Date(1990,1,1)){
 			//error.message="For this date does no Twitterdata exist!";
 			//throw error;
-			SearchError('Date is empty',date, null, name);
+			SearchError('For this date does no Twitterdata exist!',date, name);
 			return true;
 		}
 	}
 function SearchError(message, date, searchedName){
 	this.name='SearchError';
-	this.message= message || 'Some Failure happpened while searching for a SentimentAnalyses';
+	this.message= message || 'Some Failure happened while searching for a SentimentAnalyses';
 	this.stack= (new Error()).stack;
 	this.date= date;
 	this.searchedName= searchedName;
