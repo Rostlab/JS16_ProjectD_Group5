@@ -12,7 +12,6 @@
 			return;
 		}
 
-<<<<<<< HEAD
 	}
 	//get n biggest element from the list
 	//i: position of the value in object
@@ -25,119 +24,94 @@
 		}
 		return nMost;
 	}
-	var testDate = function (date){
+	var testDate = function (date,name){
 		var error = new Error();
 		error.date = date;
 		error.searchedName=name;
 		if (!date) {
-			throw new Error('Date is empty');
+			//throw new Error('Date is empty');
+			SearchError('Date is empty',date, null, name);
 			return true	;
 		}
 		if (date===new Date(1990,1,1)){
-			error.message="For this date does no Twitterdata exist!";
-			throw error;
+			//error.message="For this date does no Twitterdata exist!";
+			//throw error;
+			SearchError('Date is empty',date, null, name);
 			return true;
 		}
 	}
+function SearchError(message, date, searchedName){
+	this.name='SearchError';
+	this.message= message || 'Some Failure happpened while searching for a SentimentAnalyses';
+	this.stack= (new Error()).stack;
+	this.date= date;
+	this.searchedName= searchedName;
+}
 module.exports={
-=======
 var automation = require('./logic/automate.js');
 //start automation as default
 automation.startAutomation();
+/*
+ Gets the score (positive and negative) for a character on a given day
+ Input:
+ {
+ "characterName" : "Jon Snow",
+ "date" : "2016-03-18T"
+ }
+ */
+getSentimentForName: function(json, callback) {
+	var date = json.date;
+	var charName = json.characterName;
+	if (testDate(date,charName)){console.log('Error');return;}
+	//mongodb api here, then handle the response from mongodb
+	//DUMMY RESPOSE, TO BE REPLACED
+	var jsonResp = {};
+	var resp = {
+		"characterName": json.characterName,
+		"date": json.date, //date of the tweets
+		"posSum": 23, //sum of the positive sentiment score on that given day
+		"negSum": 21,   //sum of the negative sentiment score on that given day
+		"posCount": 11, //count of positive tweets that day
+		"negCount": 5, //sum of negative tweets that day
+		"nullCount": 8 //sum of neutral tweets that day
+	}; //not an array, single element response
+	callback(resp);
+},
+/*
+ returns Analysis over a timeframe (same as above)
+ Input json:
+ {
+ "name" : "Some Name",
+ "startDate" : ISODate",
+ "endDate" : 'ISODate"
+ }
+ */
+getSentimentForNameTimeframe: function(json, callback) {
+	var name = [];
+	var startDate = json.startDate;
+	var endDate = json.endDate;
+	if (testDate(startDate,charName)){console.log('Error');return;}
+	if (endDate === undefined){
+		//basiclly using getSentimentForName()
+	}
+	else {
+		if(testDate(endDate,charName)){console.log('Error');return;}
+		//mongodb api here, then handle the response from mongodb
+	}
+	//DUMMY RESPOSE, TO BE REPLACED
+	var resp = [{
+		"characterName": "Jon Snow",
+		"date": "2016-03-18T14:40:42.782Z",
+		"posSum": 23,
+		"negSum": 21,
+		"posCount": 11,
+		"negCount": 5,
+		"nullCount": 8
+	}]; //note that this in array and will usually contain more than one element
+	callback(resp);
 
-
-module.exports = {
->>>>>>> 4d81f682c6151bb7ee20232bfde8898945714066
-
-		// returns {posSent: Number, negSent:Number, numTweets:Number}
-	getSentimentForName: function(name,date){
-		var error = new Error();
-		error.date = date;
-		error.searchedName=name;
-		//TODO
-		if (!date) {throw new Error('Date is empty');}
-		if (date===new Date(1990,1,1)){
-			error.message="For this date does no Twitterdata exist!";
-			throw error;
-		}
-		for (var i=0; i<listA.length;i+=1){
-			
-			if(listA[i].name===name){
-				return {posSent:listA[i].posSent, negSent:listA[i].negSent,numTweets:listA[i].numTweets};
-			}
-		}
-		error.message= "This is not a GoT-Character";
-		throw error;
-		
-	},
-	//returns Analysis over a timeframe (same as above)
-	getSentimentForNameTimeframe: function(name, startDate,endDate){
-		//TODO
-		if (testDate(startDate)) return;
-		if (endDate === undefined) {
-				//no endDate => search in startDate
-			return module.getSentimentForName(name,startDate);
-
-			}
-		else {
-			if (testDate(endDate)) return;
-			//TODO: need more information how is listA now when we have endDate
-		}
-	},
-	//returns Array of names, which are most loved. with length=number. Ordered!
-	topSentiment: function(number, startDate,endDate){
-		//TODO
-		if (testDate(startDate)) return;
-		if (endDate === undefined) {
-			nMost = getMostNFromArray(listA,"posSent");
-			return nMost;
-		}
-		else{
-			if (testDate(endDate)) return;
-			nMost = getMostNFromArray(listA,"posSent");
-			return nMost;
-		}
-	},
-	//returns Array of most hated Characternames. Ordered.
-	worstSentiment: function(number, startDate, endDate){
-		//TODO
-		if (testDate(startDate)) return;
-		if (endDate === undefined) {
-			nMost = getMostNFromArray(listA,"negSent");
-			return nMost;
-		}
-		else{
-			if (testDate(endDate)) return;
-			nMost = getMostNFromArray(listA,"negSent");
-			return nMost;
-		}
-	},
-	//returns Array of Characters, where the most Tweets exist in a certain Timeframe. Ordered!
-	mostTalkedAbout: function(number,startDate, endDate){
-		//TODO
-		if (testDate(startDate)) return;
-		if (endDate === undefined) {
-			nMost = getMostNFromArray(listA,"numTweets");
-			return nMost;
-		}
-		else{
-			if (testDate(endDate)) return;
-			nMost = getMostNFromArray(listA,"numTweets");
-			return nMost;
-		}
-	},
-	//returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
-	topControversial: function(number, startDate,endDate){
-		//TODO
-	},
-	//returns sentiments for name from airing date and the week after on (season,episode).
-	sentimentPerEpisode: function(name, season, episode){
-		//TODO
-	} 
-
-<<<<<<< HEAD
-=======
-    },
+},
+/*
     /*
      returns Array of names, which are most loved. with length=number. Ordered!
      Input:
@@ -146,7 +120,18 @@ module.exports = {
      "startDate' : "ISODate",
      "endDate' : "ISODate"
      */
-    topSentiment: function (json, callback) {
+    topSentiment: function(json, callback) {
+		var number = json.number;
+		var startDate = json.startDate;
+		var endDate = json.endDate;
+		if (testDate(startDate,charName)){console.log('Error');return;}
+		if (endDate === undefined){
+			//mongodb api here, then handle the response from mongodb
+		}
+		else {
+			if(testDate(endDate,charName)){console.log('Error');return;}
+			//mongodb api here, then handle the response from mongodb
+		}
         var resp = [{
             "name": "Jon Snow",
             "posSum": 60,
@@ -169,7 +154,18 @@ module.exports = {
     /*
      Same as above but most hated
      */
-    worstSentiment: function (json, callback) {
+    worstSentiment: function(json, callback) {
+		var number = json.number;
+		var startDate = json.startDate;
+		var endDate = json.endDate;
+		if (testDate(startDate,charName)){console.log('Error');return;}
+		if (endDate === undefined){
+			//mongodb api here, then handle the response from mongodb
+		}
+		else {
+			if(testDate(endDate,charName)){console.log('Error');return;}
+			//mongodb api here, then handle the response from mongodb
+		}
         var resp = [{
             "name": "Jon Snow",
             "posSum": 23,
@@ -184,7 +180,18 @@ module.exports = {
     /*
      Same as above but with most tweeted about
      */
-    mostTalkedAbout: function (json, callback) {
+    mostTalkedAbout: function(json, callback) {
+		var number = json.number;
+		var startDate = json.startDate;
+		var endDate = json.endDate;
+		if (testDate(startDate,charName)){console.log('Error');return;}
+		if (endDate === undefined){
+			//mongodb api here, then handle the response from mongodb
+		}
+		else {
+			if(testDate(endDate,charName)){console.log('Error');return;}
+			//mongodb api here, then handle the response from mongodb
+		}
         var resp = [{
             "name": "Jon Snow",
             "posSum": 23,
@@ -207,7 +214,18 @@ module.exports = {
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
      */
-    topControversial: function (json, callback) {
+    topControversial: function(json, callback) {
+		var number = json.number;
+		var startDate = json.startDate;
+		var endDate = json.endDate;
+		if (testDate(startDate,charName)){console.log('Error');return;}
+		if (endDate === undefined){
+			//mongodb api here, then handle the response from mongodb
+		}
+		else {
+			if(testDate(endDate,charName)){console.log('Error');return;}
+			//mongodb api here, then handle the response from mongodb
+		}
         var resp = [{
             "name": "Jon Snow",
             "posSum": 30,
@@ -235,7 +253,7 @@ module.exports = {
      "episode" : 1
      }
      */
-    sentimentPerEpisode: function (json, callback) {
+    sentimentPerEpisode: function(json, callback) {
         var resp = {
             "name": json.name,
             "posSum": 23,
@@ -250,26 +268,26 @@ module.exports = {
      run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
      in the past at most
      */
-    runTwitterREST: function (characterName, startDate) {
+    runTwitterREST: function(characterName, startDate) {
         //TODO
     },
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
-    runTwitterStreaming: function (characterName, duration) {
+    runTwitterStreaming: function(characterName, duration) {
         //TODO
     },
     /*
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
-    startAutomation: function (minutes) {
+    startAutomation: function(minutes) {
         automation.startAutomation(minutes);
     },
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
-    stopAutomation: function () {
+    stopAutomation: function() {
         automation.stopAutomation();
     }
->>>>>>> 4d81f682c6151bb7ee20232bfde8898945714066
+
 };
