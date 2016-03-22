@@ -1,5 +1,6 @@
 var names = require('../popChars/popChars.json');
 var twitter = require('./twitterAPI');
+var config = require('../cfg/config.json');
 var intervalID,
     started = false;
 
@@ -9,21 +10,20 @@ var intervalID,
  Function is executed approx once per day per character
  */
 
-exports.startAutomation = function (minutes) {
+exports.startAutomation = function () {
     if (!started){
         started=true;
-        if (minutes === undefined) {
-            minutes = 12;
-        }
-        var interval = minutes * 60 * 1000;
+        var interval = config.automation.minutes * 60 * 1000;
         var currentPos = 0;
 
         intervalID = setInterval(function () {
 
             var currentDate = new Date();
-            var twoDaysAgo = currentDate.setDate(currentDate.getDay() - 2);
+            var startDate = new Date();
+            var msToGoBack = names.length * config.automation.minutes * 60 * 1000;
+            startDate.setTime(currentDate.getTime()-msToGoBack);
 
-            twitter.getRest(names[currentPos].name,twoDaysAgo,currentDate);
+            twitter.getRest(names[currentPos].name,startDate,currentDate, true);
             currentPos = (currentPos + 1) % names.length;
 
         }, interval); // interval is set here
