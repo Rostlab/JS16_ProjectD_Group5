@@ -71,8 +71,7 @@ exports.characterNames = function (callback) {
             for (var i = 0; i < json.length; i++) {
                 //only include the names
                 formatted.push({
-                    name: json[i].name,
-                    characterID: json[i]._id,
+                    name: json[i].name
                 });
             }
             //give JSON object to the callback function

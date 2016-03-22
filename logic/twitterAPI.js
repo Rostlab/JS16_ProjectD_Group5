@@ -16,11 +16,11 @@ var client = new twitter(apiAccess);
 
 //launch Streaming-API search
 //timeFrame in seconds
-exports.getStream = function(characterName, characterID, timeFrame) {
+exports.getStream = function(characterName, timeFrame) {
   var startTime = new Date();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
   	stream.on('data', function(tweet) {
-      var jsonTweet = getTweetAsJSON(tweet, characterName, characterID);
+      var jsonTweet = getTweetAsJSON(tweet, characterName);
       dbTweets.saveTweet(jsonTweet);
 
       var currentTime = new Date();
@@ -37,7 +37,7 @@ exports.getStream = function(characterName, characterID, timeFrame) {
 
 //launch Rest-API search
 //startDate, endDate in format "yyyy-mm-dd"
-exports.getRest = function(characterName, characterID, startDate, endDate) {
+exports.getRest = function(characterName, startDate, endDate) {
     var searchArguments = getRestSearchArguments(characterName, startDate, endDate);
     client.get('search/tweets', searchArguments, function(error, tweets, response){
       var statuses = tweets.statuses;
@@ -46,24 +46,23 @@ exports.getRest = function(characterName, characterID, startDate, endDate) {
         var tweet = statuses[index];
         tweetArray.push(tweet);
       }
-      saveTweets(tweetArray, characterName, characterID);
+      saveTweets(tweetArray, characterName);
     });
 };
 
-function saveTweets(tweetArray, characterName, characterID){
+function saveTweets(tweetArray, characterName){
     for (var tweet in tweetArray) {
       var currentTweet = tweetArray[tweet];
-      var jsonTweet = getTweetAsJSON(currentTweet, characterName, characterID);
+      var jsonTweet = getTweetAsJSON(currentTweet, characterName);
       dbTweets.saveTweet(jsonTweet);
     }
 }
 
-function getTweetAsJSON(tweet, characterName, characterID){
+function getTweetAsJSON(tweet, characterName){
   var jsonTweet = {};
   jsonTweet.id = tweet.id_str;
   jsonTweet.characterName = characterName;
   jsonTweet.created_at = tweet.created_at;
-  jsonTweet.characterID = characterID;
   jsonTweet.text = tweet.text;
   jsonTweet.retweeted = tweet.retweet_count;
   jsonTweet.fav = tweet.favorite_count;
