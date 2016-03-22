@@ -4,7 +4,7 @@
 //Content needs to be changed.
 
 var automation = require('./logic/automate.js');
-var twitterAPI = require('./logich/twitterAPI.js');
+var twitterAPI = require('./logic/twitterAPI.js');
 //start automation as default
 automation.startAutomation();
 
