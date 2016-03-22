@@ -39,6 +39,8 @@ function analyzeTweets (tweets) {
         }
     }
 
+    saveSentiments();
+
 }
 
 function saveSentiments() {
