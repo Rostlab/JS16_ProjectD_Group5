@@ -21,7 +21,7 @@ exports.getSentimentsForTweets = function (characterName, startDate, endDate) {
     jsonParams.endDate = endDate;
 
     return dbTweets.getTweets(jsonParams, analyzeTweets);
-}
+};
 
 function analyzeTweets (tweets) {
     for (var index in tweets) {
