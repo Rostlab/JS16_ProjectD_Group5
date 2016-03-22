@@ -24,7 +24,7 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
         }
     }
 
-    saveSentiments(characterName, endDate), isSaved, callback;
+    saveSentiments(characterName, endDate, isSaved, callback);
 
 };
 
