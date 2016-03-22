@@ -33,7 +33,7 @@ exports.saveSentiment = function (charName, json) {
 
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
-    var url = 'https://got-api.bruck.me/api/episodes/find/' + tokenString;
+    var url = config.databaseA.airDateURL + tokenString;
     //Form includes the search criteria
     var form = {
         form: {
@@ -59,7 +59,7 @@ exports.airDate = function (season, episode, callback) {
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
-    var url = 'https://got-api.bruck.me/api/characters/' + tokenString;
+    var url = config.databaseA.characterNamesURL + tokenString;
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
@@ -71,8 +71,7 @@ exports.characterNames = function (callback) {
             for (var i = 0; i < json.length; i++) {
                 //only include the names
                 formatted.push({
-                    name: json[i].name,
-                    characterID: json[i]._id,
+                    name: json[i].name
                 });
             }
             //give JSON object to the callback function
