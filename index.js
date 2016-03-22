@@ -49,6 +49,7 @@ function SearchError(message, date, searchedName){
 }
 module.exports={
 var automation = require('./logic/automate.js');
+var twitterAPI = require('./logich/twitterAPI.js');
 //start automation as default
 automation.startAutomation();
 /*
@@ -268,20 +269,26 @@ getSentimentForNameTimeframe: function(json, callback) {
      run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
      in the past at most
      */
-    runTwitterREST: function(characterName, startDate) {
-        //TODO
+
+    runTwitterREST: function (characterName, startDate, callback) {
+        twitterAPI.getRest(characterName, startDate, new Date (), false, callback);
+
     },
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
-    runTwitterStreaming: function(characterName, duration) {
-        //TODO
+
+    runTwitterStreaming: function (characterName, duration, callback) {
+        twitterAPI.getStream(characterName, duration, false, callback);
+
     },
     /*
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
-    startAutomation: function(minutes) {
-        automation.startAutomation(minutes);
+
+    startAutomation: function () {
+        automation.startAutomation();
+
     },
     /*
      Stops the automation. Can be restarted again with startAutomation()
