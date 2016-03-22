@@ -1,29 +1,14 @@
 var dbA = require('../db/dbA');
-var dbTweets = require('../db/dbTweets');
 var sentiment = require('sentiment');
 
-var date;
-var name;
 var posSentiment;
 var negSentiment;
 var posTweets;
 var negTweets;
 var nullTweets;
 
-exports.getSentimentsForTweets = function (characterName, startDate, endDate) {
+exports.calculateSentimentsForTweets = function (characterName, tweets, startDate, endDate, isSaved, callback) {
 
-    date = startDate;
-    name = characterName;
-
-    var jsonParams = {};
-    jsonParams.characterName = characterName;
-    jsonParams.startDate = startDate;
-    jsonParams.endDate = endDate;
-
-    return dbTweets.getTweets(jsonParams, analyzeTweets);
-};
-
-function analyzeTweets (tweets) {
     for (var index in tweets) {
         var currentTweet = tweets[index];
         var sentimentScore = sentiment(currentTweet.text);
@@ -39,19 +24,24 @@ function analyzeTweets (tweets) {
         }
     }
 
-    saveSentiments();
+    saveSentiments(characterName, endDate), isSaved, callback;
 
-}
+};
 
-function saveSentiments() {
+
+function saveSentiments(characterName, endDate, isSaved, callback) {
 
     var sentimentJSON = {};
-    sentimentJSON.date = date;
+    sentimentJSON.date = endDate;
     sentimentJSON.posSentiment = posSentiment;
     sentimentJSON.negSentiment = negSentiment;
     sentimentJSON.posTweets = posTweets;
     sentimentJSON.negTweets = negTweets;
     sentimentJSON.nullTweets = nullTweets;
 
-    dbA.saveSentiment(name, sentimentJSON);
+    if (isSaved) {
+        dbA.saveSentiment(characterName, sentimentJSON);
+    } else {
+        callback(sentimentJSON);
+    }
 }
