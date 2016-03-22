@@ -5,14 +5,13 @@
   		"access_token_key": "xxx",
   		"access_token_secret": "xxx"
 	},
-	"database" : {
-		"user" : "Username goes here",
-		"password" : "Password here",
-		"port" : "808080",
-		"uri" : "uri to mongoDB",
-		"name" : "name of mongoDB"
-	},
 	"databaseA" : {
-		"token" : "xxxxxxxxxxxxxxxxx"
+		"token" : "xxxxxxxxxxxxxxxxx",
+		"airDateURL" : "xxxxxxxxxxxxx",
+		"characterNamesURL" : "xxxxxxxxxxxx"
+	},
+	"automation" : {
+		"minutes" : 12
 	}
+
 }
