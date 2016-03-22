@@ -7,11 +7,7 @@
 	},
 	"databaseA" : {
 		"token" : "xxxxxxxxxxxxxxxxx",
-		"airDateURL" : "xxxxxxxxxxxxx",
-		"characterNamesURL" : "xxxxxxxxxxxx"
-	},
-	"automation" : {
-		"minutes" : 12
+		"airDateURL" : "https://got-api.bruck.me/api/episodes/find/",
+		"characterNamesURL" : "https://got-api.bruck.me/api/characters/"
 	}
-
 }
