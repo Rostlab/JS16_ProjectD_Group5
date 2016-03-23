@@ -1,10 +1,36 @@
 var should= require('should');
-var api = require ('../index.js'); //In index.js should be the export method. TODO
+var confjson ={
+		//TODO
+		//WOrks because index.js is filled with dummy data
+	
+		"twitter" : {
+	  		"consumer_key": "xxx",
+	  		"consumer_secret": "xxx",
+	  		"access_token_key": "xxx",
+	  		"access_token_secret": "xxx"
+		},
+		"databaseA" : {
+			"token" : "xxxxxxxxxxxxxxxxx",
+			"airDateURL" : "https://got-api.bruck.me/api/episodes/find/",
+			"characterNamesURL" : "https://got-api.bruck.me/api/characters/"
+		},
+		"automation":{
+			"minutes":12	
+		}
+	},
+	api = require ('../main.js').init(confjson); //In index.js should be the export method. TODO
 
 describe('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
 
+	describe('#automation: ',function(){
+		context('is started: ', function(){
+			it('should throw an error!', function(){
+				(function(){api.startAutomation();}).should.throw();
+			});
+		});
+	});
 //Should be filled as soon as real data exists in database.
 	describe('#getSentimentForName(name,date): ',function(){
 		context('Name is present and on the Specific day exists a Tweet',function(){
@@ -28,8 +54,8 @@ describe('API gets tested', function (){
 //********************************************
 //TODO
 		context.skip('name is not present',function (){
-			it('should throw an SearchException',function(){
-				(function (done){
+			it('should throw an SearchException',function(done){
+				(function (){
 					api.getSentimentForName({"characterName": 'Donald Trump', "date" : new Date(2016,2,16)}, function(resp,err){
 						if (err) throw err;
 						return resp;
