@@ -6,8 +6,10 @@
   		"access_token_secret": "xxx"
 	},
 	"databaseA" : {
-		"token" : "xxxxxxxxxxxxxxxxx",
-		"airDateURL" : "https://got-api.bruck.me/api/episodes/find/",
-		"characterNamesURL" : "https://got-api.bruck.me/api/characters/"
+		"airDateURL" : "XXXXXXXXXXXXXXXXXXXXXX",
+		"characterNamesURL" : "XXXXXXXXXXXXXXXXXXXXXXX",
+		"sentimentSave" : "XXXXXXXXXXXXXXXXXXXX",
+		"sentimentGetChar" : "XXXXXXXXXXXXXXXXXXXXX",
+		"sentimentGetAll" : "XXXXXXXXXXXXXXXXXXXXXXx"
 	}
 }
