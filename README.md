@@ -162,4 +162,14 @@ function runTwitterStreaming (characterName, duration, callback);
 
 If you want to have real time analyses you need to use the function `runTwitterStreaming` and set the `duration`-parameter to the time, how long you want to be watching Twitter.
 
-Both functions give the result json-object to the callback-function.
+Both functions give the result as the following json-object to the callback-function:
+```javascript
+{
+    "name": "Jon Snow",
+    "posSum": 23,
+    "negSum": 21,
+    "posCount": 11,
+    "negCount": 5,
+    "nullCount": 8
+}
+```
