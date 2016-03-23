@@ -2,7 +2,7 @@ var should= require('should');
 var confjson ={
 		//TODO
 		//WOrks because index.js is filled with dummy data
-	
+
 		"twitter" : {
 	  		"consumer_key": "xxx",
 	  		"consumer_secret": "xxx",
@@ -28,6 +28,12 @@ describe('API gets tested', function (){
 		context('is started: ', function(){
 			it('should throw an error!', function(){
 				(function(){api.startAutomation();}).should.throw();
+			});
+		});
+		context('is stoped', function(){
+			api.stopAutomation();
+			it('should throw: ', function(){
+				(function(){api.stopAutomation();}).should.throw();
 			});
 		});
 	});
