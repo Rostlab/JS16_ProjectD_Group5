@@ -160,6 +160,6 @@ function runTwitterStreaming (characterName, duration, callback);
 ```
 `runTwitterRest` analyses the tweets about `charactername` from `startDate` till today.
 
-If you want to have real time analyses you need to use the function `runTiwtterStreamingt` and set the `duration`-parameter to the time, how long you want to be watching Twitter.
+If you want to have real time analyses you need to use the function `runTwitterStreaming` and set the `duration`-parameter to the time, how long you want to be watching Twitter.
 
 Both functions give the result json-object to the callback-function.
