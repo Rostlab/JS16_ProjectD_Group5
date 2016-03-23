@@ -38,3 +38,4 @@ cfg/config.json
 
 # secret Travis
 super_secret.txt
+config_real.txt
