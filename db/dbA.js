@@ -3,18 +3,9 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
-
-//Database A security token
-var tokenString = "?token=" + config.databaseA.token;
 /*
  The callback function must take a date object as a parameter
  */
-
-var jsonToCSV = function (json) {
-    return json.date + "," + json.pos + "," + json.neg + "," + json.posT + "," + json.negT + "," + json.nullT;
-};
-
-
 /*
  Saves a json to the character in the database
  json format:
@@ -33,7 +24,7 @@ exports.saveSentiment = function (charName, json) {
 
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
-    var url = config.databaseA.airDateURL + tokenString;
+    var url = config.databaseA.airDateURL;
     //Form includes the search criteria
     var form = {
         form: {
@@ -59,7 +50,7 @@ exports.airDate = function (season, episode, callback) {
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
-    var url = config.databaseA.characterNamesURL + tokenString;
+    var url = config.databaseA.characterNamesURL;
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
