@@ -1,17 +1,17 @@
 var dbA = require('../db/dbA');
 var sentiment = require('sentiment');
 
-var posSentiment;
-var negSentiment;
-var posTweets;
-var negTweets;
-var nullTweets;
+var posSentiment = 0;
+var negSentiment = 0;
+var posTweets = 0;
+var negTweets = 0;
+var nullTweets = 0;
 
 exports.calculateSentimentsForTweets = function (characterName, tweets, startDate, endDate, isSaved, callback) {
 
     for (var index in tweets) {
         var currentTweet = tweets[index];
-        var sentimentScore = sentiment(currentTweet.text);
+        var sentimentScore = sentiment(currentTweet.text).score;
 
         if (sentimentScore > 0) {
             posSentiment += sentimentScore;
