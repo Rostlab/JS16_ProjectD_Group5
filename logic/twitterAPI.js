@@ -19,14 +19,15 @@ var client = new twitter(apiAccess);
 exports.getStream = function(characterName, duration, isSaved, callback) {
     var tweetArray = [];
     var startTime = new Date();
+    var currentDate = getCurrentDateAsString();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
   	stream.on('data', function(tweet) {
       tweetArray.push(tweet);
       var currentTime = new Date();
       if(currentTime.getTime()>=(startTime.getTime()+duration*1000)){
           console.log('Timelimit reached!');
+          runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
           stream.destroy();
-          runSentimentAnalysis(tweetArray, characterName, isSaved, callback);
       }
     });
   	stream.on('error', function(error) {
@@ -78,4 +79,14 @@ function getTweetAsJSON(tweet, characterName){
 
 function getRestSearchArguments(character, startDate, endDate) {
   return {q: character, result_type: 'mixed', since: startDate, until: endDate, lang: 'en'};
+}
+
+function getCurrentDateAsString() {
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth() + 1;
+    if (currentMonth < 10) {
+        currentMonth = "0" + currentMonth;
+    }
+    var dateString = currentDate.getFullYear() + "-" +  currentMonth + "-" + currentDate.getDate();
+    return dateString;
 }
