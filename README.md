@@ -7,7 +7,7 @@ npm install gotdailysentiment
 ```
 
 ## Usage
-First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process (for more see **automatic update**). If no error occurs it returns an object with all functions, which are now accessible: 
+First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process (for more see **automatic analyses**). If no error occurs it returns an object with all functions, which are now accessible: 
 ```javascript
 var initPack = require('gotdailysentiment');
 
@@ -22,12 +22,12 @@ The config-JSON needs to specify the following properties:
       "access_token_key": "xxx",
       "access_token_secret": "xxx"
   },
-  "databaseA" : {           //Here is database where the package reads the GoT-Data and writes the results of the sentimentanalyses.
+  "databaseA" : {           //This is the database where the package reads the GoT-Data and writes the results of the sentimentanalyses.
     "token" : "xxxxxxxxxxxxxxxxx",
     "airDateURL" : "xxxxxxxxxxxxxxxxx",
     "characterNamesURL" : "xxxxxxxxxxxxxxxxx"
   },
-  "automation" : {        //Timeframe, how often the Tweets get analyzed. Default is 12. For more see below. 
+  "automation" : {        //Timeframe, how often the Tweets get analyzed. Default is 12. For more details see below. 
     "minutes" : 12
   }
 }
@@ -43,7 +43,7 @@ var json = {
     "date" : "2016-03-18T"
 };
 
-var jonSnowTweet = gotdailysentiment.getSentimentForName(json, 
+gotdailysentiment.getSentimentForName(json, 
     callback //You need to specify a callback-function, as it is an asynchronous call
 );
 ```
@@ -77,7 +77,7 @@ var json = {
 
 gotdailysentiment.getSentimentForNameTimeframe(json,callback); 
 ```
-It gives the callback an Array, where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. Per day in the timeframe there is one JSON-Object in this array.
+It gives the callback an Array, where the same JSON-Objects are stored as described above at **"Get a small amount of data"**. It depends on the automatic update interval, how many objects are stored in the array. If set to 12 you get a result per day of your timeframe.
 
 ### Tops and Flops
 Those four functions provide you with the characters, which get the most positive sentiments at Twitter - or the most negative ones.
@@ -85,17 +85,17 @@ You decide how many characters you want in your Top-list. For that reason there 
 ```javascript
 var json = {
     "number" : 3,            //this is the count of how many you want e.g. 3 for top3
-    "startDate" : "ISODate", //This is for specifying a timefram like the Timeframe-function above
+    "startDate" : "ISODate", //This is for specifying a timeframe
     "endDate" : "ISODate"
 };
 
-var top3chars = gotdailysentiment.topSentiment(json, callback);
-var worst3chars = gotdailysentiment.worstSentiment(json, callback);
-var mostTwittered = gotdailysentiment.mostTalkedAbout(json, callback);
-var controversial = gotailysentiment.topControversial(json, callback);
+gotdailysentiment.topSentiment(json, callback);
+gotdailysentiment.worstSentiment(json, callback);
+gotdailysentiment.mostTalkedAbout(json, callback);
+gotailysentiment.topControversial(json, callback);
 ```
 
-`controversial` contains the characters, which have the greatest difference between the value `posSum` and `negSum`.
+`topControversial` computes the characters, which have the greatest difference between the value `posSum` and `negSum`.
 
 All functions give the callback an array, which contains JSON-Objects. 
 Note, that this time there exists for every Character only **one** object, e.g. when you assign three to the `number`-property, the array contains three objects. The objects contain the following properties (filled with dummy-data):
@@ -110,7 +110,7 @@ Note, that this time there exists for every Character only **one** object, e.g. 
 }
 ```
 
-### Feeling about Episodes
+### Feelings about Episodes
 With this function you get the sentiments on a character for the specified episode and the following seven days. So you have to define the following JSON-Object:
 ```javascript
 var json = {
@@ -119,7 +119,7 @@ var json = {
      "episode" : 1
 }
 
-var jonSnow1_1 = gotdailysentiment.sentimentPerEpisode(json,callback);
+gotdailysentiment.sentimentPerEpisode(json,callback);
 ```
 
 The callback gets one JSON-Object (In this case dummy-data):
@@ -135,7 +135,7 @@ The callback gets one JSON-Object (In this case dummy-data):
 ```
 
 ## Automatic analyses
-As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every 12 minutes unless you've specified something else in the congifuration. Every 12 minutes this function takes one of the most popular characters and looks up all Tweets about this character since the last time. These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. You get the finest possible granularity with the default intervall, as the Twitter API limits the queries to their Databases. With the default every Character gets updated once per day.
+As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every 12 minutes unless you've specified something else in the congifurations Every 12 minutes this function takes one of the most popular characters and looks up all Tweets about this character since the last time. These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. You get the finest possible granularity with the default intervall, as the Twitter API limits the queries to their Databases. With the default every Character gets updated once per day.
 
 If you want to stop the automation you may do this with the following function:
 ```javascript
@@ -158,5 +158,8 @@ function runTwitterREST (characterName, startDate, callback); //startDate can be
 
 function runTwitterStreaming (characterName, duration, callback);
 ```
-`runTwitterRest` looks up the 
-If you want to have real time analyses you need to use the function `runTiwtterStreamingt` and set the `duration`-parameter to the time, how long you wan to be watching Twitter.
+`runTwitterRest` analyses the tweets about `charactername` from `startDate` till today.
+
+If you want to have real time analyses you need to use the function `runTiwtterStreamingt` and set the `duration`-parameter to the time, how long you want to be watching Twitter.
+
+Both functions give the result json-object to the callback-function.
