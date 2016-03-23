@@ -16,27 +16,26 @@ var gotdailysentiment = initPack.init(config);
 The config-JSON needs to specify the following properties:
 ```javascript
 {
-  "twitter" : {             //These are the access tokens to the Twitter-API
+  "twitter" : {               //You need to create a Twitter API key!
       "consumer_key": "xxx",
       "consumer_secret": "xxx",
       "access_token_key": "xxx",
       "access_token_secret": "xxx"
   },
-  "database" : {            //This is the access to the database, where the tweets are stored by the package
-    "user" : "Username goes here",
-    "password" : "Password here",
-    "port" : "808080",
-    "uri" : "uri to mongoDB",
-    "name" : "name of mongoDB"
+  "databaseA" : {           //Here is database where the package reads the GoT-Data and writes the results of the sentimentanalyses.
+    "token" : "xxxxxxxxxxxxxxxxx",
+    "airDateURL" : "xxxxxxxxxxxxxxxxx",
+    "characterNamesURL" : "xxxxxxxxxxxxxxxxx"
   },
-  "databaseA" : {         //This is the access token to access the databse from https://github.com/Rostlab/JS16_ProjectA
-    "token" : "xxxxxxxxxxxxxxxxx"
+  "automation" : {        //Timeframe, how often the Tweets get analyzed. Default is 12. For more see below. 
+    "minutes" : 12
   }
 }
 ```
 **Note that you have to do the configuration to use this package.**
+You will need valid Twitter developer credentials. You can get these [here](https://apps.twitter.com/).
 
-If you call `init` a second time, after a successful configuration, you can't change the configuration anymore. Instead it will only return the same object as before.
+If you call `init` a second time, after a successful configuration, you can't change the configuration anymore. Instead it will only return the same object containing the accessible functions as before.
 ## Get a small amout of data
 ```javascript
 var json = {
@@ -124,7 +123,7 @@ var jonSnow1_1 = gotdailysentiment.sentimentPerEpisode(json,callback);
 ```
 
 The callback gets one JSON-Object (In this case dummy-data):
-```
+```javascript
 {
     "name": "Jon Snow",
     "posSum": 23,
@@ -135,27 +134,29 @@ The callback gets one JSON-Object (In this case dummy-data):
 }
 ```
 
-## Automatic update
-As the Twitter-APIs have some restrictions, this package populates an own database for tweets. It contiuously pulls the data of the last 2 days from twitter for the 117 most popular characters and stores this data in the Database, which you've specified in the initialization-step.
+## Automatic analyses
+As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every 12 minutes unless you've specified something else in the congifuration. Every 12 minutes this function takes one of the most popular characters and looks up all Tweets about this character since the last time. These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. You get the finest possible granularity with the default intervall, as the Twitter API limits the queries to their Databases. With the default every Character gets updated once per day.
 
-By default it updates every 12 minutes the data for one character, so every character gets updated per day. You may stop this automation with the following function:
+If you want to stop the automation you may do this with the following function:
 ```javascript
 gotdailysentiment.stopAutomation();
 ```
-If you want to start the Automation again, you do this with `startAutomation()`. Here you've got the possibility to specify the interval as a number-parameter. The default is 12.
+If you want to start the Automation again, you do this with `startAutomation()`:
 ```javascript
-gotdailysentiment.startAutomation(100); //every 100 minutes it will pull data from Twitter.
+gotdailysentiment.startAutomation(); 
 ```
-Note that we recommend not to use a value, which is less then 10, as the Twitter-API does'nt allow a query so often.
 
 If you start the automationprocess, though it already had been started, you get an Error. Same goes for the stop.
 
 ### Additional possibilities
-If you want to be certain, that the database is up to date for a special character, use the following commands. The REST-Method allows to search for Tweets in the past (Maximum 2 weeks ago!). The Streaming data scrapes real time data.
+All queries work with the data, which is stored in the database. Sometimes it happens that there is no data stored about a minor important character or if you set the update-interval to high, there may be stored data, which is very old.
+
+If something like this happens you can use the following functions to get customized analyses data, without storing it in the database:
 
 ```javascript
-function runTwitterREST (characterName, startDate); //startDate can be max 2 weeks in the past. Run it to populate the database with tweets.
+function runTwitterREST (characterName, startDate, callback); //startDate can be max 2 weeks in the past.
 
-function runTwitterStreaming (characterName, duration); // runs the twitter streaming API to fill the database for a character and a duration in seconds.
+function runTwitterStreaming (characterName, duration, callback);
 ```
-
+`runTwitterRest` looks up the 
+If you want to have real time analyses you need to use the function `runTiwtterStreamingt` and set the `duration`-parameter to the time, how long you wan to be watching Twitter.
