@@ -11,6 +11,3 @@ deploy:
   on:
     repo: Rostlab/JS16_ProjectD_Group5
     branch: develop
-before_install:
-- openssl aes-256-cbc -K $encrypted_538804a41472_key -iv $encrypted_538804a41472_iv
-  -in super_secret.json.enc -out super_secret.json -d
