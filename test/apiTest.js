@@ -1,7 +1,7 @@
 setTimeout(function(){//This function is needed to get all the requires straighten up
 var should= require('should'),
-api = require ('../main.js').init(confjson),
-confjson = require ('./super_secret.json');
+confjson = require ('../super_secret.json'),
+api = require ('../main.js').init(confjson);
 describe('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
