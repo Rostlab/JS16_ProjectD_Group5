@@ -1,6 +1,6 @@
 var util = require('util');
 var twitter = require('twitter');
-var dbTweets = require('../db/dbTweets');
+var sentiments = require('./sentiments');
 
 //local config must be in /cfg/config.json. See configDUMMY.json for example
 var config = require('../cfg/config.json');
@@ -16,16 +16,17 @@ var client = new twitter(apiAccess);
 
 //launch Streaming-API search
 //timeFrame in seconds
-exports.getStream = function(characterName, timeFrame) {
-  var startTime = new Date();
+exports.getStream = function(characterName, duration, isSaved, callback) {
+    var tweetArray = [];
+    var startTime = new Date();
+    var currentDate = getCurrentDateAsString();
 	client.stream('statuses/filter', {track: characterName}, function(stream) {
   	stream.on('data', function(tweet) {
-      var jsonTweet = getTweetAsJSON(tweet, characterName);
-      dbTweets.saveTweet(jsonTweet);
-
+      tweetArray.push(tweet);
       var currentTime = new Date();
-      if(currentTime.getTime()>=(startTime.getTime()+timeFrame*1000)){
+      if(currentTime.getTime()>=(startTime.getTime()+duration*1000)){
           console.log('Timelimit reached!');
+          runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
           stream.destroy();
       }
     });
@@ -37,7 +38,7 @@ exports.getStream = function(characterName, timeFrame) {
 
 //launch Rest-API search
 //startDate, endDate in format "yyyy-mm-dd"
-exports.getRest = function(characterName, startDate, endDate) {
+exports.getRest = function(characterName, startDate, endDate, isSaved, callback) {
     var searchArguments = getRestSearchArguments(characterName, startDate, endDate);
     client.get('search/tweets', searchArguments, function(error, tweets, response){
       var statuses = tweets.statuses;
@@ -46,30 +47,46 @@ exports.getRest = function(characterName, startDate, endDate) {
         var tweet = statuses[index];
         tweetArray.push(tweet);
       }
-      saveTweets(tweetArray, characterName);
+      runSentimentAnalysis(tweetArray, characterName, startDate, endDate, isSaved, callback);
     });
 };
 
-function saveTweets(tweetArray, characterName){
+function runSentimentAnalysis(tweetArray, characterName, startDate, endDate, isSaved, callback){
+    var jsonTweets = getJSONTweetArray(tweetArray, characterName);
+    sentiments.calculateSentimentsForTweets(characterName, jsonTweets, startDate, endDate, isSaved, callback);
+
+}
+
+function getJSONTweetArray(tweetArray, characterName) {
+    var JSONArray = [];
     for (var tweet in tweetArray) {
-      var currentTweet = tweetArray[tweet];
-      var jsonTweet = getTweetAsJSON(currentTweet, characterName);
-      dbTweets.saveTweet(jsonTweet);
+        JSONArray.push(getTweetAsJSON(tweetArray[tweet], characterName));
     }
+    return JSONArray;
 }
 
 function getTweetAsJSON(tweet, characterName){
   var jsonTweet = {};
-  jsonTweet.id = tweet.id_str;
-  jsonTweet.characterName = characterName;
+  // jsonTweet.id = tweet.id_str;
+  // jsonTweet.characterName = characterName;
   jsonTweet.created_at = tweet.created_at;
   jsonTweet.text = tweet.text;
   jsonTweet.retweeted = tweet.retweet_count;
   jsonTweet.fav = tweet.favorite_count;
-  jsonTweet.lang = tweet.lang;
+  // jsonTweet.lang = tweet.lang;
   return jsonTweet;
 }
 
 function getRestSearchArguments(character, startDate, endDate) {
   return {q: character, result_type: 'mixed', since: startDate, until: endDate, lang: 'en'};
+}
+
+function getCurrentDateAsString() {
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth() + 1;
+    if (currentMonth < 10) {
+        currentMonth = "0" + currentMonth;
+    }
+    var dateString = currentDate.getFullYear() + "-" +  currentMonth + "-" + currentDate.getDate();
+    return dateString;
 }
