@@ -1,4 +1,4 @@
-var dbA = require('../db/dbA');
+var db = require('../db/database');
 var sentiment = require('sentiment');
 
 var posSentiment = 0;
@@ -40,7 +40,7 @@ function saveSentiments(characterName, endDate, isSaved, callback) {
     sentimentJSON.nullTweets = nullTweets;
 
     if (isSaved) {
-        dbA.saveSentiment(characterName, sentimentJSON);
+        db.saveSentiment(characterName, sentimentJSON);
     } else {
         callback(sentimentJSON);
     }

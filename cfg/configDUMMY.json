@@ -5,7 +5,7 @@
   		"access_token_key": "xxx",
   		"access_token_secret": "xxx"
 	},
-	"databaseA" : {
+	"database" : {
 		"airDateURL" : "XXXXXXXXXXXXXXXXXXXXXX",
 		"characterNamesURL" : "XXXXXXXXXXXXXXXXXXXXXXX",
 		"sentimentSave" : "XXXXXXXXXXXXXXXXXXXX",
