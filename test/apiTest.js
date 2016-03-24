@@ -123,7 +123,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				}
 			};
 			describe('#topSentiment:',function(){
-				it('All input is valid and data exists:',function(done){
+				it('The response-JSON meets its specification',function(done){
 					api.topSentiment(inputJSON,function(resp,err){
 						if (err){throw err;}
 						callback(resp,'posSum',function(sec,first){
@@ -137,7 +137,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 			describe('#worstSentiment(num, startDate,endDate): ',function() {
-				it('All input is valid and data exists:',function(done){
+				it('The response-JSON meets its specification',function(done){
 					api.worstSentiment(inputJSON,function(resp,err){
 						if (err){throw err;}
 						callback(resp,'negSum',function(sec,first){
@@ -151,7 +151,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 			
 			describe('#mostTalkedAbout(number,startDate, endDate): ',function(){
-				it('All input is valid and data exists:',function(done){
+				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
 						if(err){throw err;}
 					
@@ -174,7 +174,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 			describe('#topControversial(number,startDate, endDate): ',function(){
-				it('All input is valid and Data exists:',function(done){
+				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
 						if(err)throw err;
 						for(var i=0;i<resp.length;i+=1){
@@ -198,6 +198,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 		describe('#sentimentForEpisode(name,season,episode): ',function(){
 			context('Input is valid:',function(){
 				it('Need to figure out how to test this. Data won\'t be available for this one');
+				//TODO
 			});
 		});
 
