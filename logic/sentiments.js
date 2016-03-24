@@ -33,11 +33,12 @@ function saveSentiments(characterName, endDate, isSaved, callback) {
 
     var sentimentJSON = {};
     sentimentJSON.date = endDate;
-    sentimentJSON.posSentiment = posSentiment;
-    sentimentJSON.negSentiment = negSentiment;
-    sentimentJSON.posTweets = posTweets;
-    sentimentJSON.negTweets = negTweets;
-    sentimentJSON.nullTweets = nullTweets;
+    sentimentJSON.posSum = posSentiment;
+    sentimentJSON.negSum = negSentiment;
+    sentimentJSON.posCount = posTweets;
+    sentimentJSON.negCount = negTweets;
+    sentimentJSON.nullCount = nullTweets;
+    sentimentJSON.description = "Group 5";
 
     if (isSaved) {
         db.saveSentiment(characterName, sentimentJSON);
