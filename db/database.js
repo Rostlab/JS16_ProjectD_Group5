@@ -29,10 +29,14 @@ exports.saveSentiment = function (charName, json) {
 };
 
 exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
+    var url = config.database.sentimentGetChar;
+    url.replace('startdate', startDate);
+    url.replace('enddate', endDate);
     //TODO
 };
 
 exports.getSentimentTimeframe = function(startDate, endDate){
+    var url = config.database.sentimentGetAll;
     //TODO
 };
 
