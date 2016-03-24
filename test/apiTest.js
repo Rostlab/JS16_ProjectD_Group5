@@ -19,8 +19,16 @@ var confjson ={
 		}
 	},
 	api = require ('../main.js').init(confjson); //In index.js should be the export method. TODO
-
-describe('API gets tested', function (){
+describe ('Testing now the secrets',function(){
+	var s = require ('../super_secret.json');
+	it ('contains data?',function(){
+		should.exist(s);
+		should.ok(s);
+		s.data.should.not.equal('');
+		s.data.should.equal('here is some data');
+	});
+});
+describe.skip('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
 
