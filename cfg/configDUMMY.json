@@ -11,5 +11,8 @@
 		"sentimentSave" : "XXXXXXXXXXXXXXXXXXXX",
 		"sentimentGetChar" : "XXXXXXXXXXXXXXXXXXXXX",
 		"sentimentGetAll" : "XXXXXXXXXXXXXXXXXXXXXXx"
+	},
+	"automation": {
+		"minutes": 12
 	}
 }
