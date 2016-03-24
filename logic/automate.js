@@ -23,7 +23,7 @@ exports.startAutomation = function () {
             var msToGoBack = names.length * config.automation.minutes * 60 * 1000;
             startDate.setTime(currentDate.getTime() - msToGoBack);
 
-            twitter.getRest(names[currentPos].name, startDate, currentDate, true);
+            twitter.getRest(names[currentPos].name, startDate.toISOString(), currentDate.toISOString(), true);
             currentPos = (currentPos + 1) % names.length;
 
         }, interval); // interval is set here
