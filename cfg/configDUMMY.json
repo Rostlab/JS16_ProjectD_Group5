@@ -1,18 +1,18 @@
 {
-	"twitter" : {
-  		"consumer_key": "xxx",
-  		"consumer_secret": "xxx",
-  		"access_token_key": "xxx",
-  		"access_token_secret": "xxx"
-	},
-	"database" : {
-		"airDateURL" : "XXXXXXXXXXXXXXXXXXXXXX",
-		"characterNamesURL" : "XXXXXXXXXXXXXXXXXXXXXXX",
-		"sentimentSave" : "XXXXXXXXXXXXXXXXXXXX",
-		"sentimentGetChar" : "XXXXXXXXXXXXXXXXXXXXX",
-		"sentimentGetAll" : "XXXXXXXXXXXXXXXXXXXXXXx"
-	},
-	"automation": {
-		"minutes": 12
-	}
+  "twitter": {
+    "consumer_key": "xxx",
+    "consumer_secret": "xxx",
+    "access_token_key": "xxx",
+    "access_token_secret": "xxx"
+  },
+  "database": {
+    "airDateURL": "XXXXXXXXXXXXXXXXXXXXXX",
+    "characterNamesURL": "XXXXXXXXXXXXXXXXXXXXXXX",
+    "sentimentSave": "XXXXXXXXXXXXXXXXXXXX",
+    "sentimentGetChar": "XXXXXXXXXXXXXXXXXXXXX",
+    "sentimentGetAll": "XXXXXXXXXXXXXXXXXXXXXXx"
+  },
+  "automation": {
+    "minutes": 12
+  }
 }
