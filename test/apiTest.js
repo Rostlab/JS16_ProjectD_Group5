@@ -1,7 +1,7 @@
-var should= require('should');
+
 var confjson ={
 		//TODO
-		//WOrks because index.js is filled with dummy data
+		//Works because index.js is filled with dummy data
 
 		"twitter" : {
 	  		"consumer_key": "xxx",
@@ -17,22 +17,30 @@ var confjson ={
 		"automation":{
 			"minutes":12	
 		}
-	},
-	api = require ('../main.js').init(confjson); //In index.js should be the export method. TODO
+	};
+setTimeout(function(){
+var should= require('should'),
+api = require ('../main.js').init(confjson); //In index.js should be the export method. TODO
 
 describe('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
-
+	describe('#init',function(){
+		it('the api-object should be filled already',function(){
+			should.ok(api);
+			should.exist(api.startAutomation);
+			should.exist(api.stopAutomation);
+		});
+	});
 	describe('#automation: ',function(){
 		context('is started: ', function(){
 			it('should throw an error!', function(){
 				(function(){api.startAutomation();}).should.throw();
 			});
 		});
-		context('is stoped', function(){
-			api.stopAutomation();
+		context('is stopped', function(){
 			it('should throw: ', function(){
+				(function(){api.stopAutomation();}).should.not.throw();
 				(function(){api.stopAutomation();}).should.throw();
 			});
 		});
@@ -132,3 +140,7 @@ describe('API gets tested', function (){
 
 
 });
+
+run();
+
+},5000);
