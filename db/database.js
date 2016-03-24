@@ -19,7 +19,13 @@ var request = require('request');
  }
  */
 exports.saveSentiment = function (charName, json) {
-    //TODO
+    var url = config.database.sentimentSave;
+    request.post(url, json, function (err, resp, body) {
+        if(err){
+            //TODO
+            console.log(err);
+        }
+    });
 };
 
 exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
