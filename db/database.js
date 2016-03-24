@@ -22,6 +22,14 @@ exports.saveSentiment = function (charName, json) {
     //TODO
 };
 
+exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
+    //TODO
+};
+
+exports.getSentimentTimeframe = function(startDate, endDate){
+    //TODO
+};
+
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
     var url = config.databaseA.airDateURL;
