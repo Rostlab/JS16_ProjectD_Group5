@@ -1,27 +1,7 @@
-
-var confjson ={
-		//TODO
-		//Works because index.js is filled with dummy data
-
-		"twitter" : {
-	  		"consumer_key": "xxx",
-	  		"consumer_secret": "xxx",
-	  		"access_token_key": "xxx",
-	  		"access_token_secret": "xxx"
-		},
-		"databaseA" : {
-			"token" : "xxxxxxxxxxxxxxxxx",
-			"airDateURL" : "https://got-api.bruck.me/api/episodes/find/",
-			"characterNamesURL" : "https://got-api.bruck.me/api/characters/"
-		},
-		"automation":{
-			"minutes":12	
-		}
-	};
-setTimeout(function(){
+setTimeout(function(){//This function is needed to get all the requires straighten up
 var should= require('should'),
-api = require ('../main.js').init(confjson); //In index.js should be the export method. TODO
-
+api = require ('../main.js').init(confjson),
+confjson = require ('./super_secret.json');
 describe('API gets tested', function (){
 	var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
 		date = new Date();
