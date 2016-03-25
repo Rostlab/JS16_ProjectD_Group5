@@ -25,6 +25,7 @@ exports.saveSentiment = function (charName, json) {
             //TODO
             console.log(err);
         }
+        console.log(resp);
     });
 };
 
@@ -32,17 +33,41 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
     var url = config.database.sentimentGetChar;
     url.replace('startdate', startDate);
     url.replace('enddate', endDate);
-    //TODO
+    request.get(url, function (err, resp, body) {
+        //check for valid response
+        console.log(body);
+        if (!err && resp.statusCode === 200) {
+            //parse answer String to a JSON Object
+            var json = JSON.parse(body);
+            json.filter(function(element){
+                return element.description === "Group 5"; //only includes results from our group
+            });
+            }
+            //give JSON object to the callback function
+            callback(json);
+    });
 };
 
 exports.getSentimentTimeframe = function(startDate, endDate){
     var url = config.database.sentimentGetAll;
-    //TODO
+    request.get(url, function (err, resp, body) {
+        //check for valid response
+        console.log(body);
+        if (!err && resp.statusCode === 200) {
+            //parse answer String to a JSON Object
+            var json = JSON.parse(body);
+            json.filter(function(element){
+                return element.description === "Group 5"; //only includes results from our group
+            });
+        }
+        //give JSON object to the callback function
+        callback(json);
+    });
 };
 
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
-    var url = config.databaseA.airDateURL;
+    var url = config.database.airDateURL;
     //Form includes the search criteria
     var form = {
         form: {
@@ -68,7 +93,7 @@ exports.airDate = function (season, episode, callback) {
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
-    var url = config.databaseA.characterNamesURL;
+    var url = config.database.characterNamesURL;
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
