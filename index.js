@@ -168,7 +168,7 @@ module.exports = {
      in the past at most
      */
     runTwitterREST: function (characterName, startDate, callback) {
-        twitterAPI.getRest(characterName, startDate, new Date (), false, callback);
+        twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
     },
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
