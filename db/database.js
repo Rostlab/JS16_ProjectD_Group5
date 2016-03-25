@@ -29,7 +29,7 @@ exports.saveSentiment = function (charName, json) {
     });
 };
 
-exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
+exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback){
     var url = config.database.sentimentGetChar;
     url.replace('startdate', startDate);
     url.replace('enddate', endDate);
@@ -42,13 +42,14 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate){
             json.filter(function(element){
                 return element.description === "Group 5"; //only includes results from our group
             });
-            }
             //give JSON object to the callback function
             callback(json);
+            }
+
     });
 };
 
-exports.getSentimentTimeframe = function(startDate, endDate){
+exports.getSentimentTimeframe = function(startDate, endDate, callback){
     var url = config.database.sentimentGetAll;
     request.get(url, function (err, resp, body) {
         //check for valid response
@@ -59,9 +60,10 @@ exports.getSentimentTimeframe = function(startDate, endDate){
             json.filter(function(element){
                 return element.description === "Group 5"; //only includes results from our group
             });
+            //give JSON object to the callback function
+            callback(json);
         }
-        //give JSON object to the callback function
-        callback(json);
+
     });
 };
 
