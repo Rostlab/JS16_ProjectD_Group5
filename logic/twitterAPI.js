@@ -20,7 +20,8 @@ exports.getStream = function(characterName, duration, isSaved, callback) {
     var tweetArray = [];
     var startTime = new Date();
     var currentDate = getCurrentDateAsString();
-	client.stream('statuses/filter', {track: characterName}, function(stream) {
+    var trimmedCharacterName = removeParentheses(characterName);
+	client.stream('statuses/filter', {track: trimmedCharacterName}, function(stream) {
   	stream.on('data', function(tweet) {
       tweetArray.push(tweet);
       var currentTime = new Date();
@@ -39,7 +40,8 @@ exports.getStream = function(characterName, duration, isSaved, callback) {
 //launch Rest-API search
 //startDate, endDate in format "yyyy-mm-dd"
 exports.getRest = function(characterName, startDate, endDate, isSaved, callback) {
-    var searchArguments = getRestSearchArguments(characterName, startDate, endDate);
+    var trimmedCharacterName = removeParentheses(characterName);
+    var searchArguments = getRestSearchArguments(trimmedCharacterName, startDate, endDate);
     client.get('search/tweets', searchArguments, function(error, tweets, response){
       var statuses = tweets.statuses;
       var tweetArray = [];
@@ -89,4 +91,12 @@ function getCurrentDateAsString() {
     }
     var dateString = currentDate.getFullYear() + "-" +  currentMonth + "-" + currentDate.getDate();
     return dateString;
+}
+
+function removeParentheses(string) {
+    var index = string.indexOf("(");
+    if (index > 0) {
+        string = string.slice(0, string.indexOf("(")).trim();
+    }
+    return string;
 }
