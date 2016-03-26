@@ -5,8 +5,6 @@ var config = require('../cfg/config.json');
 var request = require('request');
 
 exports.saveSentiment = function (charName, json) {
-    console.log('saving this: ');
-    console.log(json);
     var url = config.database.sentimentSave;
     var form = {
         form: {
@@ -20,6 +18,7 @@ exports.saveSentiment = function (charName, json) {
             'description': "Test"
         }
     };
+
     request.post(url, form, function (err, resp, body) {
         if (err) {
             //TODO
@@ -27,6 +26,7 @@ exports.saveSentiment = function (charName, json) {
         }
         console.log(body);
     });
+
 };
 /*
  The callback function must take a date object as a parameter
@@ -49,7 +49,6 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
     var endmil = (new Date(endDate)).getTime();
     request.get(url, function (err, resp, body) {
         //check for valid response
-        console.log(body);
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
