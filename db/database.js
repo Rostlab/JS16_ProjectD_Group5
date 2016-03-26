@@ -3,6 +3,31 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
+
+exports.saveSentiment = function (charName, json) {
+    console.log('saving this: ');
+    console.log(json);
+    var url = config.database.sentimentSave;
+    var form = {
+        form: {
+            'character': charName,
+            'date': json.date,
+            'posSum': json.posSum,
+            'negSum': json.negSum,
+            'posCount': json.posCount,
+            'negCount': json.negCount,
+            'nullCount': json.nullCount,
+            'description': "Test"
+        }
+    };
+    request.post(url, form, function (err, resp, body) {
+        if (err) {
+            //TODO
+            console.log(err);
+        }
+        console.log(body);
+    });
+};
 /*
  The callback function must take a date object as a parameter
  */
@@ -18,19 +43,45 @@ var request = require('request');
  "nullT" : "23"  // number of neutral tweets
  }
  */
-exports.saveSentiment = function (charName, json) {
-    var url = config.database.sentimentSave;
-    request.post(url, json, function (err, resp, body) {
-        if(err){
-            //TODO
-            console.log(err);
+exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
+    var url = config.database.sentimentGetChar;
+    var startmil = (new Date(startDate)).getTime();
+    var endmil = (new Date(endDate)).getTime();
+    request.get(url, function (err, resp, body) {
+        //check for valid response
+        console.log(body);
+        if (!err && resp.statusCode === 200) {
+            //parse answer String to a JSON Object
+            var json = JSON.parse(body);
+            json.filter(function (element) {
+                var date = new Date(element.date).getTime();
+                var dateframe = startmil <= date && endmil >= date;
+                var groupname = element.description === "Group 5";
+                return dateframe && groupname; //only includes results from our group
+            });
+            //give JSON object to the callback function
+            callback(json);
         }
-        console.log(resp);
+
     });
 };
-
-exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback){
-    var url = config.database.sentimentGetChar;
+/*
+ The callback function must take a date object as a parameter
+ */
+/*
+ Saves a json to the character in the database
+ json format:
+ {
+ "date" : "12.11.2016",    //Analyzed date
+ "pos" : "12",    //positive sentiment sum
+ "neg" : "43",  // negative sentiment sum
+ "posT" : "6",   //number of positive tweets
+ "negT" : "4",   // number of negative tweets
+ "nullT" : "23"  // number of neutral tweets
+ }
+ */
+exports.getSentimentTimeframe = function (startDate, endDate, callback) {
+    var url = config.database.sentimentGetAll;
     url.replace('startdate', startDate);
     url.replace('enddate', endDate);
     request.get(url, function (err, resp, body) {
@@ -39,25 +90,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
-            json.filter(function(element){
-                return element.description === "Group 5"; //only includes results from our group
-            });
-            //give JSON object to the callback function
-            callback(json);
-            }
-
-    });
-};
-
-exports.getSentimentTimeframe = function(startDate, endDate, callback){
-    var url = config.database.sentimentGetAll;
-    request.get(url, function (err, resp, body) {
-        //check for valid response
-        console.log(body);
-        if (!err && resp.statusCode === 200) {
-            //parse answer String to a JSON Object
-            var json = JSON.parse(body);
-            json.filter(function(element){
+            json.filter(function (element) {
                 return element.description === "Group 5"; //only includes results from our group
             });
             //give JSON object to the callback function
