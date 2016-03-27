@@ -56,7 +56,6 @@ exports.getRest = function(characterName, startDate, endDate, isSaved, callback)
 function runSentimentAnalysis(tweetArray, characterName, startDate, endDate, isSaved, callback){
     var jsonTweets = getJSONTweetArray(tweetArray, characterName);
     sentiments.calculateSentimentsForTweets(characterName, jsonTweets, startDate, endDate, isSaved, callback);
-
 }
 
 function getJSONTweetArray(tweetArray, characterName) {
