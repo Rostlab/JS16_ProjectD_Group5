@@ -146,8 +146,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 			*mongodb api here, then handle the response from mongodb
 			*/
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				var resp = getMostNFromArray1(json,number,"posSum");
-				callback(resp);
+				callback(getMostNFromArray1(json,number,"posSum"));
 			});
 
 		}
@@ -155,8 +154,8 @@ getSentimentForNameTimeframe: function(json, callback) {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
-				var resp = getMostNFromArray1(json,number,"posSum");
-				callback(resp);
+				callback(getMostNFromArray1(json,number,"posSum"));
+
 			});
 		}
 		/*
@@ -190,8 +189,8 @@ getSentimentForNameTimeframe: function(json, callback) {
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				var resp = getMostNFromArray1(json,number,"negSum");
-				callback(resp);
+				callback(getMostNFromArray1(json,number,"negSum"));
+
 			});
 
 		}
@@ -199,8 +198,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
-				var resp = getMostNFromArray1(json,number,"negSum");
-				callback(resp);
+				callback(getMostNFromArray1(json,number,"negSum"));
 			});
 
 		}
@@ -228,8 +226,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				resp = getMostNFromArray2(json,number,["posCount","negCount","nullCount"]);
-				callback(resp);
+				callback(getMostNFromArray2(json,number,["posCount","negCount","nullCount"]));
 			});
 
 		}
@@ -237,8 +234,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
-			resp = getMostNFromArray2(jsonTmp,number,["posCount","negCount","nullCount"]);
-			callback(resp);
+				callback(getMostNFromArray2(json,number,["posCount","negCount","nullCount"]));
 		}
 		/*
         var resp = [{
@@ -273,8 +269,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				var resp = getMostNFromArray2(json,number,["posSum","negSum"]);
-				callback(resp);
+				callback(getMostNFromArray2(json,number,["posSum","negSum"]));
 			});
 
 		}
@@ -282,8 +277,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
-				resp = getMostNFromArray2(json,number,["posSum","negSum"]);
-				callback(resp);
+				callback(getMostNFromArray2(json,number,["posSum","negSum"]));
 			});
 
 		}
