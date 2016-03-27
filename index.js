@@ -9,7 +9,7 @@
 		//sorting the list in decreasing oder
 		listA.sort(function(a,b){return b[property] -a[property];});
 		for (var j= 0;j<n;j++){
-			nMost[j]= listA[j]
+			nMost[j]= listA[j];
 		}
 		return nMost;
 	}
@@ -25,7 +25,7 @@
 			return aSum -bSum;
 			});
 		for (var j= 0;j<n;j++){
-			nMost[j]= listA[j]
+			nMost[j]= listA[j];
 		}
 		return nMost;
 	}
@@ -147,7 +147,8 @@ getSentimentForNameTimeframe: function(json, callback) {
 			*/
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
 				var resp = getMostNFromArray1(json,number,"posSum");
-				callback(resp)});
+				callback(resp);
+			});
 
 		}
 		else {
@@ -155,7 +156,8 @@ getSentimentForNameTimeframe: function(json, callback) {
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
 				var resp = getMostNFromArray1(json,number,"posSum");
-				callback(resp)});
+				callback(resp);
+			});
 		}
 		/*
         var resp = [{
