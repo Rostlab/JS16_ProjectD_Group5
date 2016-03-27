@@ -271,7 +271,7 @@ getSentimentForNameTimeframe: function(json, callback) {
      */
 
     runTwitterREST: function (characterName, startDate, callback) {
-        twitterAPI.getRest(characterName, startDate, new Date (), false, callback);
+        twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
 
     },
     /*

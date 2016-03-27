@@ -16,19 +16,21 @@ var gotdailysentiment = initPack.init(config);
 The config-JSON needs to specify the following properties:
 ```javascript
 {
-  "twitter" : {               //You need to create a Twitter API key!
-      "consumer_key": "xxx",
-      "consumer_secret": "xxx",
-      "access_token_key": "xxx",
-      "access_token_secret": "xxx"
+  "twitter": {            //Twitter devloper credentials
+    "consumer_key": "xxxxx",
+    "consumer_secret": "xxxxx",
+    "access_token_key": "xxxxx",
+    "access_token_secret": "xxxxx"
   },
-  "databaseA" : {           //This is the database where the package reads the GoT-Data and writes the results of the sentimentanalyses.
-    "token" : "xxxxxxxxxxxxxxxxx",
-    "airDateURL" : "xxxxxxxxxxxxxxxxx",
-    "characterNamesURL" : "xxxxxxxxxxxxxxxxx"
+  "database": {           //The Database you're gonna use to store your data of the analyses
+    "airDateURL": "xxxxx",
+    "characterNamesURL": "xxxxx",
+    "sentimentSave": "xxxxx",
+    "sentimentGetChar": "xxxxx",
+    "sentimentGetAll": "xxxxx"
   },
-  "automation" : {        //Timeframe, how often the Tweets get analyzed. Default is 12. For more details see below. 
-    "minutes" : 12
+  "automation": {
+    "minutes": 12
   }
 }
 ```

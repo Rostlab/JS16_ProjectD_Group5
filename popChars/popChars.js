@@ -10,7 +10,7 @@
 var fs = require('fs');
 var path = require('path');
 var process = require("process");
-var dbA = require('../db/dbA');
+var db = require('../db/database');
 var dir = "./data";
 
 
@@ -51,7 +51,7 @@ buildJSON(function (json) {
     })
 });
 
-dbA.characterNames(function (json) {
+db.characterNames(function (json) {
     var filename = 'chars.json';
     fs.writeFile(filename, JSON.stringify(json, null, 4), function (err) {
         if (err) {
