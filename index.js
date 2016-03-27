@@ -72,7 +72,7 @@ getSentimentForName: function(json, callback) {
 	var charName = json.characterName;
 	if (testDate(date,charName)){console.log('Error');return;}
 	//mongodb api here, then handle the response from mongodb
-	var resp = database.getSentimentForNameTimeframe(charName,date,date,function(json){return json;});
+	database.getSentimentForNameTimeframe(charName,date,date,function(json){callback(json);});
 
 	/*
 	 //DUMMY RESPOSE, TO BE REPLACED
@@ -86,7 +86,7 @@ getSentimentForName: function(json, callback) {
 		"nullCount": 8 //sum of neutral tweets that day
 	}; //not an array, single element response
 	*/
-	callback(resp);
+
 },
 /*
  returns Analysis over a timeframe (same as above)
@@ -109,7 +109,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 	else {
 		if(testDate(endDate,charName)){console.log('Error');return;}
 		//mongodb api here, then handle the response from mongodb
-		var resp = database.getSentimentForNameTimeframe(name,startDate,endDate,function(json){return json;});
+		database.getSentimentForNameTimeframe(name,startDate,endDate,function(json){callback(json);});
 	}
 	/*
 	//DUMMY RESPOSE, TO BE REPLACED
@@ -123,7 +123,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 		"nullCount": 8
 	}]; //note that this in array and will usually contain more than one element
 	*/
-	callback(resp);
+
 
 },
 /*
@@ -141,19 +141,21 @@ getSentimentForNameTimeframe: function(json, callback) {
 		var endDate = json.endDate;
 		if (testDate(startDate,charName)){console.log('Error');return;}
 
-		var resp = [];
 		if (endDate === undefined){
 			/* endDate= startDate
 			*mongodb api here, then handle the response from mongodb
 			*/
-			var jsonTmp = database.getSentimentTimeframe(startDate,startDate,function(json) {return json;});
-			resp = getMostNFromArray1(jsonTmp,number,"posSum");
+			database.getSentimentTimeframe(startDate,startDate,function(json) {
+				var resp = getMostNFromArray1(json,number,"posSum");
+				callback(resp)});
+
 		}
 		else {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
-			resp = getMostNFromArray1(jsonTmp,number,"posSum");
+			database.getSentimentTimeframe(startDate,endDate,function(json) {
+				var resp = getMostNFromArray1(json,number,"posSum");
+				callback(resp)});
 		}
 		/*
         var resp = [{
@@ -174,7 +176,6 @@ getSentimentForNameTimeframe: function(json, callback) {
             }
         ];
         */
-        callback(resp);
     },
     /*
      Same as above but most hated
@@ -183,18 +184,23 @@ getSentimentForNameTimeframe: function(json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
-		var resp = [];
 		if (testDate(startDate,charName)){console.log('Error');return;}
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,startDate,function(json) {return json;});
-			resp = getMostNFromArray1(jsonTmp,number,"negSum");
+			database.getSentimentTimeframe(startDate,startDate,function(json) {
+				var resp = getMostNFromArray1(json,number,"negSum");
+				callback(resp);
+			});
+
 		}
 		else {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
-			resp = getMostNFromArray1(jsonTmp,number,"negSum");
+			database.getSentimentTimeframe(startDate,endDate,function(json) {
+				var resp = getMostNFromArray1(json,number,"negSum");
+				callback(resp);
+			});
+
 		}
 		/*
         var resp = [{
@@ -207,7 +213,7 @@ getSentimentForNameTimeframe: function(json, callback) {
         }
         ];
         */
-        callback(resp);
+
     },
     /*
      Same as above but with most tweeted about
@@ -217,17 +223,20 @@ getSentimentForNameTimeframe: function(json, callback) {
 		var startDate = json.startDate;
 		var endDate = json.endDate;
 		if (testDate(startDate,charName)){console.log('Error');return;}
-		var resp;
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,startDate,function(json) {return json;});
-			resp = getMostNFromArray2(jsonTmp,number,["posCount","negCount","nullCount"]);
+			database.getSentimentTimeframe(startDate,startDate,function(json) {
+				resp = getMostNFromArray2(json,number,["posCount","negCount","nullCount"]);
+				callback(resp);
+			});
+
 		}
 		else {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
+			database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
 			resp = getMostNFromArray2(jsonTmp,number,["posCount","negCount","nullCount"]);
+			callback(resp);
 		}
 		/*
         var resp = [{
@@ -247,7 +256,7 @@ getSentimentForNameTimeframe: function(json, callback) {
                 "nullCount": 8
             }];
 		 */
-        callback(resp);
+
 
     },
     /*
@@ -261,14 +270,20 @@ getSentimentForNameTimeframe: function(json, callback) {
 		if (testDate(startDate,charName)){console.log('Error');return;}
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,startDate,function(json) {return json;});
-			resp = getMostNFromArray2(jsonTmp,number,["posSum","negSum"]);
+			database.getSentimentTimeframe(startDate,startDate,function(json) {
+				var resp = getMostNFromArray2(json,number,["posSum","negSum"]);
+				callback(resp);
+			});
+
 		}
 		else {
 			if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
-			var jsonTmp = database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
-			resp = getMostNFromArray2(jsonTmp,number,["posSum","negSum"]);
+			database.getSentimentTimeframe(startDate,endDate,function(json) {
+				resp = getMostNFromArray2(json,number,["posSum","negSum"]);
+				callback(resp);
+			});
+
 		}
 		/*
         var resp = [{
@@ -288,7 +303,7 @@ getSentimentForNameTimeframe: function(json, callback) {
                 "nullCount": 8
             }];
             */
-        callback(resp);
+
     },
     /*
      returns sentiments for name from airing date and the week after on (season,episode).
