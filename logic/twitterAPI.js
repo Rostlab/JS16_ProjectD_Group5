@@ -79,7 +79,7 @@ function getTweetAsJSON(tweet, characterName){
 }
 
 function getRestSearchArguments(character, startDate, endDate) {
-  return {q: character, result_type: 'mixed', since: startDate, until: endDate, lang: 'en'};
+  return {q: character, result_type: 'mixed', since: startDate, until: endDate, lang: 'en', count: 100};
 }
 
 function getCurrentDateAsString() {
