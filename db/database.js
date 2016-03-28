@@ -26,7 +26,7 @@ exports.saveSentiment = function (charName, json) {
             'posCount': json.posCount,
             'negCount': json.negCount,
             'nullCount': json.nullCount,
-            'description': "Test"
+            'description': "Group 5"
         }
     };
 
