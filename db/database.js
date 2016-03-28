@@ -3,7 +3,18 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
-
+/*
+ Saves a json to the character in the database
+ json format:
+ {
+ "date" : "12.11.2016",    //Analyzed date
+ "pos" : "12",    //positive sentiment sum
+ "neg" : "43",  // negative sentiment sum
+ "posT" : "6",   //number of positive tweets
+ "negT" : "4",   // number of negative tweets
+ "nullT" : "23"  // number of neutral tweets
+ }
+ */
 exports.saveSentiment = function (charName, json) {
     var url = config.database.sentimentSave;
     var form = {
@@ -29,18 +40,16 @@ exports.saveSentiment = function (charName, json) {
 
 };
 /*
- The callback function must take a date object as a parameter
- */
-/*
- Saves a json to the character in the database
- json format:
+ JSON that will be passed to the callback function is an array with the elements with these properties:
  {
- "date" : "12.11.2016",    //Analyzed date
- "pos" : "12",    //positive sentiment sum
- "neg" : "43",  // negative sentiment sum
- "posT" : "6",   //number of positive tweets
- "negT" : "4",   // number of negative tweets
- "nullT" : "23"  // number of neutral tweets
+ character: String,
+ date     : DateString,		// in ISO Date format
+ posSum   : Number,
+ negSum   : Number,
+ posCount : Number,
+ negCount : Number,
+ nullCount: Number,
+ description: String    // To distinguish between data sources. E.g. Group 6, Group 7
  }
  */
 exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
@@ -65,19 +74,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
     });
 };
 /*
- The callback function must take a date object as a parameter
- */
-/*
- Saves a json to the character in the database
- json format:
- {
- "date" : "12.11.2016",    //Analyzed date
- "pos" : "12",    //positive sentiment sum
- "neg" : "43",  // negative sentiment sum
- "posT" : "6",   //number of positive tweets
- "negT" : "4",   // number of negative tweets
- "nullT" : "23"  // number of neutral tweets
- }
+ Same result json as getSentimentForNameTimeframe
  */
 exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     var url = config.database.sentimentGetAll;
@@ -98,7 +95,9 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
 
     });
 };
-
+/*
+ Provides Date Object for airDate of a specific episode
+ */
 exports.airDate = function (season, episode, callback) {
     //URL to the API provided by Project A
     var url = config.database.airDateURL;
@@ -123,7 +122,6 @@ exports.airDate = function (season, episode, callback) {
 
 /*
  Callback function gets JSON with all character Names as parameter
- CURRENTLY BROKEN
  */
 exports.characterNames = function (callback) {
     //URL to API by ProjectA
