@@ -1,14 +1,16 @@
 var db = require('../db/database');
 var sentiment = require('sentiment');
 
-var posSentiment = 0;
-var negSentiment = 0;
-var posTweets = 0;
-var negTweets = 0;
-var nullTweets = 0;
+var posSentiment;
+var negSentiment;
+var posTweets;
+var negTweets;
+var nullTweets;
 
 exports.calculateSentimentsForTweets = function (characterName, tweets, startDate, endDate, isSaved, callback) {
 
+    initializeCounters();
+    
     for (var index in tweets) {
         var currentTweet = tweets[index];
         var sentimentScore = sentiment(currentTweet.text).score;
@@ -45,4 +47,12 @@ function saveSentiments(characterName, endDate, isSaved, callback) {
     } else {
         callback(sentimentJSON);
     }
+}
+
+function initializeCounters() {
+    posSentiment = 0;
+    negSentiment = 0;
+    posTweets = 0;
+    negTweets = 0;
+    nullTweets = 0;
 }
