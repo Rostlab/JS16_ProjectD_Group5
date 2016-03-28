@@ -1,10 +1,10 @@
 var db = require('../db/database');
 var sentiment = require('sentiment');
 /*
- Calculates the Sentiment score for an array of tweets and hands result to save function
+ Calculates the Sentiment score for an array of tweets and saves to databse
  */
 exports.calculateSentimentsForTweets = function (characterName, tweets, startDate, endDate, isSaved, callback) {
-
+    var sentimentJSON = {};
     var posSentiment = 0;
     var negSentiment = 0;
     var posTweets = 0;
@@ -26,16 +26,6 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
         }
     }
 
-    saveSentiments(characterName, endDate, isSaved, callback);
-
-};
-
-/*
- Saves a sentiment to the database
- */
-function saveSentiments(characterName, endDate, isSaved, callback) {
-
-    var sentimentJSON = {};
     sentimentJSON.date = endDate;
     sentimentJSON.posSum = posSentiment;
     sentimentJSON.negSum = negSentiment;
@@ -49,4 +39,5 @@ function saveSentiments(characterName, endDate, isSaved, callback) {
     } else {
         callback(sentimentJSON);
     }
-}
+
+};
