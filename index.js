@@ -258,7 +258,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 		 */
 
 
-    }
+    },
     /*
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
@@ -302,7 +302,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
             }];
             */
 
-    }
+    },
     /*
      returns sentiments for name from airing date and the week after on (season,episode).
      Input:
@@ -322,7 +322,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
             "nullCount": 8
         };
         callback(resp);
-    }
+    },
     /*
      run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
      in the past at most
