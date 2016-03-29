@@ -351,7 +351,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
-    stopAutomation: function() stopAutomation{
+    stopAutomation: function stopAutomation() {
         automation.stopAutomation();
     },
 
