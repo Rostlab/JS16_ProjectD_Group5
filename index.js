@@ -211,7 +211,6 @@ getSentimentForNameTimeframe: function (json, callback) {
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
 				callback(getMostNFromArray1(json,number,"negSum"));
-
 			});
 
 		}
@@ -247,15 +246,19 @@ getSentimentForNameTimeframe: function (json, callback) {
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				callback(getMostNFromArray2(json,number,["posCount","negCount","nullCount"]));
+				var resp = getMostNFromArray2(json,number,["posCount","negCount","nullCount"]);
+				callback(resp);
 			});
 
 		}
 		else {
 			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
-			database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
-				callback(getMostNFromArray2(json,number,["posCount","negCount","nullCount"]));
+			database.getSentimentTimeframe(startDate,endDate,function(json) {
+				var resp = getMostNFromArray2(json,number,["posCount","negCount","nullCount"]);
+				callback(resp);
+				});
+
 		}
 		/*
         var resp = [{
@@ -290,7 +293,8 @@ getSentimentForNameTimeframe: function (json, callback) {
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
-				callback(getMostNFromArray2(json,number,["posSum","negSum"]));
+				var resp = getMostNFromArray2(json,number,["posSum","negSum"]);
+				callback(resp);
 			});
 
 		}
@@ -298,7 +302,8 @@ getSentimentForNameTimeframe: function (json, callback) {
 			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
-				callback(getMostNFromArray2(json,number,["posSum","negSum"]));
+				var resp = getMostNFromArray2(json,number,["posSum","negSum"]);
+				callback(resp);
 			});
 
 		}
