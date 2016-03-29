@@ -35,15 +35,14 @@
 		error.searchedName=name;
 		if (!date) {
 			//throw new Error('Date is empty');
-			SearchError('Date is empty',date, name);
-			return true	;
+			return new SearchError('Date is empty',date, name);	;
 		}
 		if (date===new Date(1990,1,1)){
 			//error.message="For this date does no Twitterdata exist!";
 			//throw error;
-			SearchError('For this date does no Twitterdata exist!',date, name);
-			return true;
+			return new SearchError('For this date does no Twitterdata exist!',date, name);
 		}
+		return;
 	};
 	var testDate = function(date){
 		var error = new Error();
@@ -68,13 +67,16 @@ function SearchError(message, date, searchedName){
 	this.date= date;
 	this.searchedName= searchedName;
 }
+
+SearchError.prototype = Object.create(Error.prototype);
+SearchError.prototype.constructor = SearchError;
 var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
 var database  = require('./db/database.js');
 //start automation as default
 automation.startAutomation();
 module.exports={
-	
+
 /*
  Gets the score (positive and negative) for a character on a given day
  Input:
@@ -87,9 +89,11 @@ getSentimentForName: function (json, callback) {
 
 	var date = json.date;
 	var charName = json.characterName;
-	if (testDateAndName(date,charName)){console.log('Error');return;}
+	var error = testDateAndName(date,charName);
+
 	//mongodb api here, then handle the response from mongodb
-	database.getSentimentForNameTimeframe(charName,date,date,function(json){callback(json);});
+	// always error in callback
+	database.getSentimentForNameTimeframe(charName,date,date,function(json){callback(json,error);});
 
 	/*
 	 //DUMMY RESPOSE, TO BE REPLACED
