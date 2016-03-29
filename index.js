@@ -84,7 +84,7 @@ module.exports={
  "date" : "2016-03-18T"
  }
  */
-getSentimentForName: function getSentimentForName(json, callback) {
+getSentimentForName: function (json, callback) {
 
 	var date = json.date;
 	var charName = json.characterName;
@@ -115,7 +115,7 @@ getSentimentForName: function getSentimentForName(json, callback) {
  "endDate" : 'ISODate"
  }
  */
-getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callback) {
+getSentimentForNameTimeframe: function (json, callback) {
 	var name = json.name;
 	var startDate = json.startDate;
 	var endDate = json.endDate;
@@ -153,7 +153,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      "startDate' : "ISODate",
      "endDate' : "ISODate"
      */
-    topSentiment: function topSentiment(json, callback) {
+    topSentiment: function (json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -199,7 +199,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
     /*
      Same as above but most hated
      */
-    worstSentiment: function worstSentiment (json, callback) {
+    worstSentiment: function  (json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -236,7 +236,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
     /*
      Same as above but with most tweeted about
      */
-    mostTalkedAbout: function mostTalkedAbout(json, callback) {
+    mostTalkedAbout: function (json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -279,7 +279,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
      */
-    topControversial: function topControversial(json, callback) {
+    topControversial: function (json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -328,7 +328,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      "episode" : 1
      }
      */
-    sentimentPerEpisode: function sentimentPerEpisode(json, callback) {
+    sentimentPerEpisode: function (json, callback) {
         var resp = {
             "name": json.name,
             "posSum": 23,
@@ -344,7 +344,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      in the past at most
      */
 
-    runTwitterREST: function runTwitterREST(characterName, startDate, callback) {
+    runTwitterREST: function (characterName, startDate, callback) {
         twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
 
     },
@@ -352,7 +352,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
 
-    runTwitterStreaming: function runTwitterStreaming(characterName, duration, callback) {
+    runTwitterStreaming: function (characterName, duration, callback) {
         twitterAPI.getStream(characterName, duration, false, callback);
 
     },
@@ -360,14 +360,14 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
 
-    startAutomation: function startAutomation() {
+    startAutomation: function () {
         automation.startAutomation();
 
     },
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
-    stopAutomation: function stopAutomation() {
+    stopAutomation: function () {
         automation.stopAutomation();
     },
 
