@@ -35,9 +35,10 @@
 			return new SearchError('Date is empty',date, name);
 		}
 		if (Date.parse(date)===new Date(1990,1,1)){
-			// should test if the date exists in the database
+			//TODO: should test if the date exists in the database
 			return new SearchError('For this date does no Twitterdata exist!',date, name);
 		}
+		//TODO: seach the name if it exists in database
 		return;
 	};
 	var testDate = function(date){
@@ -52,6 +53,7 @@
 
 			return new SearchError('For this date does no Twitterdata exist!',date);
 		}
+		return;
 	};
 function SearchError(message, date, searchedName){
 	this.name='SearchError';
