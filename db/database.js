@@ -29,15 +29,12 @@ exports.saveSentiment = function (charName, json) {
             'description': json.description
         }
     };
-
     request.post(url, form, function (err, resp, body) {
         if (err) {
             //TODO
             console.log(err);
         }
-        console.log(body);
     });
-
 };
 /*
  JSON that will be passed to the callback function is an array with the elements with these properties:
@@ -56,10 +53,13 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
     var url = config.database.sentimentGetChar;
     var startmil = (new Date(startDate)).getTime();
     var endmil = (new Date(endDate)).getTime();
-    request.get(url, function (err, resp, body) {
-        //check for valid response
+    var form = {
+        form: {
+            'character': charName
+        }
+    };
+    request.post(url, form, function (err, resp, body) {
         if (!err && resp.statusCode === 200) {
-            //parse answer String to a JSON Object
             var json = JSON.parse(body);
             json.filter(function (element) {
                 var date = new Date(element.date).getTime();
@@ -67,10 +67,8 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
                 var groupname = element.description === "Group 5";
                 return dateframe && groupname; //only includes results from our group
             });
-            //give JSON object to the callback function
             callback(json);
         }
-
     });
 };
 /*
@@ -82,7 +80,6 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     url.replace('enddate', endDate);
     request.get(url, function (err, resp, body) {
         //check for valid response
-        console.log(body);
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
@@ -92,7 +89,6 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
             //give JSON object to the callback function
             callback(json);
         }
-
     });
 };
 /*
@@ -129,7 +125,6 @@ exports.characterNames = function (callback) {
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check foŕ valid response
-        console.log(body);
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
