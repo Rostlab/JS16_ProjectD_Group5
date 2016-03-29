@@ -1,13 +1,15 @@
-var dbA = require('../db/dbA');
+var db = require('../db/database');
 var sentiment = require('sentiment');
-
-var posSentiment = 0;
-var negSentiment = 0;
-var posTweets = 0;
-var negTweets = 0;
-var nullTweets = 0;
-
+/*
+ Calculates the Sentiment score for an array of tweets and saves to databse
+ */
 exports.calculateSentimentsForTweets = function (characterName, tweets, startDate, endDate, isSaved, callback) {
+    var sentimentJSON = {};
+    var posSentiment = 0;
+    var negSentiment = 0;
+    var posTweets = 0;
+    var negTweets = 0;
+    var nullTweets = 0;
 
     for (var index in tweets) {
         var currentTweet = tweets[index];
@@ -24,24 +26,18 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
         }
     }
 
-    saveSentiments(characterName, endDate, isSaved, callback);
-
-};
-
-
-function saveSentiments(characterName, endDate, isSaved, callback) {
-
-    var sentimentJSON = {};
     sentimentJSON.date = endDate;
-    sentimentJSON.posSentiment = posSentiment;
-    sentimentJSON.negSentiment = negSentiment;
-    sentimentJSON.posTweets = posTweets;
-    sentimentJSON.negTweets = negTweets;
-    sentimentJSON.nullTweets = nullTweets;
+    sentimentJSON.posSum = posSentiment;
+    sentimentJSON.negSum = negSentiment;
+    sentimentJSON.posCount = posTweets;
+    sentimentJSON.negCount = negTweets;
+    sentimentJSON.nullCount = nullTweets;
+    sentimentJSON.description = "Group 5";
 
     if (isSaved) {
-        dbA.saveSentiment(characterName, sentimentJSON);
+        db.saveSentiment(characterName, sentimentJSON);
     } else {
         callback(sentimentJSON);
     }
-}
+
+};

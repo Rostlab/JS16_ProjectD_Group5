@@ -11,32 +11,31 @@ var intervalID,
  */
 
 exports.startAutomation = function () {
-    if (!started){
-        started=true;
+    if (!started) {
+        started = true;
         var interval = config.automation.minutes * 60 * 1000;
         var currentPos = 0;
 
         intervalID = setInterval(function () {
-
             var currentDate = new Date();
             var startDate = new Date();
             var msToGoBack = names.length * config.automation.minutes * 60 * 1000;
-            startDate.setTime(currentDate.getTime()-msToGoBack);
+            startDate.setTime(currentDate.getTime() - msToGoBack);
 
-            twitter.getRest(names[currentPos].name,startDate,currentDate, true);
+            twitter.getRest(names[currentPos].name, startDate.toISOString(), currentDate.toISOString(), true);
             currentPos = (currentPos + 1) % names.length;
 
         }, interval); // interval is set here
-    }else{
+    } else {
         throw Error('Tried to start the Automationprocess a second time!');
     }
 };
 
 exports.stopAutomation = function () {
-    if (started){
-        started=false;
+    if (started) {
+        started = false;
         clearInterval(intervalID);
-    }else{
+    } else {
         throw Error('Tried to stop the Automationprocess a second time!');
     }
 };
