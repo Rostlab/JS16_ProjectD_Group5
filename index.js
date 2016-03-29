@@ -71,11 +71,10 @@ function SearchError(message, date, searchedName){
 var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
 var database  = require('./db/database.js');
-
-module.exports={
-
 //start automation as default
 automation.startAutomation();
+module.exports={
+	
 /*
  Gets the score (positive and negative) for a character on a given day
  Input:
