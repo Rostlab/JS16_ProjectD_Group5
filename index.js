@@ -12,13 +12,13 @@
 			nMost[j]= listA[j];
 		}
 		return nMost;
-	}
+	};
 	var getMostNFromArray2= function(array,n, arrayOfProp){
 		var nMost = new Array(n);
 		//sorting the list in decreasing oder
 		listA.sort(function(a,b){
 			var aSum = 0,bSum =0;
-			for (int k = 0;k<arrayOfProp.length;k++) {
+			for ( k = 0;k<arrayOfProp.length;k++) {
 				aSum+=a[arrayOfProp[k]];
 				bSum+=b[arrayOfProp[k]];
 			}
@@ -28,7 +28,7 @@
 			nMost[j]= listA[j];
 		}
 		return nMost;
-	}
+	};
 	var testDate = function (date,name){
 		var error = new Error();
 		error.date = date;
@@ -44,14 +44,14 @@
 			SearchError('For this date does no Twitterdata exist!',date, name);
 			return true;
 		}
-	}
+	};
 function SearchError(message, date, searchedName){
 	this.name='SearchError';
 	this.message= message || 'Some Failure happened while searching for a SentimentAnalyses';
 	this.stack= (new Error()).stack;
 	this.date= date;
 	this.searchedName= searchedName;
-}
+};
 module.exports={
 var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
