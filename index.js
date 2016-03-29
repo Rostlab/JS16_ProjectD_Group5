@@ -72,7 +72,7 @@ getSentimentForName: function getSentimentForName(json, callback) {
 
 	var date = json.date;
 	var charName = json.characterName;
-	if (testDate(date,charName)){console.log('Error');return;}
+	//if (testDate(date,charName)){console.log('Error');return;}
 	//mongodb api here, then handle the response from mongodb
 	database.getSentimentForNameTimeframe(charName,date,date,function(json){callback(json);});
 
@@ -103,13 +103,13 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 	var name = json.name;
 	var startDate = json.startDate;
 	var endDate = json.endDate;
-	if (testDate(startDate,charName)){console.log('Error');return;}
+	//if (testDate(startDate,charName)){console.log('Error');return;}
 	if (endDate === undefined){
 		//basiclly using getSentimentForName()
 
 	}
 	else {
-		if(testDate(endDate,charName)){console.log('Error');return;}
+		//if(testDate(endDate,charName)){console.log('Error');return;}
 		//mongodb api here, then handle the response from mongodb
 		database.getSentimentForNameTimeframe(name,startDate,endDate,function(json){callback(json);});
 	}
@@ -141,7 +141,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
-		if (testDate(startDate,charName)){console.log('Error');return;}
+		//if (testDate(startDate,charName)){console.log('Error');return;}
 
 		if (endDate === undefined){
 			/* endDate= startDate
@@ -153,7 +153,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 
 		}
 		else {
-			if(testDate(endDate,charName)){console.log('Error');return;}
+			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
 				callback(getMostNFromArray1(json,number,"posSum"));
@@ -187,7 +187,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
-		if (testDate(startDate,charName)){console.log('Error');return;}
+		//if (testDate(startDate,charName)){console.log('Error');return;}
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
@@ -197,7 +197,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 
 		}
 		else {
-			if(testDate(endDate,charName)){console.log('Error');return;}
+			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
 				callback(getMostNFromArray1(json,number,"negSum"));
@@ -224,7 +224,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
-		if (testDate(startDate,charName)){console.log('Error');return;}
+		//if (testDate(startDate,charName)){console.log('Error');return;}
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
@@ -233,7 +233,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 
 		}
 		else {
-			if(testDate(endDate,charName)){console.log('Error');return;}
+			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {return json;});
 				callback(getMostNFromArray2(json,number,["posCount","negCount","nullCount"]));
@@ -267,7 +267,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
-		if (testDate(startDate,charName)){console.log('Error');return;}
+		//if (testDate(startDate,charName)){console.log('Error');return;}
 		if (endDate === undefined){
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,startDate,function(json) {
@@ -276,7 +276,7 @@ getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callba
 
 		}
 		else {
-			if(testDate(endDate,charName)){console.log('Error');return;}
+			//if(testDate(endDate,charName)){console.log('Error');return;}
 			//mongodb api here, then handle the response from mongodb
 			database.getSentimentTimeframe(startDate,endDate,function(json) {
 				callback(getMostNFromArray2(json,number,["posSum","negSum"]));
