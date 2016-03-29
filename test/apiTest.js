@@ -31,7 +31,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('should return the specified JSON in a callback',function(done){
 					var json = {"characterName":"Jon Snow", "date": (date).toISOString()};
 					api.getSentimentForName(json,function(resp,err){
-						if (err) throw err;
+						if (err) {
+							done();
+							throw err;
+						}
 						resp.characterName.should.be.equal('Jon Snow');
 						resp.date.should.be.equal(date.toISOString());
 						resp.posSum.should.be.aboveOrEqual(0);
@@ -45,8 +48,6 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 
 
-	//********************************************
-	//DAT: HERE ARE ERRORS FROM INDEX.JS CHECKED.
 			context.skip('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function (){
@@ -82,6 +83,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('Response-JSON should meet its specification', function(done){
 					api.getSentimentForName({"searchedName":"Jon Snow", "startDate":new Date(2016,2,22).toISOString(),"endDate": new Date(2016,2,24).toISOString()},function(resp, err){
 						if (err){
+							done();
 							throw err;
 						}
 						should.ok(resp);
@@ -96,6 +98,32 @@ setTimeout(function(){//This function is needed to get all the requires straight
 						}
 						done();
 					});
+				});
+			});
+			context.skip('name is not present',function (){
+				it('should throw an SearchException',function(done){
+					(function (){
+						api.getSentimentForNameTimeframe({"characterName": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
+							if (err){
+								done(); 
+								throw err;
+							}
+							return resp;
+						});
+					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), searchedName:'Donald Trump'});
+				});
+			});
+			context.skip('No Data exists for this date', function (){
+				it ('should throw an SearchException',function (done){
+					(function (){
+						api.getSentimentForName({"searchedName":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
+							if (err) {
+								done(); 
+								throw err;
+							}
+							return resp;
+						});
+					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),searchedName: 'Jon Snow'});
 				});
 			});
 		});
@@ -125,7 +153,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			describe('#topSentiment:',function(){
 				it('The response-JSON meets its specification',function(done){
 					api.topSentiment(inputJSON,function(resp,err){
-						if (err){throw err;}
+						if (err){
+							done();
+							throw err;
+						}
 						callback(resp,'posSum',function(sec,first){
 							return (first-sec)>=0;
 						});
@@ -139,7 +170,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			describe('#worstSentiment(num, startDate,endDate): ',function() {
 				it('The response-JSON meets its specification',function(done){
 					api.worstSentiment(inputJSON,function(resp,err){
-						if (err){throw err;}
+						if (err){
+							done();
+							throw err;
+						}
 						callback(resp,'negSum',function(sec,first){
 							return (first-sec)>=0;
 						});
@@ -153,8 +187,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			describe('#mostTalkedAbout(number,startDate, endDate): ',function(){
 				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
-						if(err){throw err;}
-					
+						if(err){
+							done();
+							throw err;
+						}
 						for (var i=0;i<resp.length;i+=1){
 							if(i!==0){
 								(resp[i].posCount+resp[i].negCount+resp[i].nullCount)
@@ -176,7 +212,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			describe('#topControversial(number,startDate, endDate): ',function(){
 				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
-						if(err)throw err;
+						if(err){
+							done();
+							throw err;
+						}
 						for(var i=0;i<resp.length;i+=1){
 							if (i!==0){
 								(resp[i].posSum-resp[i].negSum).should.be.belowOrEqual(resp[i-1].posSum-resp[i-1].negSum);
@@ -196,8 +235,8 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		describe('#sentimentForEpisode(name,season,episode): ',function(){
-			context('Input is valid:',function(){
-				it('Need to figure out how to test this. Data won\'t be available for this one');
+			context('The searched episode does not exist:',function(){
+				it('It should throw');
 				//TODO
 			});
 		});
