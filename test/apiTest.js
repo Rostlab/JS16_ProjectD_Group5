@@ -48,7 +48,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 
 
-			context.skip('name is not present',function (){
+			context('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function (){
 						api.getSentimentForName({"characterName": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
@@ -61,7 +61,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), searchedName:'Donald Trump'});
 				});
 			});
-			context.skip('No Data exists for this date', function (){
+			context('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function (){
 						api.getSentimentForName({"searchedName":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
