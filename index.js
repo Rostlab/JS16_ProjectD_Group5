@@ -35,7 +35,7 @@
 		error.searchedName=name;
 		if (!date) {
 			//throw new Error('Date is empty');
-			return new SearchError('Date is empty',date, name);	;
+			return new SearchError('Date is empty',date, name);
 		}
 		if (date===new Date(1990,1,1)){
 			//error.message="For this date does no Twitterdata exist!";
