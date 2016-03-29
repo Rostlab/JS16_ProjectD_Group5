@@ -29,7 +29,7 @@
 		}
 		return nMost;
 	};
-	var testDate = function (date,name){
+	var testDateAndName = function (date,name){
 		var error = new Error();
 		error.date = date;
 		error.searchedName=name;
@@ -45,6 +45,22 @@
 			return true;
 		}
 	};
+	var testDate = function(date){
+		var error = new Error();
+		error.date = date;
+		error.searchedName=name;
+		if (!date) {
+			throw new Error('Date is empty');
+
+			return true	;
+		}
+		if (date===new Date(1990,1,1)){
+			error.message="For this date does no Twitterdata exist!";
+			throw error;
+
+			return true;
+		}
+	}
 function SearchError(message, date, searchedName){
 	this.name='SearchError';
 	this.message= message || 'Some Failure happened while searching for a SentimentAnalyses';
@@ -72,7 +88,7 @@ getSentimentForName: function getSentimentForName(json, callback) {
 
 	var date = json.date;
 	var charName = json.characterName;
-	//if (testDate(date,charName)){console.log('Error');return;}
+	if (testDateAndName(date,charName)){console.log('Error');return;}
 	//mongodb api here, then handle the response from mongodb
 	database.getSentimentForNameTimeframe(charName,date,date,function(json){callback(json);});
 
