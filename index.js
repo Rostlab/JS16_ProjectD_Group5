@@ -18,7 +18,7 @@
 		//sorting the list in decreasing oder
 		listA.sort(function(a,b){
 			var aSum = 0,bSum =0;
-			for ( k = 0;k<arrayOfProp.length;k++) {
+			for (var k = 0;k<arrayOfProp.length;k++) {
 				aSum+=a[arrayOfProp[k]];
 				bSum+=b[arrayOfProp[k]];
 			}
