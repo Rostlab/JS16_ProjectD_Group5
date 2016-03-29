@@ -7,7 +7,7 @@
 	var getMostNFromArray1= function(array, n, property){
 		var nMost = new Array(n);
 		//sorting the list in decreasing oder
-		listA.sort(function(a,b){return b[property] -a[property];});
+		array.sort(function(a,b){return b[property] -a[property];});
 		for (var j= 0;j<n;j++){
 			nMost[j]= listA[j];
 		}
@@ -16,7 +16,7 @@
 	var getMostNFromArray2= function(array,n, arrayOfProp){
 		var nMost = new Array(n);
 		//sorting the list in decreasing oder
-		listA.sort(function(a,b){
+		array.sort(function(a,b){
 			var aSum = 0,bSum =0;
 			for (var k = 0;k<arrayOfProp.length;k++) {
 				aSum+=a[arrayOfProp[k]];
