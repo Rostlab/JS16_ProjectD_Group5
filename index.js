@@ -51,11 +51,12 @@ function SearchError(message, date, searchedName){
 	this.stack= (new Error()).stack;
 	this.date= date;
 	this.searchedName= searchedName;
-};
-module.exports={
+}
 var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
 var database  = require('./db/database.js');
+module.exports={
+
 //start automation as default
 automation.startAutomation();
 /*
@@ -87,7 +88,7 @@ getSentimentForName: function(json, callback) {
 	}; //not an array, single element response
 	*/
 
-},
+};
 /*
  returns Analysis over a timeframe (same as above)
  Input json:
@@ -125,7 +126,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 	*/
 
 
-},
+};
 /*
     /*
      returns Array of names, which are most loved. with length=number. Ordered!
@@ -177,7 +178,7 @@ getSentimentForNameTimeframe: function(json, callback) {
             }
         ];
         */
-    },
+    };
     /*
      Same as above but most hated
      */
@@ -214,7 +215,7 @@ getSentimentForNameTimeframe: function(json, callback) {
         ];
         */
 
-    },
+    };
     /*
      Same as above but with most tweeted about
      */
@@ -256,7 +257,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 		 */
 
 
-    },
+    };
     /*
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
@@ -300,7 +301,7 @@ getSentimentForNameTimeframe: function(json, callback) {
             }];
             */
 
-    },
+    };
     /*
      returns sentiments for name from airing date and the week after on (season,episode).
      Input:
@@ -320,7 +321,7 @@ getSentimentForNameTimeframe: function(json, callback) {
             "nullCount": 8
         };
         callback(resp);
-    },
+    };
     /*
      run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
      in the past at most
@@ -329,7 +330,7 @@ getSentimentForNameTimeframe: function(json, callback) {
     runTwitterREST: function (characterName, startDate, callback) {
         twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
 
-    },
+    };
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
@@ -337,7 +338,7 @@ getSentimentForNameTimeframe: function(json, callback) {
     runTwitterStreaming: function (characterName, duration, callback) {
         twitterAPI.getStream(characterName, duration, false, callback);
 
-    },
+    };
     /*
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
@@ -345,7 +346,7 @@ getSentimentForNameTimeframe: function(json, callback) {
     startAutomation: function () {
         automation.startAutomation();
 
-    },
+    };
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
