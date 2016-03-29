@@ -68,7 +68,7 @@ module.exports={
  "date" : "2016-03-18T"
  }
  */
-getSentimentForName: function(json, callback) {
+getSentimentForName: function getSentimentForName(json, callback) {
 
 	var date = json.date;
 	var charName = json.characterName;
@@ -89,7 +89,7 @@ getSentimentForName: function(json, callback) {
 	}; //not an array, single element response
 	*/
 
-}
+},
 /*
  returns Analysis over a timeframe (same as above)
  Input json:
@@ -99,7 +99,7 @@ getSentimentForName: function(json, callback) {
  "endDate" : 'ISODate"
  }
  */
-getSentimentForNameTimeframe: function(json, callback) {
+getSentimentForNameTimeframe: function getSentimentForNameTimeframe(json, callback) {
 	var name = json.name;
 	var startDate = json.startDate;
 	var endDate = json.endDate;
@@ -127,7 +127,7 @@ getSentimentForNameTimeframe: function(json, callback) {
 	*/
 
 
-}
+},
 /*
     /*
      returns Array of names, which are most loved. with length=number. Ordered!
@@ -137,7 +137,7 @@ getSentimentForNameTimeframe: function(json, callback) {
      "startDate' : "ISODate",
      "endDate' : "ISODate"
      */
-    topSentiment: function(json, callback) {
+    topSentiment: function topSentiment(json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -179,11 +179,11 @@ getSentimentForNameTimeframe: function(json, callback) {
             }
         ];
         */
-    }
+    },
     /*
      Same as above but most hated
      */
-    worstSentiment: function(json, callback) {
+    worstSentiment: function worstSentiment (json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -216,11 +216,11 @@ getSentimentForNameTimeframe: function(json, callback) {
         ];
         */
 
-    }
+    },
     /*
      Same as above but with most tweeted about
      */
-    mostTalkedAbout: function(json, callback) {
+    mostTalkedAbout: function mostTalkedAbout(json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -263,7 +263,7 @@ getSentimentForNameTimeframe: function(json, callback) {
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
      */
-    topControversial: function(json, callback) {
+    topControversial: function topControversial(json, callback) {
 		var number = json.number;
 		var startDate = json.startDate;
 		var endDate = json.endDate;
@@ -312,7 +312,7 @@ getSentimentForNameTimeframe: function(json, callback) {
      "episode" : 1
      }
      */
-    sentimentPerEpisode: function(json, callback) {
+    sentimentPerEpisode: function sentimentPerEpisode(json, callback) {
         var resp = {
             "name": json.name,
             "posSum": 23,
@@ -328,7 +328,7 @@ getSentimentForNameTimeframe: function(json, callback) {
      in the past at most
      */
 
-    runTwitterREST: function (characterName, startDate, callback) {
+    runTwitterREST: function runTwitterREST(characterName, startDate, callback) {
         twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
 
     },
@@ -336,23 +336,23 @@ getSentimentForNameTimeframe: function(json, callback) {
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
 
-    runTwitterStreaming: function (characterName, duration, callback) {
+    runTwitterStreaming: function runTwitterStreaming(characterName, duration, callback) {
         twitterAPI.getStream(characterName, duration, false, callback);
 
-    }
+    },
     /*
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
 
-    startAutomation: function () {
+    startAutomation: function startAutomation() {
         automation.startAutomation();
 
-    }
+    },
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
-    stopAutomation: function() {
+    stopAutomation: function() stopAutomation{
         automation.stopAutomation();
-    }
+    },
 
 };
