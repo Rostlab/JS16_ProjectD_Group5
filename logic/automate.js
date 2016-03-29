@@ -15,16 +15,13 @@ exports.startAutomation = function () {
         started = true;
         var interval = config.automation.minutes * 60 * 1000;
         var currentPos = 0;
-
         intervalID = setInterval(function () {
             var currentDate = new Date();
             var startDate = new Date();
             var msToGoBack = names.length * config.automation.minutes * 60 * 1000;
             startDate.setTime(currentDate.getTime() - msToGoBack);
-
             twitter.getRest(names[currentPos].name, startDate.toISOString(), currentDate.toISOString(), true);
             currentPos = (currentPos + 1) % names.length;
-
         }, interval); // interval is set here
     } else {
         throw Error('Tried to start the Automationprocess a second time!');
