@@ -157,7 +157,16 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
-        //TODO
+        database.airDate(json.season, json.episode, function(date){
+            var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
+            database.getSentimentForNameTimeframe(json.name, date.toISOString(), end.toISOString(), function (json, err) {
+                if (err) {
+                    callback(undefined, err);
+                } else {
+                    callback(json);
+                }
+            });
+        })
     },
 
     /*
