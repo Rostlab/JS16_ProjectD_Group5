@@ -106,15 +106,25 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							throw err;
 						}
 						should.ok(resp);
+						var respPosSum=0,
+						respNegSum=0,
+						respPosCount=0,
+						respNegCount=0,
+						respNullCount=0;
 						for(var i=0;i<resp.length;i+=1){
-							resp[i].characterName.should.be.equal('Jon Snow');
-							resp[i].date.should.be.equal(date.toISOString());
-							resp[i].posSum.should.be.aboveOrEqual(0);
-							resp[i].negSum.should.be.aboveOrEqual(0);
-							resp[i].posCount.should.be.aboveOrEqual(0);
-							resp[i].negCount.should.be.aboveOrEqual(0);
-							resp[i].nullCount.should.be.aboveOrEqual(0);
+							resp[i].characterName.should.be.equal(data.character);
+							resp[i].date.should.be.equal(new Date(data.date).setDate(new Date(data.date).getDate()+i).toISOString());
+							respPosSum+=resp[i].posSum;
+							respNegSum+=resp[i].negSum;
+							respPosCount+=resp[i].posCount;
+							respNegCount+=resp[i].negCount;
+							respNullCount+=resp[i].nullCount;
 						}
+						respPosSum.should.be.aboveOrEqual(data.posSum);
+						respNegSum.should.be.aboveOrEqual(data.negSum);
+						respPosCount.should.be.aboveOrEqual(data.posCount);
+						respNegCount.should.be.aboveOrEqual(data.negCount);
+						respNullCount.should.be.aboveOrEqual(data.nullCount);
 						done();
 					});
 					});
@@ -123,23 +133,26 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					loopfunction(dataArray[i]);
 				}
 			});
-			context.skip('name is not present',function (){
+			context('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function (){
-						api.getSentimentForNameTimeframe({"characterName": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
+						api.getSentimentForNameTimeframe({
+							"characterName": "Donald Trump", "startDate" : new Date(2016,2,16).toISOString(), "endDate": new Date(2016,2,16).toISOString()
+					}, function(resp,err){
 							if (err){
 								done(); 
 								throw err;
 							}
+							done();
 							return resp;
 						});
 					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), searchedName:'Donald Trump'});
 				});
 			});
-			context.skip('No Data exists for this date', function (){
+			context('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function (){
-						api.getSentimentForName({"searchedName":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
+						api.getSentimentForName({"searchedName":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()}, function(resp, err){
 							if (err) {
 								done(); 
 								throw err;
