@@ -14,7 +14,7 @@ var getMostNFromArray1 = function (array, n, property) {
         return b[property] - a[property];
     });
     for (var j = 0; j < n; j++) {
-        nMost[j] = listA[j];
+        nMost[j] = array[j];
     }
     return nMost;
 };
@@ -30,7 +30,7 @@ var getMostNFromArray2 = function (array, n, arrayOfProp) {
         return aSum - bSum;
     });
     for (var j = 0; j < n; j++) {
-        nMost[j] = listA[j];
+        nMost[j] = array[j];
     }
     return nMost;
 };
@@ -121,7 +121,7 @@ module.exports = {
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
-            if(err){
+            if (err) {
                 callback(undefined, err);
             } else {
                 var res = getMostNFromArray2(json, number, ["posCount", "negCount", "nullCount"]);
@@ -138,7 +138,7 @@ module.exports = {
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
-            if(err){
+            if (err) {
                 callback(undefined, err);
             } else {
                 var res = getMostNFromArray2(json, number, ["posSum", "negSum"]);
@@ -157,15 +157,19 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
-        database.airDate(json.season, json.episode, function(date){
-            var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
-            database.getSentimentForNameTimeframe(json.name, date.toISOString(), end.toISOString(), function (json, err) {
-                if (err) {
-                    callback(undefined, err);
-                } else {
-                    callback(json);
-                }
-            });
+        database.airDate(json.season, json.episode, function (date, error) {
+            if (error) {
+                callback(undefined, error);
+            } else {
+                var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
+                database.getSentimentForNameTimeframe(json.name, date.toISOString(), end.toISOString(), function (json, err) {
+                    if (err) {
+                        callback(undefined, err);
+                    } else {
+                        callback(json);
+                    }
+                });
+            }
         })
     },
 

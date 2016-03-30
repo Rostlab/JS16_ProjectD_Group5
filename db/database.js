@@ -3,6 +3,7 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
+var searchError = require('./searchError.js');
 /*
  Saves a json to the character in the database
  json format:
@@ -31,8 +32,7 @@ exports.saveSentiment = function (charName, json) {
     };
     request.post(url, form, function (err, resp, body) {
         if (err) {
-            //TODO
-            console.log(err);
+            console.error(err, body);
         }
     });
 };
@@ -59,6 +59,14 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
         }
     };
     request.post(url, form, function (err, resp, body) {
+        if (err && resp.statusCode === 400) {
+            var error = new SearchError('Usage of invalid database schema', startDate, charName);
+            callback(undefined, error);
+        }
+        if (err && resp.statusCode === 404) {
+            var error = new SearchError('Invalid character name', startDate, charName);
+            callback(undefined, error);
+        }
         if (!err && resp.statusCode === 200) {
             var json = JSON.parse(body);
             json = json.filter(function (element) {
@@ -67,7 +75,12 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
                 var groupname = element.description === "Group 5";
                 return dateframe && groupname; //only includes results from our group
             });
-            callback(json);
+            if (json.length === 0) {
+                var error = new SearchError('No results in database', startDate, charName);
+                callback(undefined, error);
+            } else {
+                callback(json);
+            }
         }
     });
 };
@@ -78,6 +91,14 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     var url = config.database.sentimentGetAll;
     url = url.replace('startdate', startDate);
     url = url.replace('enddate', endDate);
+    if (err && resp.statusCode === 400) {
+        var error = new SearchError('Usage of invalid database schema', startDate, charName);
+        callback(undefined, error);
+    }
+    if (err && resp.statusCode === 404) {
+        var error = new SearchError('Invalid character name or timeframe', startDate, charName);
+        callback(undefined, error);
+    }
     request.get(url, function (err, resp, body) {
         //check for valid response
         if (!err && resp.statusCode === 200) {
@@ -87,7 +108,12 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
                 return element.description === "Group 5"; //only includes results from our group
             });
             //give JSON object to the callback function
-            callback(json);
+            if (json.length === 0) {
+                var error = new SearchError('No results in database', startDate, charName);
+                callback(undefined, error);
+            } else {
+                callback(json);
+            }
         }
     });
 };
@@ -106,6 +132,14 @@ exports.airDate = function (season, episode, callback) {
     };
     //Make POST request to API
     request.post(url, form, function (err, resp, body) {
+        if (err && resp.statusCode === 400) {
+            var error = new SearchError('Usage of invalid database schema');
+            callback(undefined, error);
+        }
+        if (err && resp.statusCode === 404) {
+            var error = new SearchError('Invalid season / episode');
+            callback(undefined, error);
+        }
         if (!err && resp.statusCode === 200) {
             //just get the airing date information
             var json = JSON.parse(body);
@@ -124,7 +158,13 @@ exports.characterNames = function (callback) {
     var url = config.database.characterNamesURL;
     //GET request to API
     request.get(url, function (err, resp, body) {
-        //check foŕ valid response
+        //check for valid response
+        if(err){
+            //TODO time out handling. Logs are for testing
+            console.error(err);
+            console.error(resp);
+            console.log(body);
+        }
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
@@ -136,7 +176,12 @@ exports.characterNames = function (callback) {
                 });
             }
             //give JSON object to the callback function
-            callback(formatted);
+            if (json.length === 0) {
+                var error = new SearchError('No results in database');
+                callback(undefined, error);
+            } else {
+                callback(formatted);
+            }
         }
     });
 };
