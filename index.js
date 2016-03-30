@@ -1,12 +1,9 @@
 var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
 var database = require('./db/database.js');
-var searchError = require('./db/searchError.js');
-
 
 //start automation as default
 automation.startAutomation();
-
 
 //get n biggest element from the list
 //i: position of the value in object
@@ -50,16 +47,17 @@ module.exports = {
      }
      */
     getSentimentForName: function (json, callback) {
-
-        var date = json.date;
-        var charName = json.characterName;
-        var error = testDateAndName(date, charName);
-
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentForNameTimeframe(charName, date, date, function (json) {
-            callback(json, error);
+        var end = new Date(json.date).setHours(23, 59, 59, 999);
+        database.getSentimentForNameTimeframe(json.characterName, json.date, end.toISOString(), function (json, err) {
+            if (err) {
+                callback(undefined, err);
+            } else {
+                callback(json);
+            }
         });
     },
+
     /*
      returns Analysis over a timeframe (same as above)
      Input json:
@@ -70,19 +68,17 @@ module.exports = {
      }
      */
     getSentimentForNameTimeframe: function (json, callback) {
-        var name = json.name;
-        var startDate = json.startDate;
-        var endDate = json.endDate;
-        var error1 = testDate(startDate);
-        var error2 = testDate(endDate);
-
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentForNameTimeframe(name, startDate, endDate, function (json) {
-            callback(json, error1, error2);
+        database.getSentimentForNameTimeframe(json.name, json.startDate, json.endDate, function (json, err) {
+            if (err) {
+                callback(undefined, err);
+            } else {
+                callback(json);
+            }
         });
     },
+
     /*
-     /*
      returns Array of names, which are most loved. with length=number. Ordered!
      Input:
      {
@@ -92,64 +88,65 @@ module.exports = {
      */
     topSentiment: function (json, callback) {
         var number = json.number;
-        var startDate = json.startDate;
-        var endDate = json.endDate;
-        var error1 = testDate(startDate);
-        var error2 = testDate(endDate);
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentTimeframe(startDate, endDate, function (json) {
-            callback(getMostNFromArray1(json, number, "posSum"), error1, error2);
-
+        database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
+            if (err) {
+                callback(undefined, err);
+            } else {
+                var res = getMostNFromArray1(json, number, "posSum");
+                callback(res);
+            }
         });
-
     },
     /*
      Same as above but most hated
      */
     worstSentiment: function (json, callback) {
         var number = json.number;
-        var startDate = json.startDate;
-        var endDate = json.endDate;
-        var error1 = testDate(startDate);
-        var error2 = testDate(endDate);
-
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentTimeframe(startDate, endDate, function (json) {
-            callback(getMostNFromArray1(json, number, "negSum"), error1, error2);
+        database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
+            if (err) {
+                callback(undefined, err)
+            } else {
+                var res = getMostNFromArray1(json, number, "negSum");
+                callback(res);
+            }
         });
     },
+
     /*
      Same as above but with most tweeted about
      */
     mostTalkedAbout: function (json, callback) {
         var number = json.number;
-        var startDate = json.startDate;
-        var endDate = json.endDate;
-        var error1 = testDate(startDate);
-        var error2 = testDate(endDate);
-
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentTimeframe(startDate, endDate, function (json) {
-            var resp = getMostNFromArray2(json, number, ["posCount", "negCount", "nullCount"]);
-            callback(resp, error1, error2);
+        database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
+            if(err){
+                callback(undefined, err);
+            } else {
+                var res = getMostNFromArray2(json, number, ["posCount", "negCount", "nullCount"]);
+                callback(res);
+            }
         });
     },
+
     /*
      returns Characters, which have the highest difference between positive and negative sentiments. Ordered.
      Still same as above
      */
     topControversial: function (json, callback) {
         var number = json.number;
-        var startDate = json.startDate;
-        var endDate = json.endDate;
-        var error1 = testDate(startDate);
-        var error2 = testDate(endDate);
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentTimeframe(startDate, endDate, function (json) {
-            var resp = getMostNFromArray2(json, number, ["posSum", "negSum"]);
-            callback(resp, error1, error2);
+        database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
+            if(err){
+                callback(undefined, err);
+            } else {
+                var res = getMostNFromArray2(json, number, ["posSum", "negSum"]);
+                callback(res);
+            }
         });
     },
+
     /*
      returns sentiments for name from airing date and the week after on (season,episode).
      Input:
@@ -169,24 +166,22 @@ module.exports = {
      */
     runTwitterREST: function (characterName, startDate, callback) {
         twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
-
     },
+
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
-
     runTwitterStreaming: function (characterName, duration, callback) {
         twitterAPI.getStream(characterName, duration, false, callback);
-
     },
+
     /*
      Starts the automation for an optional amount of minutes, default is 12 minutes timeframe
      */
-
     startAutomation: function () {
         automation.startAutomation();
-
     },
+
     /*
      Stops the automation. Can be restarted again with startAutomation()
      */
