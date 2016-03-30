@@ -1,12 +1,12 @@
 setTimeout(function(){//This function is needed to get all the requires straighten up
 	var should= require('should'),
 	confjson = require ('../super_secret.json'),
-	wholeDataArray = require ('./testData.js'),
+	wholeDataArray = require ('../test/testData.json'),
 	dataArray = [];
 	api = require ('../main.js').init(confjson);
-	for (var yps =0; Math.max(wholeDataArray.length,5)>yps; yps+=1){
+	for (var yps =0; Math.min(wholeDataArray.length,5)>yps; yps+=1){
 		while(true){
-			dataArray[yps] = wholeDataArray[Math.random()*(wholeDataArray.length-1)];
+			dataArray[yps] = wholeDataArray[Math.floor(Math.random()*(wholeDataArray.length))];
 			if (dataArray[yps].description ==='Group 5'){
 				break;
 				//Asserts that only data from GROUP5 is used.
@@ -14,7 +14,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 		}
 	}
 	describe('API gets tested', function (){
-		 var date = new Date();
+		var date = new Date();
 		describe('#init',function(){
 			it('the api-object should be filled already',function(){
 				should.ok(api);
@@ -40,27 +40,27 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			context('Name is present and on the Specific day exists a Tweet',function(){
 				
 
-					var loopfunction = function(i){
-							it('should return the specified JSON in a callback '+i,function(done){
-							var json = {"characterName":"Jon Snow", "date": (date).toISOString()};
+					var loopfunction = function(data){
+							it('should return the specified JSON for '+data.character,function(done){
+							var json = {"characterName":data.character, "date": data.date};
 							api.getSentimentForName(json,function(resp,err){
 								if (err) {
 									done();
 									throw err;
 								}
-								resp.characterName.should.be.equal('Jon Snow');
-								resp.date.should.be.equal(date.toISOString());
-								resp.posSum.should.be.aboveOrEqual(0);
-								resp.negSum.should.be.aboveOrEqual(0);
-								resp.posCount.should.be.aboveOrEqual(0);
-								resp.negCount.should.be.aboveOrEqual(0);
-								resp.nullCount.should.be.aboveOrEqual(0);
+								resp.characterName.should.be.equal(data.character);
+								resp.date.should.be.equal(data.date);
+								resp.posSum.should.be.equal(data.posSum);
+								resp.negSum.should.be.equal(data.negSum);
+								resp.posCount.should.be.equal(data.posCount);
+								resp.negCount.should.be.equal(data.negCount);
+								resp.nullCount.should.be.equal(data.nullCount);
 								done();
 							});
 						});
 					};
-					for (var i=0; i<1;i+=1){
-						loopfunction(i);
+					for (var i=0; i<dataArray.length; i+=1){
+						loopfunction(dataArray[i]);
 					}
 			});
 
@@ -93,12 +93,14 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 		});
 
-	//***************************************
-
 		describe('#getSentimentForNameTimeframe: ',function(){
 			context('Name is present:',function(){
-				it('Response-JSON should meet its specification', function(done){
-					api.getSentimentForName({"searchedName":"Jon Snow", "startDate":new Date(2016,2,22).toISOString(),"endDate": new Date(2016,2,24).toISOString()},function(resp, err){
+				var loopfunction = function(data){
+					it('Response-JSON checked for '+data.character, function(done){
+						//It takes the date of data and enddate= data.date.getDate()+1
+					api.getSentimentForName({
+						"searchedName":data.characterName, "startDate":data.date,"endDate": new Date((new Date(data.date)).setDate(new Date(data.date).getDate()+1)).toISOString()
+					},function(resp, err){
 						if (err){
 							done();
 							throw err;
@@ -115,7 +117,11 @@ setTimeout(function(){//This function is needed to get all the requires straight
 						}
 						done();
 					});
-				});
+					});
+				};
+				for (var i=0;i<dataArray.length;i+=1){
+					loopfunction(dataArray[i]);
+				}
 			});
 			context.skip('name is not present',function (){
 				it('should throw an SearchException',function(done){
@@ -276,4 +282,4 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 	run();
 
-},5000);
+},6000);
