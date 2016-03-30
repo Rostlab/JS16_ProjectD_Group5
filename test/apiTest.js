@@ -1,10 +1,20 @@
 setTimeout(function(){//This function is needed to get all the requires straighten up
 	var should= require('should'),
 	confjson = require ('../super_secret.json'),
+	wholeDataArray = require ('./testData.js'),
+	dataArray = [];
 	api = require ('../main.js').init(confjson);
+	for (var yps =0; Math.max(wholeDataArray.length,5)>yps; yps+=1){
+		while(true){
+			dataArray[yps] = wholeDataArray[Math.random()*(wholeDataArray.length-1)];
+			if (dataArray[yps].description ==='Group 5'){
+				break;
+				//Asserts that only data from GROUP5 is used.
+			}
+		}
+	}
 	describe('API gets tested', function (){
-		var nameCol = ['Jon Snow', 'Tyrion Lennister', 'Daenery Targaryen', 'Arya Stark', 'Khal Drogo', 'Joffrey Baratheon'],//automation... but needs approval if something in the DB exists.
-			date = new Date();
+		 var date = new Date();
 		describe('#init',function(){
 			it('the api-object should be filled already',function(){
 				should.ok(api);
@@ -28,23 +38,30 @@ setTimeout(function(){//This function is needed to get all the requires straight
 	//Should be filled as soon as real data exists in database.
 		describe('#getSentimentForName:',function(){
 			context('Name is present and on the Specific day exists a Tweet',function(){
-				it('should return the specified JSON in a callback',function(done){
-					var json = {"characterName":"Jon Snow", "date": (date).toISOString()};
-					api.getSentimentForName(json,function(resp,err){
-						if (err) {
-							done();
-							throw err;
-						}
-						resp.characterName.should.be.equal('Jon Snow');
-						resp.date.should.be.equal(date.toISOString());
-						resp.posSum.should.be.aboveOrEqual(0);
-						resp.negSum.should.be.aboveOrEqual(0);
-						resp.posCount.should.be.aboveOrEqual(0);
-						resp.negCount.should.be.aboveOrEqual(0);
-						resp.nullCount.should.be.aboveOrEqual(0);
-						done();
-					});
-				});
+				
+
+					var loopfunction = function(i){
+							it('should return the specified JSON in a callback '+i,function(done){
+							var json = {"characterName":"Jon Snow", "date": (date).toISOString()};
+							api.getSentimentForName(json,function(resp,err){
+								if (err) {
+									done();
+									throw err;
+								}
+								resp.characterName.should.be.equal('Jon Snow');
+								resp.date.should.be.equal(date.toISOString());
+								resp.posSum.should.be.aboveOrEqual(0);
+								resp.negSum.should.be.aboveOrEqual(0);
+								resp.posCount.should.be.aboveOrEqual(0);
+								resp.negCount.should.be.aboveOrEqual(0);
+								resp.nullCount.should.be.aboveOrEqual(0);
+								done();
+							});
+						});
+					};
+					for (var i=0; i<1;i+=1){
+						loopfunction(i);
+					}
 			});
 
 
