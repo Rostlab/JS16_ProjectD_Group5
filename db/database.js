@@ -61,7 +61,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
     request.post(url, form, function (err, resp, body) {
         if (!err && resp.statusCode === 200) {
             var json = JSON.parse(body);
-            json.filter(function (element) {
+            json = json.filter(function (element) {
                 var date = new Date(element.date).getTime();
                 var dateframe = startmil <= date && endmil >= date;
                 var groupname = element.description === "Group 5";
@@ -83,7 +83,7 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
-            json.filter(function (element) {
+            json = json.filter(function (element) {
                 return element.description === "Group 5"; //only includes results from our group
             });
             //give JSON object to the callback function
