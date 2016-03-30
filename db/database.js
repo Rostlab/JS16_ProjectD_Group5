@@ -76,8 +76,8 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
  */
 exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     var url = config.database.sentimentGetAll;
-    url.replace('startdate', startDate);
-    url.replace('enddate', endDate);
+    url = url.replace('startdate', startDate);
+    url = url.replace('enddate', endDate);
     request.get(url, function (err, resp, body) {
         //check for valid response
         if (!err && resp.statusCode === 200) {
