@@ -1,4 +1,6 @@
-# gotdailysentiment
+![](./gotsentimentlogo.png)
+
+
 Joffrey Baratheon is one of the most loathed characters in TV history. As a matter of fact people were celebrating his TV death on Twitter. We are interested to learn more on how people feel about different characters by analyzing tweets mentioning GoT characters. This package provides you with functions, which will return interesting Data about Tweets on characters from "Game of Thrones".
 
 ## Installation
@@ -30,7 +32,7 @@ The config-JSON needs to specify the following properties:
     "sentimentGetAll": "xxxxx"
   },
   "automation": {
-    "minutes": 12
+    "minutes": 2
   }
 }
 ```
@@ -137,7 +139,7 @@ The callback gets one JSON-Object (In this case dummy-data):
 ```
 
 ## Automatic analyses
-As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every 12 minutes unless you've specified something else in the congifurations Every 12 minutes this function takes one of the most popular characters and looks up all Tweets about this character since the last time. These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. You get the finest possible granularity with the default intervall, as the Twitter API limits the queries to their Databases. With the default every Character gets updated once per day.
+As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every x minutes, which you have to specify in the config-JSON. Let's say you specified 2 minutes: Every 2 minutes now this function takes one of the most popular characters and looks up all Tweets about this character since the last time. The list of the popular characters can be found [here](https://github.com/Rostlab/JS16_ProjectD_Group5/blob/develop/popChars/popChars.json). These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. We suggest to have an interval, that every character gets updated once per day. This depends on the length of the popChars-list.
 
 If you want to stop the automation you may do this with the following function:
 ```javascript
@@ -175,3 +177,22 @@ Both functions give the result as the following json-object to the callback-func
     "nullCount": 8
 }
 ```
+
+###Errors
+If there is wrong user input or user input which can't be computed, e.g. searching for sentiments late in 1990, the second argument of the callback  contains a `SearchError`.
+
+The following fields can be filled in the Error.
+```javascript
+    this.name='SearchError';
+    this.message= message || 'Some Failure happened while searching for a SentimentAnalyses';
+    this.stack= (new Error()).stack;
+    this.date= date;                    //This argument gets only filled if the reason for the error could be a wrong user input.
+    this.searchedName= searchedName;    //Same goes for this one.
+```
+
+
+
+
+
+###Copyright:
+Interface graphic by <a href="http://www.freepik.com/">Freepik</a> from <a href="http://www.flaticon.com/">Flaticon</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>. Made with <a href="http://logomakr.com" title="Logo Maker">Logo Maker</a>.
