@@ -49,6 +49,12 @@ module.exports = {
      }
      */
     getSentimentForName: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         //make end date last millisecond of the day
         var end = new Date(json.date);
         end.setHours(23);
@@ -103,6 +109,12 @@ module.exports = {
      }
      */
     getSentimentForNameTimeframe: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         //mongodb api here, then handle the response from mongodb
         database.getSentimentForNameTimeframe(json.character, json.startDate, json.endDate, function (json, err) {
             if (err) {
@@ -122,6 +134,12 @@ module.exports = {
      "endDate' : "ISODate"
      */
     topSentiment: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -137,6 +155,12 @@ module.exports = {
      Same as above but most hated
      */
     worstSentiment: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -153,6 +177,12 @@ module.exports = {
      Same as above but with most tweeted about
      */
     mostTalkedAbout: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -170,6 +200,12 @@ module.exports = {
      Still same as above
      */
     topControversial: function (json, callback) {
+        //validate input
+        database.inputValidation(json, function(res, err){
+            if(!res){
+                callback(undefined, err);
+            }
+        });
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -192,6 +228,7 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
+        //validate input
         database.airDate(json.season, json.episode, function (date, error) {
             if (error) {
                 callback(undefined, error);
