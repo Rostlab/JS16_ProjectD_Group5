@@ -167,13 +167,27 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		context('Tops and Flops',function(){
+			var oneDateData = wholeDataArray.filter(function f (elem){
+				var wish = new Date(dataArray[0].date);
+				elem = new Date(elem.date);
+				if (wish.getFullYear()!==elem.getFullYear()){
+					return false;
+				}
+				if (wish.getMonth()!==elem.getMonth()){
+					return false;
+				}
+				if (wish.getDate()!==elem.getDate()){
+					return false;
+				}
+				return true;
+			});
 			var inputJSON = {
 				"number":3,
-				"startDate":new Date(2016,2,22).toISOString(),
-				"endDate":new Date(2016,2,24).toISOString(),
+				"startDate":oneDateData[0].date,
+				"endDate":oneDateData[0].date
 			},
 			callback=function(arr,comProp,comparison){
-				//arr.length.should.equal(3);				//This fails as long as dummy data is used.
+				arr.length.should.equal(3);				//This fails as long as dummy data is used.
 				for(var i=0; i<arr.length;i+=1){
 					if(i!==0){
 						comparison(arr[i][comProp],arr[i-1][comProp]).should.be.true();
@@ -184,9 +198,15 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					arr[i].posCount.should.be.aboveOrEqual(0);
 					arr[i].negCount.should.be.aboveOrEqual(0);
 					arr[i].nullCount.should.be.aboveOrEqual(0);
+					arr[i][comProp].should.be.equal(oneDateData[i][comProp]);
+				
 				}
 			};
 			describe('#topSentiment:',function(){
+				oneDateData.sort(function(a,b){
+					return b.posSum-a.posSum;
+				});
+
 				it('The response-JSON meets its specification',function(done){
 					api.topSentiment(inputJSON,function(resp,err){
 						if (err){
@@ -203,7 +223,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 
-			describe('#worstSentiment(num, startDate,endDate): ',function() {
+			describe('#worstSentiment: ',function() {
+				oneDateData.sort(function(a,b){
+							return b.negSum-a.negSum;
+				});
 				it('The response-JSON meets its specification',function(done){
 					api.worstSentiment(inputJSON,function(resp,err){
 						if (err){
@@ -220,7 +243,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 			
-			describe('#mostTalkedAbout(number,startDate, endDate): ',function(){
+			describe('#mostTalkedAbout:',function(){
+				oneDateData.sort(function(a,b){
+					return (b.posCount+b.negCount+b.nullCount)-(a.posCount+b.negCount+b.nullCount);
+				});
 				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
 						if(err){
@@ -237,6 +263,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							resp[i].posCount.should.be.aboveOrEqual(0);
 							resp[i].negCount.should.be.aboveOrEqual(0);
 							resp[i].nullCount.should.be.aboveOrEqual(0);
+							(resp[i].posCount+resp[i].negCount+resp[i].nullCount).should.be.aboveOrEqual(oneDateData[i].posCount+oneDateData[i].negCount+oneDateData[i].nullCount);
 						}
 						done();
 					});
@@ -245,9 +272,12 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 
-			describe('#topControversial(number,startDate, endDate): ',function(){
+			describe('#topControversial:',function(){
 				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
+						oneDateData.sort(function(a,b){
+							return (-b.negSum+b.posSum)-(-a.negSum+a.posSum);
+						});
 						if(err){
 							done();
 							throw err;
@@ -261,6 +291,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							resp[i].posCount.should.be.aboveOrEqual(0);
 							resp[i].negCount.should.be.aboveOrEqual(0);
 							resp[i].nullCount.should.be.aboveOrEqual(0);
+							(resp[i].posSum-resp[i].negSum).should.be.aboveOrEqual(oneDateData[i].posSum-oneDateData[i].negSum);
 						}
 						done();
 					});
@@ -270,23 +301,88 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 
-		describe('#sentimentForEpisode(name,season,episode): ',function(){
-			context('The searched episode does not exist:',function(){
-				it('It should throw');
-				//TODO
+		describe('#sentimentPerEpisode:',function(){
+			context('Tests the DB-connection:',function(){
+				it('It should throw as there can\'t be any data about an episode',function(done){
+					(function(){
+						api.sentimentPerEpisode({
+							 	"name" : "Jon Snow",
+							    "season" : 1,
+							    "episode" : 1
+						    },function(resp,err){if (err) {
+						    	done();
+						    	throw err;
+						    }
+						    done();
+						    return resp;
+						});
+					})
+					.should.throw('No results in database',{name:'SearchError', characterName: 'Jon Snow'});
+				});
 			});
 		});
 
 
 
-		describe.skip('#runTwitterAPI(char, startDate: ',function(){
-	//TODO
+		describe('#runTwitterREST: ',function(){
+			describe('Scrapes data from the last two days for Jon Snow:',function(){
+				var date= new Date();
+				date= new Date(date.getFullYear(),date.getMonth(), date.getDate()-2);
+				it('Specified response-JSON gets checked:',function(done){
+					api.runTwitterREST('Jon Snow', date, function(resp,err){
+						if (err){
+							done();
+							throw err;
+						}
+						should.ok(resp);
+						should.ok(resp.characterName);
+						resp.characterName.should.be.equal('Jon Snow');
+						should.ok(resp.date);
+						resp.date.should.equal(date);
+						should.ok(resp.posSum);
+						resp.posSum.should.be.aboveOrEqual(0);
+						should.ok(resp.negSum);
+						resp.negSum.should.be.aboveOrEqual(0);
+						should.ok(resp.posCount);
+						resp.posCount.should.be.aboveOrEqual(0);
+						should.ok(resp.negCount);
+						resp.negCount.should.be.aboveOrEqual(0);
+						should.ok(resp.nullCount);
+						resp.posCount.should.be.aboveOrEqual(0);
+						done();
+					});	
+				});
+			});
 		});
 
 
 
-		describe.skip('#runStreamingAPI(char, time): ',function() {
-	//TODO
+		describe('#runStreamingAPI',function() {
+			this.timeout(32000);
+			describe('Scrapes data for the next half minute for Jon Snow:',function(){
+				it('Specified response-JSON gets checked:',function(done){
+					api.runTwitterREST('Jon Snow', 30, function(resp,err){
+						if (err){
+							done();
+							throw err;
+						}
+						should.ok(resp);
+						should.ok(resp.characterName);
+						resp.characterName.should.be.equal('Jon Snow');
+						should.ok(resp.posSum);
+						resp.posSum.should.be.aboveOrEqual(0);
+						should.ok(resp.negSum);
+						resp.negSum.should.be.aboveOrEqual(0);
+						should.ok(resp.posCount);
+						resp.posCount.should.be.aboveOrEqual(0);
+						should.ok(resp.negCount);
+						resp.negCount.should.be.aboveOrEqual(0);
+						should.ok(resp.nullCount);
+						resp.posCount.should.be.aboveOrEqual(0);
+						done();
+					});	
+				});
+			});
 		});
 
 
