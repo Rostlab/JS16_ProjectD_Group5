@@ -5,7 +5,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 	dataArray = [];
 	api = require ('../main.js').init(confjson);
 	var oneDateData = wholeDataArray.filter(function f (elem){
-		var wish = new Date(dataArray[0].date);
+		var wish = new Date(wholeDataArray[0].date);
 		elem = new Date(elem.date);
 		if (wish.getFullYear()!==elem.getFullYear()){
 			return false;
