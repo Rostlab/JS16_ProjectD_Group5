@@ -84,9 +84,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
             var data = json.data;
             json = data.filter(function (element) {
                 var date = new Date(element.date).getTime();
-                var dateframe = startmil <= date && endmil >= date;
-                var groupname = element.description === "Group 5";
-                return dateframe && groupname; //only includes results from our group
+                return (endmil >= date) && (startmil <= date) && (element.description === "Group 5");
             });
             if (json.length === 0) {
                 error = new SearchError('No results in database', startDate, charName);
