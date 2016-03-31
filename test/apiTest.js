@@ -38,12 +38,12 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 		});
 		describe('#automation:',function(){
-			context('is started', function(){
+			describe('is started', function(){
 				it('should throw an error!', function(){
 					(function(){api.startAutomation();}).should.throw();
 				});
 			});
-			context('is stopped', function(){
+			describe('is stopped', function(){
 				it('should throw an error', function(){
 					(function(){api.stopAutomation();}).should.not.throw();
 					(function(){api.stopAutomation();}).should.throw();
@@ -52,18 +52,18 @@ setTimeout(function(){//This function is needed to get all the requires straight
 		});
 	//Should be filled as soon as real data exists in database.
 		describe('#getSentimentForName:',function(){
-			context('Name is present and on the Specific day exists a Tweet',function(){
+			describe('Name is present and on the Specific day exists a Tweet',function(){
 				
 
 					var loopfunction = function(data){
 							it('should return the specified JSON for '+data.character,function(done){
-							var json = {"characterName":data.character, "date": data.date};
+							var json = {"character":data.character, "date": data.date};
 							api.getSentimentForName(json,function(resp,err){
 								if (err) {
 									done();
 									throw err;
 								}
-								resp.characterName.should.be.equal(data.character);
+								resp.character.should.be.equal(data.character);
 								resp.date.should.be.equal(data.date);
 								resp.posSum.should.be.equal(data.posSum);
 								resp.negSum.should.be.equal(data.negSum);
@@ -80,41 +80,41 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 
 
-			context('name is not present',function (){
+			describe('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function (){
-						api.getSentimentForName({"characterName": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
+						api.getSentimentForName({"character": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
 							if (err){
 								done(); 
 								throw err;
 							}
 							return resp;
 						});
-					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), searchedName:'Donald Trump'});
+					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), character:'Donald Trump'});
 				});
 			});
-			context('No Data exists for this date', function (){
+			describe('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function (){
-						api.getSentimentForName({"searchedName":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
+						api.getSentimentForName({"character":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
 							if (err){
 								done(); 
 								throw err;
 							}
 							return resp;
 						});
-					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),searchedName: 'Jon Snow'});
+					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),character: 'Jon Snow'});
 				});
 			});
 		});
 
 		describe('#getSentimentForNameTimeframe: ',function(){
-			context('Name is present:',function(){
+			describe('Name is present:',function(){
 				var loopfunction = function(data){
 					it('Response-JSON checked for '+data.character, function(done){
 						//It takes the date of data and enddate= data.date.getDate()+1
 					api.getSentimentForName({
-						"searchedName":data.characterName, "startDate":data.date,"endDate": new Date((new Date(data.date)).setDate(new Date(data.date).getDate()+1)).toISOString()
+						"character":data.character, "startDate":data.date,"endDate": new Date((new Date(data.date)).setDate(new Date(data.date).getDate()+1)).toISOString()
 					},function(resp, err){
 						if (err){
 							done();
@@ -127,7 +127,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 						respNegCount=0,
 						respNullCount=0;
 						for(var i=0;i<resp.length;i+=1){
-							resp[i].characterName.should.be.equal(data.character);
+							resp[i].character.should.be.equal(data.character);
 							resp[i].date.should.be.equal(new Date(data.date).setDate(new Date(data.date).getDate()+i).toISOString());
 							respPosSum+=resp[i].posSum;
 							respNegSum+=resp[i].negSum;
@@ -148,11 +148,11 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					loopfunction(dataArray[i]);
 				}
 			});
-			context('name is not present',function (){
+			describe('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function (){
 						api.getSentimentForNameTimeframe({
-							"characterName": "Donald Trump", "startDate" : new Date(2016,2,16).toISOString(), "endDate": new Date(2016,2,16).toISOString()
+							"character": "Donald Trump", "startDate" : new Date(2016,2,16).toISOString(), "endDate": new Date(2016,2,16).toISOString()
 					}, function(resp,err){
 							if (err){
 								done(); 
@@ -161,27 +161,27 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							done();
 							return resp;
 						});
-					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), searchedName:'Donald Trump'});
+					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), character:'Donald Trump'});
 				});
 			});
-			context('No Data exists for this date', function (){
+			describe('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function (){
-						api.getSentimentForName({"searchedName":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()}, function(resp, err){
+						api.getSentimentForName({"character":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()}, function(resp, err){
 							if (err) {
 								done(); 
 								throw err;
 							}
 							return resp;
 						});
-					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),searchedName: 'Jon Snow'});
+					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),character: 'Jon Snow'});
 				});
 			});
 		});
 
 
 
-		context('Tops and Flops',function(){
+		describe('Tops and Flops',function(){
 			oneDateData = wholeDataArray.filter(function f (elem){
 				var wish = new Date(dataArray[0].date);
 				elem = new Date(elem.date);
@@ -207,7 +207,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					if(i!==0){
 						comparison(arr[i][comProp],arr[i-1][comProp]).should.be.true();
 					}
-					arr[i].name.should.be.ok();
+					arr[i].character.should.be.ok();
 					arr[i].posSum.should.be.aboveOrEqual(0);
 					arr[i].negSum.should.be.aboveOrEqual(0);
 					arr[i].posCount.should.be.aboveOrEqual(0);
@@ -317,11 +317,11 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		describe('#sentimentPerEpisode:',function(){
-			context('Tests the DB-connection:',function(){
+			describe('Tests the DB-connection:',function(){
 				it('It should throw as there can\'t be any data about an episode',function(done){
 					(function(){
 						api.sentimentPerEpisode({
-							 	"name" : "Jon Snow",
+							 	"character" : "Jon Snow",
 							    "season" : 1,
 							    "episode" : 1
 						    },function(resp,err){if (err) {
@@ -332,7 +332,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 						    return resp;
 						});
 					})
-					.should.throw('No results in database',{name:'SearchError', characterName: 'Jon Snow'});
+					.should.throw('No results in database',{name:'SearchError', character: 'Jon Snow'});
 				});
 			});
 		});
@@ -350,8 +350,8 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							throw err;
 						}
 						should.ok(resp);
-						should.ok(resp.characterName);
-						resp.characterName.should.be.equal('Jon Snow');
+						should.ok(resp.character);
+						resp.character.should.be.equal('Jon Snow');
 						should.ok(resp.date);
 						resp.date.should.equal(date);
 						should.ok(resp.posSum);
@@ -382,8 +382,8 @@ setTimeout(function(){//This function is needed to get all the requires straight
 							throw err;
 						}
 						should.ok(resp);
-						should.ok(resp.characterName);
-						resp.characterName.should.be.equal('Jon Snow');
+						should.ok(resp.character);
+						resp.character.should.be.equal('Jon Snow');
 						should.ok(resp.posSum);
 						resp.posSum.should.be.aboveOrEqual(0);
 						should.ok(resp.negSum);
