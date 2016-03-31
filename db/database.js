@@ -63,10 +63,10 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
             var error = new SearchError('Usage of invalid database schema', startDate, charName);
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
-            var error = new SearchError('Invalid character name', startDate, charName);
+            error = new SearchError('Invalid character name', startDate, charName);
             callback(undefined, error);
         } else if (err) {
-            var error = new SearchError('Error connecting to database');
+            error = new SearchError('Error connecting to database');
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
             var json = JSON.parse(body);
@@ -77,7 +77,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
                 return dateframe && groupname; //only includes results from our group
             });
             if (json.length === 0) {
-                var error = new SearchError('No results in database', startDate, charName);
+                error = new SearchError('No results in database', startDate, charName);
                 callback(undefined, error);
             } else {
                 callback(json);
@@ -99,10 +99,10 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
             var error = new SearchError('Usage of invalid database schema', startDate, charName);
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
-            var error = new SearchError('Invalid character name or timeframe', startDate, charName);
+            error = new SearchError('Invalid character name or timeframe', startDate, charName);
             callback(undefined, error);
         } else if (err) {
-            var error = new SearchError('Error connecting to database');
+            error = new SearchError('Error connecting to database');
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
@@ -112,7 +112,7 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
             });
             //give JSON object to the callback function
             if (json.length === 0) {
-                var error = new SearchError('No results in database', startDate, charName);
+                error = new SearchError('No results in database', startDate, charName);
                 callback(undefined, error);
             } else {
                 callback(json);
@@ -139,10 +139,10 @@ exports.airDate = function (season, episode, callback) {
             var error = new SearchError('Usage of invalid database schema');
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
-            var error = new SearchError('Invalid season / episode');
+            error = new SearchError('Invalid season / episode');
             callback(undefined, error);
         } else if (err) {
-            var error = new SearchError('Error connecting to database');
+            error = new SearchError('Error connecting to database');
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
             //just get the airing date information
@@ -179,7 +179,7 @@ exports.characterNames = function (callback) {
             }
             //give JSON object to the callback function
             if (json.length === 0) {
-                var error = new SearchError('No results in database');
+                error = new SearchError('No results in database');
                 callback(undefined, error);
             } else {
                 callback(formatted);
