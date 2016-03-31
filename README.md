@@ -43,7 +43,7 @@ If you call `init` a second time, after a successful configuration, you can't ch
 ## Get a small amout of data
 ```javascript
 var json = {
-    "characterName" : "Jon Snow",
+    "character" : "Jon Snow",
     "date" : "2016-03-18T"
 };
 
@@ -57,7 +57,7 @@ Note that you specify the analyses, which you're about to get with an JSON-Objec
 The function gives a JSON-Object with the data to the callback-function. It contains the following properties. Here it is filled with some dummy data.
 ```javascript
 {
-  "characterName": "Jon Snow", 
+  "character": "Jon Snow",
   "date": "2016-03-18T", //date of the tweets
   "posSum": 23,          //sum of the positive sentiment score on that given day
   "negSum": 21,          //sum of the negative sentiment score on that given day
@@ -105,7 +105,7 @@ All functions give the callback an array, which contains JSON-Objects.
 Note, that this time there exists for every Character only **one** object, e.g. when you assign three to the `number`-property, the array contains three objects. The objects contain the following properties (filled with dummy-data):
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 66,
     "posCount": 11,
@@ -118,7 +118,7 @@ Note, that this time there exists for every Character only **one** object, e.g. 
 With this function you get the sentiments on a character for the specified episode and the following seven days. So you have to define the following JSON-Object:
 ```javascript
 var json = {
-     "name" : "Jon Snow",
+     "character" : "Jon Snow",
      "season" : 1,
      "episode" : 1
 }
@@ -129,7 +129,7 @@ gotdailysentiment.sentimentPerEpisode(json,callback);
 The callback gets one JSON-Object (In this case dummy-data):
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 21,
     "posCount": 11,
@@ -169,7 +169,7 @@ If you want to have real time analyses you need to use the function `runTwitterS
 Both functions give the result as the following json-object to the callback-function:
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 21,
     "posCount": 11,
