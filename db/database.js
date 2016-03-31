@@ -31,7 +31,7 @@ exports.inputValidation = function (json, callback) {
     if(nameTest || dateTest){
         var error;
         error = new SearchError('Invalid Input');
-        callback(false, error)
+        callback(false, error);
     } else {
         callback(true);
     }
@@ -83,11 +83,7 @@ exports.saveSentiment = function (charName, json) {
  }
  */
 exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
-    if(!inputValidation(charName, undefined, startDate, endDate)){
-        var error;
-        error = new SearchError('Invalid Input', startDate, charName);
-        callback(undefined, error);
-    }
+
     var url = config.database.sentimentGetChar;
     var startmil = (new Date(startDate)).getTime();
     var endmil = (new Date(endDate)).getTime();
@@ -127,11 +123,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
  Same result json as getSentimentForNameTimeframe
  */
 exports.getSentimentTimeframe = function (startDate, endDate, callback) {
-    if(!inputValidation(undefined, undefined, startDate, endDate)){
-        var error;
-        error = new SearchError('Invalid Input', startDate, charName);
-        callback(undefined, error);
-    }
+
     var url = config.database.sentimentGetAll;
     url = url.replace('startdate', startDate);
     url = url.replace('enddate', endDate);
