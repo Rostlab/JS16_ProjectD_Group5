@@ -70,7 +70,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
             error = new SearchError('Error connecting to database');
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
-            var json = JSON.parse(body);
+            var json = JSON.parse(body.data);
             json = json.filter(function (element) {
                 var date = new Date(element.date).getTime();
                 var dateframe = startmil <= date && endmil >= date;
@@ -108,7 +108,7 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
-            var json = JSON.parse(body);
+            var json = JSON.parse(body.data);
             json = json.filter(function (element) {
                 return element.description === "Group 5"; //only includes results from our group
             });
