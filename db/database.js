@@ -59,8 +59,9 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
         }
     };
     request.post(url, form, function (err, resp, body) {
+        var error;
         if (err && resp.statusCode === 400) {
-            var error = new SearchError('Usage of invalid database schema', startDate, charName);
+            error = new SearchError('Usage of invalid database schema', startDate, charName);
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
             error = new SearchError('Invalid character name', startDate, charName);
@@ -94,9 +95,10 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     url = url.replace('enddate', endDate);
 
     request.get(url, function (err, resp, body) {
+        var error;
         //check for valid response
         if (err && resp.statusCode === 400) {
-            var error = new SearchError('Usage of invalid database schema', startDate, charName);
+            error = new SearchError('Usage of invalid database schema', startDate, charName);
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
             error = new SearchError('Invalid character name or timeframe', startDate, charName);
@@ -135,8 +137,9 @@ exports.airDate = function (season, episode, callback) {
     };
     //Make POST request to API
     request.post(url, form, function (err, resp, body) {
+        var error;
         if (err && resp.statusCode === 400) {
-            var error = new SearchError('Usage of invalid database schema');
+            error = new SearchError('Usage of invalid database schema');
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
             error = new SearchError('Invalid season / episode');
@@ -162,9 +165,10 @@ exports.characterNames = function (callback) {
     var url = config.database.characterNamesURL;
     //GET request to API
     request.get(url, function (err, resp, body) {
+        var error;
         //check for valid response
         if (err) {
-            var error = new SearchError('Error connecting to database');
+            error = new SearchError('Error connecting to database');
             callback(undefined, error);
         }
         if (!err && resp.statusCode === 200) {
