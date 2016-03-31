@@ -187,3 +187,10 @@ The following fields can be filled in the Error.
     this.date= date;                    //This argument gets only filled if the reason for the error could be a wrong user input.
     this.searchedName= searchedName;    //Same goes for this one.
 ```
+
+
+
+
+
+###Copyright:
+Interface graphic by <a href="http://www.freepik.com/">Freepik</a> from <a href="http://www.flaticon.com/">Flaticon</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>. Made with <a href="http://logomakr.com" title="Logo Maker">Logo Maker</a>.
