@@ -39,5 +39,4 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
     } else {
         callback(sentimentJSON);
     }
-
 };
