@@ -23,7 +23,7 @@ SearchError.prototype.constructor = SearchError;
  */
 var inputValidation = function (json) {
     var nameTest = true;
-    if(json.hasOwnProperty("number")){
+    if (json.hasOwnProperty("number")) {
         nameTest = isNaN(json.number);
     }
     if (json.hasOwnProperty("character")) {
@@ -69,7 +69,6 @@ var getMostNFromArray2 = function (array, n, arrayOfProp) {
 };
 
 
-
 module.exports = {
 
     /*
@@ -82,7 +81,7 @@ module.exports = {
      */
     getSentimentForName: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -111,7 +110,7 @@ module.exports = {
                 var posDaily = 0;
                 var negDaily = 0;
                 var nullDaily = 0;
-                for(var i in json){
+                for (var i in json) {
                     posSentDaily += json[i].posSum;
                     negSentDaily += json[i].negSum;
                     posDaily += json[i].posCount;
@@ -142,7 +141,7 @@ module.exports = {
      */
     getSentimentForNameTimeframe: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -167,7 +166,7 @@ module.exports = {
      */
     topSentiment: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -188,7 +187,7 @@ module.exports = {
      */
     worstSentiment: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -210,7 +209,7 @@ module.exports = {
      */
     mostTalkedAbout: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -233,7 +232,7 @@ module.exports = {
      */
     topControversial: function (json, callback) {
         //validate input
-        if(!inputValidation(json)){
+        if (!inputValidation(json)) {
             var inputError = new SearchError('invalid input');
             callback(undefined, inputError);
             return;
@@ -260,20 +259,25 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
-        database.airDate(json.season, json.episode, function (date, error) {
-            if (error) {
-                callback(undefined, error);
-            } else {
-                var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
-                database.getSentimentForNameTimeframe(json.character, date.toISOString(), end.toISOString(), function (json, err) {
-                    if (err) {
-                        callback(undefined, err);
-                    } else {
-                        callback(json);
-                    }
-                });
-            }
-        });
+        if (json.character.length !== 0 && !isNaN(json.episode) && !isNaN(json.season)) {
+            database.airDate(json.season, json.episode, function (date, error) {
+                if (error) {
+                    callback(undefined, error);
+                } else {
+                    var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
+                    database.getSentimentForNameTimeframe(json.character, date.toISOString(), end.toISOString(), function (json, err) {
+                        if (err) {
+                            callback(undefined, err);
+                        } else {
+                            callback(json);
+                        }
+                    });
+                }
+            });
+        } else {
+            var invalid = new SearchError('Invalid character / season / episode', undefined, json.character);
+            callback(undefined, invalid);
+        }
     },
 
     /*

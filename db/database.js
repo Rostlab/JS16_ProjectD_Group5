@@ -59,31 +59,31 @@ exports.saveSentiment = function (charName, json) {
  description: String    // To distinguish between data sources. E.g. Group 6, Group 7
  }
  */
-exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
+exports.getSentimentForNameTimeframe = function (character, startDate, endDate, callback) {
 
     var url = config.database.sentimentGetChar;
     var startmil = (new Date(startDate)).getTime();
     var endmil = (new Date(endDate)).getTime();
     var form = {
         form: {
-            'character': charName
+            'character': character
         }
     };
-    request.post(url, form, function (err, resp, body) {
+    request.post(url, form, function (err, response, body) {
             var error;
             if (err) {
                 error = new SearchError('Error connecting to database');
                 callback(undefined, error);
             } else {
-                if (resp.statusCode === 400) {
-                    error = new SearchError('Usage of invalid database schema', startDate, charName);
+                if (response.statusCode === 400) {
+                    error = new SearchError('Usage of invalid database schema', startDate, character);
                     callback(undefined, error);
                 }
-                if (resp.statusCode === 404) {
-                    error = new SearchError('Invalid character name', startDate, charName);
+                if (response.statusCode === 404) {
+                    error = new SearchError('No data for this character', startDate, character);
                     callback(undefined, error);
                 }
-                if (resp.statusCode === 200) {
+                if (response.statusCode === 200) {
                     var json = JSON.parse(body);
                     var data = json.data;
                     json = data.filter(function (element) {
@@ -91,7 +91,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
                         return (endmil >= date) && (startmil <= date) && (element.description === "Group 5");
                     });
                     if (json.length === 0) {
-                        error = new SearchError('No results in database', startDate, charName);
+                        error = new SearchError('No results in database', startDate, character);
                         callback(undefined, error);
                     } else {
                         callback(json);
@@ -136,7 +136,7 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
                 callback(undefined, error);
             }
             if (resp.statusCode === 404) {
-                error = new SearchError('Invalid character name or timeframe', startDate);
+                error = new SearchError('Invalid character or timeframe', startDate);
                 callback(undefined, error);
             }
         }
