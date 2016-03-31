@@ -23,6 +23,9 @@ SearchError.prototype.constructor = SearchError;
  */
 var inputValidation = function (json) {
     var nameTest = true;
+    if(json.hasOwnProperty("number")){
+        nameTest = isNaN(json.number);
+    }
     if (json.hasOwnProperty("character")) {
         nameTest = (!json.character && 0 === json.character.length);
     }
@@ -262,7 +265,7 @@ module.exports = {
                 callback(undefined, error);
             } else {
                 var end = new Date(date.getTime() + ( 7 * 24 * 60 * 60 * 1000));
-                database.getSentimentForNameTimeframe(json.name, date.toISOString(), end.toISOString(), function (json, err) {
+                database.getSentimentForNameTimeframe(json.character, date.toISOString(), end.toISOString(), function (json, err) {
                     if (err) {
                         callback(undefined, err);
                     } else {
@@ -278,7 +281,7 @@ module.exports = {
      in the past at most
      */
     runTwitterREST: function (character, startDate, callback) {
-        twitterAPI.getRest(character, startDate, new Date(), false, callback);
+        twitterAPI.getRest(character, startDate, new Date().toISOString(), false, callback);
     },
 
     /*

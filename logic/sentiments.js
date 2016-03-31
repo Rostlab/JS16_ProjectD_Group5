@@ -33,7 +33,6 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
     sentimentJSON.negCount = (negTweets * (-1));
     sentimentJSON.nullCount = nullTweets;
     sentimentJSON.description = "Group 5";
-
     if (isSaved) {
         db.saveSentiment(characterName, sentimentJSON);
     } else {
