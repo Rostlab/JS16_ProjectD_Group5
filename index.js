@@ -42,12 +42,12 @@ module.exports = {
      Gets the score (positive and negative) for a character on a given day
      Input:
      {
-     "characterName" : "Jon Snow",
+     "character" : "Jon Snow",
      "date" : "2016-03-18"
      }
      */
     getSentimentForName: function (json, callback) {
-        //mongodb api here, then handle the response from mongodb
+        //make end date last millisecond of the day
         var end = new Date(json.date);
 		end.setHours(23);
 		end.setMinutes(59);
@@ -61,7 +61,7 @@ module.exports = {
 		start.setSeconds(0);
 		start.setMilliseconds(0);
 
-        database.getSentimentForNameTimeframe(json.characterName, start, end, function (json, err) {
+        database.getSentimentForNameTimeframe(json.character, start, end, function (json, err) {
             if (err) {
                 callback(undefined, err);
             } else {
@@ -74,14 +74,14 @@ module.exports = {
      returns Analysis over a timeframe (same as above)
      Input json:
      {
-     "name" : "Some Name",
+     "character" : "Some Name",
      "startDate" : ISODate",
      "endDate" : 'ISODate"
      }
      */
     getSentimentForNameTimeframe: function (json, callback) {
         //mongodb api here, then handle the response from mongodb
-        database.getSentimentForNameTimeframe(json.name, json.startDate, json.endDate, function (json, err) {
+        database.getSentimentForNameTimeframe(json.character, json.startDate, json.endDate, function (json, err) {
             if (err) {
                 callback(undefined, err);
             } else {
@@ -163,7 +163,7 @@ module.exports = {
      returns sentiments for name from airing date and the week after on (season,episode).
      Input:
      {
-     "name" : "Jon Snow",
+     "character" : "Jon Snow",
      "season" : 1,
      "episode" : 1
      }
@@ -189,15 +189,15 @@ module.exports = {
      run the twitter REST API for a character to fill the database with tweets. startDate can be 2 weeks
      in the past at most
      */
-    runTwitterREST: function (characterName, startDate, callback) {
-        twitterAPI.getRest(characterName, startDate, new Date(), false, callback);
+    runTwitterREST: function (character, startDate, callback) {
+        twitterAPI.getRest(character, startDate, new Date(), false, callback);
     },
 
     /*
      runs the twitter streaming API to fill the database for a character and a duration in seconds
      */
-    runTwitterStreaming: function (characterName, duration, callback) {
-        twitterAPI.getStream(characterName, duration, false, callback);
+    runTwitterStreaming: function (character, duration, callback) {
+        twitterAPI.getStream(character, duration, false, callback);
     },
 
     /*

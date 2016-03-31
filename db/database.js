@@ -8,7 +8,7 @@ var SearchError = function (message, date, searchedName){
     this.message= message || 'Some Failure happened while searching for a SentimentAnalysis';
     this.stack= (new Error()).stack;
     this.date= date;
-    this.searchedName= searchedName;
+    this.character = searchedName;
 };
 
 SearchError.prototype = Object.create(Error.prototype);
