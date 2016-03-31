@@ -175,3 +175,15 @@ Both functions give the result as the following json-object to the callback-func
     "nullCount": 8
 }
 ```
+
+###Errors
+If there is wrong user input or user input which can't be computed, e.g. searching for sentiments late in 1990, the second argument of the callback  contains a `SearchError`.
+
+The following fields can be filled in the Error.
+```javascript
+    this.name='SearchError';
+    this.message= message || 'Some Failure happened while searching for a SentimentAnalyses';
+    this.stack= (new Error()).stack;
+    this.date= date;                    //This argument gets only filled if the reason for the error could be a wrong user input.
+    this.searchedName= searchedName;    //Same goes for this one.
+```
