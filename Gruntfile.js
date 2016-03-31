@@ -14,7 +14,7 @@ module.exports=function (grunt){
 				reporter: 'spec',
 				delay: true
 			},
-			all: ['test/*.js']
+			all: ['test/apiTest.js']
 		}
 	});
 
