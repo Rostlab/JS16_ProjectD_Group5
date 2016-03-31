@@ -48,14 +48,20 @@ module.exports = {
      */
     getSentimentForName: function (json, callback) {
         //mongodb api here, then handle the response from mongodb
-		console.log(json.date);
         var end = new Date(json.date);
 		end.setHours(23);
 		end.setMinutes(59);
 		end.setSeconds(59);
 		end.setMilliseconds(999);
 		end = end.toISOString();
-        database.getSentimentForNameTimeframe(json.characterName, json.date, end, function (json, err) {
+		//ensure start date is at 00:00:000
+		var start = new Date(json.date);
+		start.setHours(0);
+		start.setMinutes(0);
+		start.setSeconds(0);
+		start.setMilliseconds(0);
+
+        database.getSentimentForNameTimeframe(json.characterName, start, end, function (json, err) {
             if (err) {
                 callback(undefined, err);
             } else {
