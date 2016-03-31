@@ -152,14 +152,14 @@ exports.airDate = function (season, episode, callback) {
         var error;
         if (err && resp.statusCode === 400) {
             error = new SearchError('Usage of invalid database schema');
-            callback(undefined, error);
-        } else if (err && resp.statusCode === 404) {
+            callback1(undefined, error);
+        } else if (err1 && resp.statusCode === 404) {
             error = new SearchError('Invalid season / episode');
-            callback(undefined, error);
+            callback1(undefined, error);
         } else if (err) {
             error = new SearchError('Error connecting to database');
-            callback(undefined, error);
-        } else if (!err && resp.statusCode === 200) {
+            callback1(undefined, error);
+        } else if (resp.statusCode === 200) {
             //just get the airing date information
             var json = JSON.parse(body);
             var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
