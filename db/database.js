@@ -14,6 +14,23 @@ var SearchError = function (message, date, searchedName){
 SearchError.prototype = Object.create(Error.prototype);
 SearchError.prototype.constructor = SearchError;
 /*
+Checks if the name and date combination are valid inputs. false -> bad input. true -> good input
+ */
+var inputValidation = function (character, date, startDate, endDate) {
+    var nameTest = false;
+    if (character) {
+        nameTest = (0 === json.character.length);
+    }
+    var dateTest = true;
+    if (date) {
+        dateTest = isNaN(Date.parse(date));
+    }
+    if (startDate && endDate) {
+        dateTest = isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate));
+    }
+    return !(nameTest || dateTest);
+};
+/*
  Saves a json to the character in the database
  json format:
  {
@@ -59,6 +76,11 @@ exports.saveSentiment = function (charName, json) {
  }
  */
 exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
+    if(!inputValidation(charName, undefined, startDate, endDate)){
+        var error;
+        error = new SearchError('Invalid Input', startDate, charName);
+        callback(undefined, error);
+    }
     var url = config.database.sentimentGetChar;
     var startmil = (new Date(startDate)).getTime();
     var endmil = (new Date(endDate)).getTime();
@@ -98,6 +120,11 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
  Same result json as getSentimentForNameTimeframe
  */
 exports.getSentimentTimeframe = function (startDate, endDate, callback) {
+    if(!inputValidation(undefined, undefined, startDate, endDate)){
+        var error;
+        error = new SearchError('Invalid Input', startDate, charName);
+        callback(undefined, error);
+    }
     var url = config.database.sentimentGetAll;
     url = url.replace('startdate', startDate);
     url = url.replace('enddate', endDate);
@@ -106,10 +133,10 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
         var error;
         //check for valid response
         if (err && resp.statusCode === 400) {
-            error = new SearchError('Usage of invalid database schema', startDate, charName);
+            error = new SearchError('Usage of invalid database schema', startDate);
             callback(undefined, error);
         } else if (err && resp.statusCode === 404) {
-            error = new SearchError('Invalid character name or timeframe', startDate, charName);
+            error = new SearchError('Invalid character name or timeframe', startDate);
             callback(undefined, error);
         } else if (err) {
             error = new SearchError('Error connecting to database');
@@ -123,7 +150,7 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
             });
             //give JSON object to the callback function
             if (json.length === 0) {
-                error = new SearchError('No results in database', startDate, charName);
+                error = new SearchError('No results in database', startDate);
                 callback(undefined, error);
             } else {
                 callback(json);

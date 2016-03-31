@@ -2,6 +2,7 @@ var automation = require('./logic/automate.js');
 var twitterAPI = require('./logic/twitterAPI.js');
 var database = require('./db/database.js');
 
+
 //start automation as default
 automation.startAutomation();
 
@@ -36,6 +37,7 @@ var getMostNFromArray2 = function (array, n, arrayOfProp) {
 };
 
 
+
 module.exports = {
 
     /*
@@ -49,17 +51,17 @@ module.exports = {
     getSentimentForName: function (json, callback) {
         //make end date last millisecond of the day
         var end = new Date(json.date);
-		end.setHours(23);
-		end.setMinutes(59);
-		end.setSeconds(59);
-		end.setMilliseconds(999);
-		end = end.toISOString();
-		//ensure start date is at 00:00:000
-		var start = new Date(json.date);
-		start.setHours(0);
-		start.setMinutes(0);
-		start.setSeconds(0);
-		start.setMilliseconds(0);
+        end.setHours(23);
+        end.setMinutes(59);
+        end.setSeconds(59);
+        end.setMilliseconds(999);
+        end = end.toISOString();
+        //ensure start date is at 00:00:000
+        var start = new Date(json.date);
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
 
         database.getSentimentForNameTimeframe(json.character, start, end, function (json, err) {
             if (err) {
