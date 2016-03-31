@@ -70,31 +70,35 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
         }
     };
     request.post(url, form, function (err, resp, body) {
-        var error;
-        if (err && resp.statusCode === 400) {
-            error = new SearchError('Usage of invalid database schema', startDate, charName);
-            callback(undefined, error);
-        } else if (err && resp.statusCode === 404) {
-            error = new SearchError('Invalid character name', startDate, charName);
-            callback(undefined, error);
-        } else if (err) {
-            error = new SearchError('Error connecting to database');
-            callback(undefined, error);
-        } else if (!err && resp.statusCode === 200) {
-            var json = JSON.parse(body);
-            var data = json.data;
-            json = data.filter(function (element) {
-                var date = new Date(element.date).getTime();
-                return (endmil >= date) && (startmil <= date) && (element.description === "Group 5");
-            });
-            if (json.length === 0) {
-                error = new SearchError('No results in database', startDate, charName);
+            var error;
+            if (err) {
+                error = new SearchError('Error connecting to database');
                 callback(undefined, error);
             } else {
-                callback(json);
+                if (resp.statusCode === 400) {
+                    error = new SearchError('Usage of invalid database schema', startDate, charName);
+                    callback(undefined, error);
+                }
+                if (resp.statusCode === 404) {
+                    error = new SearchError('Invalid character name', startDate, charName);
+                    callback(undefined, error);
+                }
+                if (resp.statusCode === 200) {
+                    var json = JSON.parse(body);
+                    var data = json.data;
+                    json = data.filter(function (element) {
+                        var date = new Date(element.date).getTime();
+                        return (endmil >= date) && (startmil <= date) && (element.description === "Group 5");
+                    });
+                    if (json.length === 0) {
+                        error = new SearchError('No results in database', startDate, charName);
+                        callback(undefined, error);
+                    } else {
+                        callback(json);
+                    }
+                }
             }
-        }
-    });
+        });
 };
 /*
  Same result json as getSentimentForNameTimeframe
@@ -108,28 +112,32 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     request.get(url, function (err, resp, body) {
         var error;
         //check for valid response
-        if (err && resp.statusCode === 400) {
-            error = new SearchError('Usage of invalid database schema', startDate);
-            callback(undefined, error);
-        } else if (err && resp.statusCode === 404) {
-            error = new SearchError('Invalid character name or timeframe', startDate);
-            callback(undefined, error);
-        } else if (err) {
+        if (err) {
             error = new SearchError('Error connecting to database');
             callback(undefined, error);
-        } else if (!err && resp.statusCode === 200) {
-            //parse answer String to a JSON Object
-            var json = JSON.parse(body);
-            var data = json.data;
-            json = data.filter(function (element) {
-                return element.description === "Group 5"; //only includes results from our group
-            });
-            //give JSON object to the callback function
-            if (json.length === 0) {
-                error = new SearchError('No results in database', startDate);
+        } else {
+            if (resp.statusCode === 200) {
+                //parse answer String to a JSON Object
+                var json = JSON.parse(body);
+                var data = json.data;
+                json = data.filter(function (element) {
+                    return element.description === "Group 5"; //only includes results from our group
+                });
+                //give JSON object to the callback function
+                if (json.length === 0) {
+                    error = new SearchError('No results in database', startDate);
+                    callback(undefined, error);
+                } else {
+                    callback(json);
+                }
+            }
+            if (resp.statusCode === 400) {
+                error = new SearchError('Usage of invalid database schema', startDate);
                 callback(undefined, error);
-            } else {
-                callback(json);
+            }
+            if (resp.statusCode === 404) {
+                error = new SearchError('Invalid character name or timeframe', startDate);
+                callback(undefined, error);
             }
         }
     });
@@ -150,21 +158,25 @@ exports.airDate = function (season, episode, callback) {
     //Make POST request to API
     request.post(url, form, function (err, resp, body) {
         var error;
-        if (err && resp.statusCode === 400) {
-            error = new SearchError('Usage of invalid database schema');
-            callback1(undefined, error);
-        } else if (err1 && resp.statusCode === 404) {
-            error = new SearchError('Invalid season / episode');
-            callback1(undefined, error);
-        } else if (err) {
+        if(err){
             error = new SearchError('Error connecting to database');
-            callback1(undefined, error);
-        } else if (resp.statusCode === 200) {
-            //just get the airing date information
-            var json = JSON.parse(body);
-            var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
-            //make a Date object for the callback function to use
-            callback(new Date(airDate));
+            callback(undefined, error);
+        } else {
+            if (resp.statusCode === 400) {
+                error = new SearchError('Usage of invalid database schema');
+                callback1(undefined, error);
+            }
+            if (resp.statusCode === 404) {
+                error = new SearchError('Invalid season / episode');
+                callback(undefined, error);
+            }
+            if (resp.statusCode === 200) {
+                //just get the airing date information
+                var json = JSON.parse(body);
+                var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
+                //make a Date object for the callback function to use
+                callback(new Date(airDate));
+            }
         }
     });
 };
