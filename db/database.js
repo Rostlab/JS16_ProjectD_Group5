@@ -62,12 +62,13 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
         if (err && resp.statusCode === 400) {
             var error = new SearchError('Usage of invalid database schema', startDate, charName);
             callback(undefined, error);
-        }
-        if (err && resp.statusCode === 404) {
+        } else if (err && resp.statusCode === 404) {
             var error = new SearchError('Invalid character name', startDate, charName);
             callback(undefined, error);
-        }
-        if (!err && resp.statusCode === 200) {
+        } else if (err) {
+            var error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        } else if (!err && resp.statusCode === 200) {
             var json = JSON.parse(body);
             json = json.filter(function (element) {
                 var date = new Date(element.date).getTime();
@@ -91,17 +92,19 @@ exports.getSentimentTimeframe = function (startDate, endDate, callback) {
     var url = config.database.sentimentGetAll;
     url = url.replace('startdate', startDate);
     url = url.replace('enddate', endDate);
-    if (err && resp.statusCode === 400) {
-        var error = new SearchError('Usage of invalid database schema', startDate, charName);
-        callback(undefined, error);
-    }
-    if (err && resp.statusCode === 404) {
-        var error = new SearchError('Invalid character name or timeframe', startDate, charName);
-        callback(undefined, error);
-    }
+
     request.get(url, function (err, resp, body) {
         //check for valid response
-        if (!err && resp.statusCode === 200) {
+        if (err && resp.statusCode === 400) {
+            var error = new SearchError('Usage of invalid database schema', startDate, charName);
+            callback(undefined, error);
+        } else if (err && resp.statusCode === 404) {
+            var error = new SearchError('Invalid character name or timeframe', startDate, charName);
+            callback(undefined, error);
+        } else if (err) {
+            var error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        } else if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
             json = json.filter(function (element) {
@@ -135,12 +138,13 @@ exports.airDate = function (season, episode, callback) {
         if (err && resp.statusCode === 400) {
             var error = new SearchError('Usage of invalid database schema');
             callback(undefined, error);
-        }
-        if (err && resp.statusCode === 404) {
+        } else if (err && resp.statusCode === 404) {
             var error = new SearchError('Invalid season / episode');
             callback(undefined, error);
-        }
-        if (!err && resp.statusCode === 200) {
+        } else if (err) {
+            var error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        } else if (!err && resp.statusCode === 200) {
             //just get the airing date information
             var json = JSON.parse(body);
             var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
@@ -159,11 +163,9 @@ exports.characterNames = function (callback) {
     //GET request to API
     request.get(url, function (err, resp, body) {
         //check for valid response
-        if(err){
-            //TODO time out handling. Logs are for testing
-            console.error(err);
-            console.error(resp);
-            console.log(body);
+        if (err) {
+            var error = new SearchError('Error connecting to database');
+            callback(undefined, error);
         }
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
