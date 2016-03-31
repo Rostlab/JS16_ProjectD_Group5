@@ -4,9 +4,23 @@ setTimeout(function(){//This function is needed to get all the requires straight
 	wholeDataArray = require ('../test/testData.json'),
 	dataArray = [];
 	api = require ('../main.js').init(confjson);
-	for (var yps =0; Math.min(wholeDataArray.length,5)>yps; yps+=1){
+	var oneDateData = wholeDataArray.filter(function f (elem){
+		var wish = new Date(dataArray[0].date);
+		elem = new Date(elem.date);
+		if (wish.getFullYear()!==elem.getFullYear()){
+			return false;
+		}
+		if (wish.getMonth()!==elem.getMonth()){
+			return false;
+		}
+		if (wish.getDate()!==elem.getDate()){
+			return false;
+		}
+		return true;
+	});
+	for (var yps =0; Math.min(oneDateData.length,5)>yps; yps+=1){
 		while(true){
-			dataArray[yps] = wholeDataArray[Math.floor(Math.random()*(wholeDataArray.length))];
+			dataArray[yps] = oneDateData[Math.floor(Math.random()*(oneDateData.length))];
 			if (dataArray[yps].description ==='Group 5'){
 				break;
 				//Asserts that only data from GROUP5 is used.
@@ -83,7 +97,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it ('should throw an SearchException',function (done){
 					(function (){
 						api.getSentimentForName({"searchedName":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
-							if (err) {
+							if (err){
 								done(); 
 								throw err;
 							}
@@ -168,7 +182,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		context('Tops and Flops',function(){
-			var oneDateData = wholeDataArray.filter(function f (elem){
+			oneDateData = wholeDataArray.filter(function f (elem){
 				var wish = new Date(dataArray[0].date);
 				elem = new Date(elem.date);
 				if (wish.getFullYear()!==elem.getFullYear()){
