@@ -1,5 +1,4 @@
 ![](./gotsentimentlogo.png)
-# gotdailysentiment
 Joffrey Baratheon is one of the most loathed characters in TV history. As a matter of fact people were celebrating his TV death on Twitter. We are interested to learn more on how people feel about different characters by analyzing tweets mentioning GoT characters. This package provides you with functions, which will return interesting Data about Tweets on characters from "Game of Thrones".
 
 ## Installation
