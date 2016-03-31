@@ -111,7 +111,7 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
                 error = new SearchError('No results in database', startDate, charName);
                 callback(undefined, error);
             } else {
-                callback(result);
+                callback(json);
             }
         }
     });
