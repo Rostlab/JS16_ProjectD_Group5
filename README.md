@@ -30,7 +30,7 @@ The config-JSON needs to specify the following properties:
     "sentimentGetAll": "xxxxx"
   },
   "automation": {
-    "minutes": 12
+    "minutes": 2
   }
 }
 ```
@@ -137,7 +137,7 @@ The callback gets one JSON-Object (In this case dummy-data):
 ```
 
 ## Automatic analyses
-As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every 12 minutes unless you've specified something else in the congifurations Every 12 minutes this function takes one of the most popular characters and looks up all Tweets about this character since the last time. These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. You get the finest possible granularity with the default intervall, as the Twitter API limits the queries to their Databases. With the default every Character gets updated once per day.
+As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every x minutes, which you have to specify in the config-JSON. Let's say you specified 2 minutes: Every 2 minutes now this function takes one of the most popular characters and looks up all Tweets about this character since the last time. The list of the popular characters can be found [here](https://github.com/Rostlab/JS16_ProjectD_Group5/blob/develop/popChars/popChars.json). These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. We suggest to have an interval, that every character gets updated once per day. This depends on the length of the popChars-list.
 
 If you want to stop the automation you may do this with the following function:
 ```javascript
