@@ -6,6 +6,35 @@ var database = require('./db/database.js');
 //start automation as default
 automation.startAutomation();
 
+//Error handling
+
+var SearchError = function (message, date, searchedName) {
+    this.name = 'SearchError';
+    this.message = message || 'Some Failure happened while searching for a SentimentAnalysis';
+    this.stack = (new Error()).stack;
+    this.date = date;
+    this.character = searchedName;
+};
+
+SearchError.prototype = Object.create(Error.prototype);
+SearchError.prototype.constructor = SearchError;
+/*
+ Checks if the name and date combination are valid inputs. false -> bad input. true -> good input
+ */
+var inputValidation = function (json) {
+    var nameTest = true;
+    if (json.hasOwnProperty("character")) {
+        nameTest = (!json.character && 0 === json.character.length);
+    }
+    var dateTest = true;
+    if (json.hasOwnProperty("date")) {
+        dateTest = isNaN(Date.parse(json.date));
+    }
+    if (json.hasOwnProperty("startDate") && json.hasOwnProperty("endDate")) {
+        dateTest = isNaN(Date.parse(json.startDate)) || isNaN(Date.parse(json.endDate));
+    }
+    return !(nameTest || dateTest);
+};
 //get n biggest element from the list
 //i: position of the value in object
 var getMostNFromArray1 = function (array, n, property) {
@@ -50,11 +79,11 @@ module.exports = {
      */
     getSentimentForName: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         //make end date last millisecond of the day
         var end = new Date(json.date);
         end.setHours(23);
@@ -110,11 +139,11 @@ module.exports = {
      */
     getSentimentForNameTimeframe: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         //mongodb api here, then handle the response from mongodb
         database.getSentimentForNameTimeframe(json.character, json.startDate, json.endDate, function (json, err) {
             if (err) {
@@ -135,11 +164,11 @@ module.exports = {
      */
     topSentiment: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -156,11 +185,11 @@ module.exports = {
      */
     worstSentiment: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -178,11 +207,11 @@ module.exports = {
      */
     mostTalkedAbout: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -201,11 +230,11 @@ module.exports = {
      */
     topControversial: function (json, callback) {
         //validate input
-        database.inputValidation(json, function(res, err){
-            if(!res){
-                callback(undefined, err);
-            }
-        });
+        if(!inputValidation(json)){
+            var inputError = new SearchError('invalid input');
+            callback(undefined, inputError);
+            return;
+        }
         var number = json.number;
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
@@ -228,7 +257,6 @@ module.exports = {
      }
      */
     sentimentPerEpisode: function (json, callback) {
-        //validate input
         database.airDate(json.season, json.episode, function (date, error) {
             if (error) {
                 callback(undefined, error);

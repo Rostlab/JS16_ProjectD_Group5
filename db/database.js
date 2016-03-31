@@ -13,29 +13,6 @@ var SearchError = function (message, date, searchedName) {
 
 SearchError.prototype = Object.create(Error.prototype);
 SearchError.prototype.constructor = SearchError;
-/*
- Checks if the name and date combination are valid inputs. false -> bad input. true -> good input
- */
-exports.inputValidation = function (json, callback) {
-    var nameTest = true;
-    if (json.hasOwnProperty("character")) {
-        nameTest = (!json.character && 0 === json.character.length);
-    }
-    var dateTest = true;
-    if (json.hasOwnProperty("date")) {
-        dateTest = isNaN(Date.parse(json.date));
-    }
-    if (json.hasOwnProperty("startDate") && json.hasOwnProperty("endDate")) {
-        dateTest = isNaN(Date.parse(json.startDate)) || isNaN(Date.parse(json.endDate));
-    }
-    if (nameTest || dateTest) {
-        var error;
-        error = new SearchError('Invalid Input');
-        callback(false, error);
-    } else {
-        callback(true);
-    }
-};
 
 /*
  Saves a json to the character in the database
