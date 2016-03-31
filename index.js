@@ -67,7 +67,27 @@ module.exports = {
             if (err) {
                 callback(undefined, err);
             } else {
-                callback(json);
+                var result = {};
+                var posSentDaily = 0;
+                var negSentDaily = 0;
+                var posDaily = 0;
+                var negDaily = 0;
+                var nullDaily = 0;
+                for(var i in json){
+                    posSentDaily += json[i].posSum;
+                    negSentDaily += json[i].negSum;
+                    posDaily += json[i].posCount;
+                    negDaily += json[i].negCount;
+                    nullDaily += json[i].nullCount;
+                }
+                result.character = json[0].character;
+                result.description = json[0].description;
+                result.posSum = posSentDaily;
+                result.negSum = negSentDaily;
+                result.posCount = posDaily;
+                result.negCount = negDaily;
+                result.nullCount = nullDaily;
+                callback(result);
             }
         });
     },
