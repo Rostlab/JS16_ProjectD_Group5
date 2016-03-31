@@ -79,7 +79,6 @@ exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, c
             error = new SearchError('Error connecting to database');
             callback(undefined, error);
         } else if (!err && resp.statusCode === 200) {
-
             var json = JSON.parse(body);
             var data = json.data;
             json = data.filter(function (element) {
