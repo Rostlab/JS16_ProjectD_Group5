@@ -106,7 +106,7 @@ module.exports = {
         //mongodb api here, then handle the response from mongodb
         database.getSentimentTimeframe(json.startDate, json.endDate, function (json, err) {
             if (err) {
-                callback(undefined, err)
+                callback(undefined, err);
             } else {
                 var res = getMostNFromArray1(json, number, "negSum");
                 callback(res);
@@ -170,7 +170,7 @@ module.exports = {
                     }
                 });
             }
-        })
+        });
     },
 
     /*
