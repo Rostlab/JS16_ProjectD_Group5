@@ -68,13 +68,10 @@ function getJSONTweetArray(tweetArray, characterName) {
 
 function getTweetAsJSON(tweet, characterName) {
     var jsonTweet = {};
-    // jsonTweet.id = tweet.id_str;
-    // jsonTweet.characterName = characterName;
     jsonTweet.created_at = tweet.created_at;
     jsonTweet.text = tweet.text;
     jsonTweet.retweeted = tweet.retweet_count;
     jsonTweet.fav = tweet.favorite_count;
-    // jsonTweet.lang = tweet.lang;
     return jsonTweet;
 }
 
