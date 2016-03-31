@@ -63,13 +63,13 @@ setTimeout(function(){//This function is needed to get all the requires straight
 									done();
 									throw err;
 								}
-								resp[0].character.should.be.equal(data.character);
-								resp[0].date.should.be.equal(data.date);
-								resp[0].posSum.should.be.equal(data.posSum);
-								resp[0].negSum.should.be.equal(data.negSum);
-								resp[0].posCount.should.be.equal(data.posCount);
-								resp[0].negCount.should.be.equal(data.negCount);
-								resp[0].nullCount.should.be.equal(data.nullCount);
+								resp.character.should.be.equal(data.character);
+								resp.date.should.be.equal(data.date);
+								resp.posSum.should.be.equal(data.posSum);
+								resp.negSum.should.be.equal(data.negSum);
+								resp.posCount.should.be.equal(data.posCount);
+								resp.negCount.should.be.equal(data.negCount);
+								resp.nullCount.should.be.equal(data.nullCount);
 								done();
 							});
 						});

@@ -164,7 +164,7 @@ exports.airDate = function (season, episode, callback) {
         } else {
             if (resp.statusCode === 400) {
                 error = new SearchError('Usage of invalid database schema');
-                callback1(undefined, error);
+                callback(undefined, error);
             }
             if (resp.statusCode === 404) {
                 error = new SearchError('Invalid season / episode');
