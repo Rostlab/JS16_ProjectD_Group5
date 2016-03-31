@@ -19,7 +19,7 @@ Checks if the name and date combination are valid inputs. false -> bad input. tr
 var inputValidation = function (character, date, startDate, endDate) {
     var nameTest = false;
     if (character) {
-        nameTest = (0 === json.character.length);
+        nameTest = (0 === character.length);
     }
     var dateTest = true;
     if (date) {
