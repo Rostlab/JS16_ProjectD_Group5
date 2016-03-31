@@ -3,18 +3,18 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
-var SearchError = function (message, date, searchedName){
-    this.name='SearchError';
-    this.message= message || 'Some Failure happened while searching for a SentimentAnalysis';
-    this.stack= (new Error()).stack;
-    this.date= date;
+var SearchError = function (message, date, searchedName) {
+    this.name = 'SearchError';
+    this.message = message || 'Some Failure happened while searching for a SentimentAnalysis';
+    this.stack = (new Error()).stack;
+    this.date = date;
     this.character = searchedName;
 };
 
 SearchError.prototype = Object.create(Error.prototype);
 SearchError.prototype.constructor = SearchError;
 /*
-Checks if the name and date combination are valid inputs. false -> bad input. true -> good input
+ Checks if the name and date combination are valid inputs. false -> bad input. true -> good input
  */
 exports.inputValidation = function (json, callback) {
     var nameTest = true;
@@ -28,7 +28,7 @@ exports.inputValidation = function (json, callback) {
     if (json.hasOwnProperty("startDate") && json.hasOwnProperty("endDate")) {
         dateTest = isNaN(Date.parse(json.startDate)) || isNaN(Date.parse(json.endDate));
     }
-    if(nameTest || dateTest){
+    if (nameTest || dateTest) {
         var error;
         error = new SearchError('Invalid Input');
         callback(false, error);
