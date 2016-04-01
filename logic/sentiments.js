@@ -36,6 +36,7 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
     if (isSaved) {
         db.saveSentiment(characterName, sentimentJSON);
     } else {
+        sentimentJSON.character = characterName;
         callback(sentimentJSON);
     }
 };
