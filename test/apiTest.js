@@ -66,7 +66,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 								}
 								resp.character.should.be.equal(data.character);
 								compDate = new Date(data.date);
-								(new Date(resp.date)).should.be.equal(new Date(compDate.getFullYear(),compDate.getMonth(),compDate.getDate()));
+								(resp.date).should.be.equal(new Date(compDate.getFullYear(),compDate.getMonth(),compDate.getDate()).toISOString());
 								resp.posSum.should.be.equal(data.posSum);
 								resp.negSum.should.be.equal(data.negSum);
 								resp.posCount.should.be.equal(data.posCount);
