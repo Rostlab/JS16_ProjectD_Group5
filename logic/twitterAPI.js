@@ -27,7 +27,8 @@ exports.getStream = function (characterName, duration, isSaved, callback) {
             var currentTime = new Date();
             if (currentTime.getTime() >= (startTime.getTime() + duration * 1000)) {
                 console.log('Timelimit reached!');
-                runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
+                var filteredTweets = filterTweetsByHashtags(tweetArray, characterName);
+                runSentimentAnalysis(filteredTweets, characterName, currentDate, currentDate, isSaved, callback);
                 stream.destroy();
             }
         });
@@ -49,7 +50,8 @@ exports.getRest = function (characterName, startDate, endDate, isSaved, callback
             var tweet = statuses[index];
             tweetArray.push(tweet);
         }
-        runSentimentAnalysis(tweetArray, characterName, startDate, endDate, isSaved, callback);
+        var filteredTweets = filterTweetsByHashtags(tweetArray, characterName);
+        runSentimentAnalysis(filteredTweets, characterName, startDate, endDate, isSaved, callback);
     });
 };
 
@@ -98,4 +100,32 @@ function removeParentheses(string) {
         string = string.slice(0, string.indexOf("(")).trim();
     }
     return string;
+}
+
+function filterTweetsByHashtags(tweets, characterName) {
+    var filteredTweets = [];
+    if(characterName.indexOf(' ') > -1){
+        return tweets;
+    } else {
+        for (var index in tweets) {
+            var hashtags = [];
+            var hashtagArray = tweets[index].entities.hashtags;
+            for (var i in hashtagArray) {
+                var hashtag = hashtagArray[i].text.toLocaleLowerCase();
+                hashtags.push(hashtag);
+            }
+            if (hashtags.indexOf("got") > -1) {
+                filteredTweets.push(tweets[index]);
+            } else {
+                for (var j in hashtags) {
+                    if (hashtags[j].indexOf("thrones") > -1){
+                        filteredTweets.push((tweets[index]));
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+    return filteredTweets;
 }
