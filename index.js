@@ -108,6 +108,7 @@ module.exports = {
         start.setMinutes(0);
         start.setSeconds(0);
         start.setMilliseconds(0);
+        start = start.toISOString();
 
         database.getSentimentForNameTimeframe(json.character, start, end, function (json, err) {
             if (err) {
