@@ -361,10 +361,10 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		describe('#runTwitterStreaming',function() {
-			this.timeout(3000);
+			this.timeout(30000);
 			describe('Scrapes data for the next half minute for Jon Snow:',function(){
 				it('Specified response-JSON gets checked:',function(done){
-					api.runTwitterStreaming('Jon Snow', 0.1, function(resp,err){
+					api.runTwitterStreaming('Jon Snow', 10, function(resp,err){
 						if (err){
 							return done(err);
 						}
