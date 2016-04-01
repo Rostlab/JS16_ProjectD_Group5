@@ -112,10 +112,10 @@ function filterTweetsByHashtags(tweets, characterName) {
             var hashtagArray = tweets[index].entities.hashtags;
             for (var i in hashtagArray) {
                 var hashtag = hashtagArray[i].text.toLocaleLowerCase();
-                hashtags.push(hashtag)
+                hashtags.push(hashtag);
             }
             if (hashtags.indexOf("got") > -1) {
-                filteredTweets.push(tweets[index])
+                filteredTweets.push(tweets[index]);
             } else {
                 for (var j in hashtags) {
                     if (hashtags[j].indexOf("thrones") > -1){
