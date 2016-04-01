@@ -33,16 +33,11 @@ exports.getStream = function (characterName, duration, isSaved, callback) {
     client.stream('statuses/filter', {track: trimmedCharacterName}, function (stream) {
         stream.on('data', function (tweet) {
             tweetArray.push(tweet);
-            var currentTime = new Date();
-            if (currentTime.getTime() >= (startTime.getTime() + duration * 1000)) {
-                console.log('Timelimit reached!');
-                var filteredTweets = filterTweetsByHashtags(tweetArray, characterName);
-                runSentimentAnalysis(filteredTweets, characterName, currentDate, currentDate, isSaved, callback);
-                stream.destroy();
-            }
         });
         stream.on('error', function (error) {
-            throw error;
+            stream.destroy();
+            var streamError = new SearchError('Error connecting to Twitter. Check connection and request limit!');
+            callback(undefined, streamError);
         });
         setTimeout(function () {
             stream.destroy();
