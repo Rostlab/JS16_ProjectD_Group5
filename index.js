@@ -38,7 +38,7 @@ var inputValidation = function (json) {
     }
     var dateRange = false;
     if(!dateTest){
-        dateRange = (new Date(json.endDate).getTime() - new Date(json.startDate).getTime())<=0;
+        dateRange = (new Date(json.endDate).getTime() - new Date(json.startDate).getTime())<0;
     }
     return !(nameTest || dateTest || dateRange);
 };
