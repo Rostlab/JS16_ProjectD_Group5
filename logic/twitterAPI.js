@@ -34,19 +34,19 @@ exports.getStream = function (characterName, duration, isSaved, callback) {
         stream.on('data', function (tweet) {
             tweetArray.push(tweet);
         });
-        stream.on('error', function (error) {
-            stream.destroy();
+        stream.on('error', function () {
             var streamError = new SearchError('Error connecting to Twitter. Check connection and request limit!');
             callback(undefined, streamError);
+            stream.destroy();
         });
         setTimeout(function () {
-            stream.destroy();
             if (tweetArray.length === 0) {
                 var error = new SearchError('No tweets recorded', new Date().toISOString(), characterName);
                 callback(undefined, error);
             } else {
                 runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
             }
+            stream.destroy();
         }, duration * 1000);
     });
 
