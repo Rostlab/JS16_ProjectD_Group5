@@ -38,37 +38,8 @@ var inputValidation = function (json) {
     }
     return !(nameTest || dateTest);
 };
-//get n biggest element from the list
-//i: position of the value in object
-var getMostNFromArray1 = function (array, n, property) {
-    var nMost = new Array(n);
-    //sorting the list in decreasing oder
-    array.sort(function (a, b) {
-        return b[property] - a[property];
-    });
-    for (var j = 0; j < n; j++) {
-        nMost[j] = array[j];
-    }
-    return nMost;
-};
-var getMostNFromArray2 = function (array, n, arrayOfProp) {
-    var nMost = new Array(n);
-    //sorting the list in decreasing oder
-    array.sort(function (a, b) {
-        var aSum = 0, bSum = 0;
-        for (var k = 0; k < arrayOfProp.length; k++) {
-            aSum += a[arrayOfProp[k]];
-            bSum += b[arrayOfProp[k]];
-        }
-        return aSum - bSum;
-    });
-    for (var j = 0; j < n; j++) {
-        nMost[j] = array[j];
-    }
-    return nMost;
-};
 
-var calculateTopSum = function (array, n, property1, property2) {
+var calculateTopSum = function (array, n, properties) {
     var result = [];
     //combine entries for same character names
     array.reduce(function (previousValue, currentValue, currentIndex, array) {
@@ -93,17 +64,17 @@ var calculateTopSum = function (array, n, property1, property2) {
         return result;
     }, result); //initial value is result end of callback function for reduce
     //sort result by property
-    if(!property2) {
-        result.sort(function (a, b) {
-            return b[property1] - a[property1];
-        })
-    } else {
-        result.sort(function (a, b) {
-            return (b[property1]+b[property2])-(a[property1]+a[property2]);
-        })
-    }
+    result.sort(function (a, b) {
+        var aSum = 0;
+        var bSum = 0;
+        for (var j = 0; j < properties.length; j++) {
+            aSum += a[properties[j]];
+            bSum += b[properties[j]];
+        }
+        return bSum - aSum;
+    });
     //select top n from result array
-    result = result.slice(0, n-1);
+    result = result.slice(0, n);
     return result;
 };
 
@@ -215,7 +186,7 @@ module.exports = {
             if (err) {
                 callback(undefined, err);
             } else {
-                var res = getMostNFromArray1(json, number, "posSum");
+                var res = calculateTopSum(json, number, ["posSum"]);
                 callback(res);
             }
         });
@@ -236,7 +207,7 @@ module.exports = {
             if (err) {
                 callback(undefined, err);
             } else {
-                var res = getMostNFromArray1(json, number, "negSum");
+                var res = calculateTopSum(json, number, ["negSum"]);
                 callback(res);
             }
         });
@@ -258,7 +229,7 @@ module.exports = {
             if (err) {
                 callback(undefined, err);
             } else {
-                var res = getMostNFromArray2(json, number, ["posCount", "negCount", "nullCount"]);
+                var res = calculateTopSum(json, number, ["posCount", "negCount", "nullCount"]);
                 callback(res);
             }
         });
@@ -281,7 +252,7 @@ module.exports = {
             if (err) {
                 callback(undefined, err);
             } else {
-                var res = getMostNFromArray2(json, number, ["posSum", "negSum"]);
+                var res = calculateTopSum(json, number, ["posSum", "negSum"]);
                 callback(res);
             }
         });
