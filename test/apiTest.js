@@ -117,8 +117,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 						"character":data.character, "startDate":data.date,"endDate": new Date((new Date(data.date)).setDate(new Date(data.date).getDate()+1)).toISOString()
 					},function(resp, err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						should.ok(resp);
 						var respPosSum=0,
@@ -224,8 +223,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('The response-JSON meets its specification',function(done){
 					api.topSentiment(inputJSON,function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						callback(resp,'posSum',function(sec,first){
 							return (first-sec)>=0;
@@ -244,8 +242,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('The response-JSON meets its specification',function(done){
 					api.worstSentiment(inputJSON,function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						callback(resp,'negSum',function(sec,first){
 							return (first-sec)>=0;
@@ -263,9 +260,8 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				});
 				it('The response-JSON meets its specification',function(done){
 					api.mostTalkedAbout(inputJSON,function(resp,err){
-						if(err){
-							done();
-							throw err;
+						if (err){
+							return done(err);
 						}
 						for (var i=0;i<resp.length;i+=1){
 							if(i!==0){
@@ -285,17 +281,15 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 
 
-
 			describe('#topControversial:',function(){
 				it('The response-JSON meets its specification',function(done){
 					api.topControversial(inputJSON,function(resp,err){
+						if (err){
+							return done(err);
+						}
 						oneDateData.sort(function(a,b){
 							return (-b.negSum+b.posSum)-(-a.negSum+a.posSum);
 						});
-						if(err){
-							done();
-							throw err;
-						}
 						for(var i=0;i<resp.length;i+=1){
 							if (i!==0){
 								(resp[i].posSum-resp[i].negSum).should.be.belowOrEqual(resp[i-1].posSum-resp[i-1].negSum);
@@ -342,8 +336,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('Specified response-JSON gets checked:',function(done){
 					api.runTwitterREST('Jon Snow', date.toISOString(), function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						should.ok(resp);
 						should.ok(resp.character);
@@ -373,8 +366,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('Specified response-JSON gets checked:',function(done){
 					api.runTwitterStreaming('Jon Snow', 0.1, function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						should.ok(resp);
 						should.ok(resp.character);
@@ -394,9 +386,6 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				});
 			});
 		});
-
-
-
 	});
 
 	run();
