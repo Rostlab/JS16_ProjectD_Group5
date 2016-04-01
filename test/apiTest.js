@@ -82,7 +82,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 
 
-			describe('name is not present',function (){
+			describe.skip('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function getSenForNameNotPresent(){
 						api.getSentimentForName({"character": "Donald Trump", "date" : new Date(2016,2,16).toISOString()}, function(resp,err){
@@ -95,7 +95,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), character:'Donald Trump'});
 				});
 			});
-			describe('No Data exists for this date', function (){
+			describe.skip('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function getSenForNameNO_DATA(){
 						api.getSentimentForName({"character":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
@@ -150,7 +150,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					loopfunction(dataArray[i]);
 				}
 			});
-			describe('name is not present',function (){
+			describe.skip('name is not present',function (){
 				it('should throw an SearchException',function(done){
 					(function getSenForTime_NAME_ERROR(){
 						api.getSentimentForNameTimeframe({
@@ -166,7 +166,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), character:'Donald Trump'});
 				});
 			});
-			describe('No Data exists for this date', function (){
+			describe.skip('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
 					(function getSenForTime_NO_DATA(){
 						api.getSentimentForNameTimeframe({"character":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()}, function(resp, err){
@@ -318,7 +318,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 
-		describe('#sentimentPerEpisode:',function(){
+		describe.skip('#sentimentPerEpisode:',function(){
 			describe('Tests the DB-connection:',function(){
 				it('It should throw as there can\'t be any data about an episode',function(done){
 					(function sentPerEpisode(){
