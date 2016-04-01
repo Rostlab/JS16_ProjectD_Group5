@@ -28,7 +28,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 		}
 	}
 	describe('API gets tested', function (){
-		this.timeout(3000);
+		this.timeout(10000);
 		var date = new Date();
 		describe('#init',function(){
 			it('the api-object should be filled already',function(){
