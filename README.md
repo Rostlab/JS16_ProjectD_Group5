@@ -9,7 +9,7 @@ npm install gotdailysentiment
 ```
 
 ## Usage
-First you have to require the Package. Then you have to configurate the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process (for more see **automatic analyses**). If no error occurs it returns an object with all functions, which are now accessible: 
+First you have to require the Package. Then you have to configure the database, which you are gonna use to store the Twitter-data on the long run. For that purpose use the function `init`. This will setup the configuration and start the automatic update-process (for more see **automatic analyses**). If no error occurs it returns an object with all functions, which are now accessible:
 ```javascript
 var initPack = require('gotdailysentiment');
 
@@ -18,7 +18,7 @@ var gotdailysentiment = initPack.init(config);
 The config-JSON needs to specify the following properties:
 ```javascript
 {
-  "twitter": {            //Twitter devloper credentials
+  "twitter": {            //Twitter developer credentials
     "consumer_key": "xxxxx",
     "consumer_secret": "xxxxx",
     "access_token_key": "xxxxx",
@@ -32,7 +32,7 @@ The config-JSON needs to specify the following properties:
     "sentimentGetAll": "xxxxx"
   },
   "automation": {
-    "minutes": 2
+    "minutes": 4
   }
 }
 ```
@@ -40,11 +40,11 @@ The config-JSON needs to specify the following properties:
 You will need valid Twitter developer credentials. You can get these [here](https://apps.twitter.com/).
 
 If you call `init` a second time, after a successful configuration, you can't change the configuration anymore. Instead it will only return the same object containing the accessible functions as before.
-## Get a small amout of data
+## Get a small amount of data
 ```javascript
 var json = {
-    "characterName" : "Jon Snow",
-    "date" : "2016-03-18T"
+    "character" : "Jon Snow",
+    "date" : "2016-03-18"
 };
 
 gotdailysentiment.getSentimentForName(json, 
@@ -57,8 +57,8 @@ Note that you specify the analyses, which you're about to get with an JSON-Objec
 The function gives a JSON-Object with the data to the callback-function. It contains the following properties. Here it is filled with some dummy data.
 ```javascript
 {
-  "characterName": "Jon Snow", 
-  "date": "2016-03-18T", //date of the tweets
+  "character": "Jon Snow",
+  "date": "2016-03-18", //date of the tweets
   "posSum": 23,          //sum of the positive sentiment score on that given day
   "negSum": 21,          //sum of the negative sentiment score on that given day
   "posCount": 11,        //count of positive tweets that day
@@ -75,7 +75,7 @@ This function looks up the data for a certain timeframe. It gets the following J
 ```javascript
 var json = {
      "name" : "Some Name",
-     "startDate" : "ISODate", //ISODate means: <JJJJ-MM-DD>T<hh:mm:ss>
+     "startDate" : "ISODate",
      "endDate" : "ISODate"
 };
 
@@ -105,7 +105,7 @@ All functions give the callback an array, which contains JSON-Objects.
 Note, that this time there exists for every Character only **one** object, e.g. when you assign three to the `number`-property, the array contains three objects. The objects contain the following properties (filled with dummy-data):
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 66,
     "posCount": 11,
@@ -118,7 +118,7 @@ Note, that this time there exists for every Character only **one** object, e.g. 
 With this function you get the sentiments on a character for the specified episode and the following seven days. So you have to define the following JSON-Object:
 ```javascript
 var json = {
-     "name" : "Jon Snow",
+     "character" : "Jon Snow",
      "season" : 1,
      "episode" : 1
 }
@@ -129,7 +129,7 @@ gotdailysentiment.sentimentPerEpisode(json,callback);
 The callback gets one JSON-Object (In this case dummy-data):
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 21,
     "posCount": 11,
@@ -139,7 +139,8 @@ The callback gets one JSON-Object (In this case dummy-data):
 ```
 
 ## Automatic analyses
-As mentioned earlier, with the `init`-function, you start the automatical analyses of the Tweets. It starts every x minutes, which you have to specify in the config-JSON. Let's say you specified 2 minutes: Every 2 minutes now this function takes one of the most popular characters and looks up all Tweets about this character since the last time. The list of the popular characters can be found [here](https://github.com/Rostlab/JS16_ProjectD_Group5/blob/develop/popChars/popChars.json). These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. We suggest to have an interval, that every character gets updated once per day. This depends on the length of the popChars-list.
+As mentioned earlier, with the `init`-function, you start the automatic analyses of the Tweets. It starts every x minutes, which you have to specify in the config-JSON. Let's say you specified 2 minutes: Every 2 minutes now this function takes one of the most popular characters and looks up all Tweets about this character since the last time. The list of the popular characters can be found [here](https://github.com/Rostlab/JS16_ProjectD_Group5/blob/develop/popChars/popChars.json). These Tweets get analyzed and after that the result gets stored in the Database, as one result. It stores **one** result per analyses-run. We suggest to have an interval, that every character gets updated once per day. This depends on the length of the popChars-list.
+For the current number of popular characters(~360) I suggest to go with 4 minutes as listed in the config dummy above.
 
 If you want to stop the automation you may do this with the following function:
 ```javascript
@@ -150,7 +151,7 @@ If you want to start the Automation again, you do this with `startAutomation()`:
 gotdailysentiment.startAutomation(); 
 ```
 
-If you start the automationprocess, though it already had been started, you get an Error. Same goes for the stop.
+If you start the automation process, though it already had been started, you get an Error. Same goes for the stop.
 
 ### Additional possibilities
 All queries work with the data, which is stored in the database. Sometimes it happens that there is no data stored about a minor important character or if you set the update-interval to high, there may be stored data, which is very old.
@@ -169,7 +170,7 @@ If you want to have real time analyses you need to use the function `runTwitterS
 Both functions give the result as the following json-object to the callback-function:
 ```javascript
 {
-    "name": "Jon Snow",
+    "character": "Jon Snow",
     "posSum": 23,
     "negSum": 21,
     "posCount": 11,

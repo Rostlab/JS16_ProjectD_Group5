@@ -3,6 +3,17 @@
  */
 var config = require('../cfg/config.json');
 var request = require('request');
+var SearchError = function (message, date, searchedName) {
+    this.name = 'SearchError';
+    this.message = message || 'Some Failure happened while searching for a SentimentAnalysis';
+    this.stack = (new Error()).stack;
+    this.date = date;
+    this.character = searchedName;
+};
+
+SearchError.prototype = Object.create(Error.prototype);
+SearchError.prototype.constructor = SearchError;
+
 /*
  Saves a json to the character in the database
  json format:
@@ -31,8 +42,7 @@ exports.saveSentiment = function (charName, json) {
     };
     request.post(url, form, function (err, resp, body) {
         if (err) {
-            //TODO
-            console.log(err);
+            console.error(err, body);
         }
     });
 };
@@ -49,45 +59,86 @@ exports.saveSentiment = function (charName, json) {
  description: String    // To distinguish between data sources. E.g. Group 6, Group 7
  }
  */
-exports.getSentimentForNameTimeframe = function (charName, startDate, endDate, callback) {
+exports.getSentimentForNameTimeframe = function (character, startDate, endDate, callback) {
+
     var url = config.database.sentimentGetChar;
     var startmil = (new Date(startDate)).getTime();
     var endmil = (new Date(endDate)).getTime();
     var form = {
         form: {
-            'character': charName
+            'character': character
         }
     };
-    request.post(url, form, function (err, resp, body) {
-        if (!err && resp.statusCode === 200) {
-            var json = JSON.parse(body);
-            json = json.filter(function (element) {
-                var date = new Date(element.date).getTime();
-                var dateframe = startmil <= date && endmil >= date;
-                var groupname = element.description === "Group 5";
-                return dateframe && groupname; //only includes results from our group
-            });
-            callback(json);
-        }
-    });
+    request.post(url, form, function (err, response, body) {
+            var error;
+            if (err) {
+                error = new SearchError('Error connecting to database');
+                callback(undefined, error);
+            } else {
+                if (response.statusCode === 400) {
+                    error = new SearchError('Usage of invalid database schema', startDate, character);
+                    callback(undefined, error);
+                }
+                if (response.statusCode === 404) {
+                    error = new SearchError('No data for this character', startDate, character);
+                    callback(undefined, error);
+                }
+                if (response.statusCode === 200) {
+                    var json = JSON.parse(body);
+                    var data = json.data;
+                    json = data.filter(function (element) {
+                        var date = new Date(element.date).getTime();
+                        return (endmil >= date) && (startmil <= date) && (element.description === "Group 5");
+                    });
+                    if (json.length === 0) {
+                        error = new SearchError('No results in database', startDate, character);
+                        callback(undefined, error);
+                    } else {
+                        callback(json);
+                    }
+                }
+            }
+        });
 };
 /*
  Same result json as getSentimentForNameTimeframe
  */
 exports.getSentimentTimeframe = function (startDate, endDate, callback) {
+
     var url = config.database.sentimentGetAll;
     url = url.replace('startdate', startDate);
     url = url.replace('enddate', endDate);
+
     request.get(url, function (err, resp, body) {
+        var error;
         //check for valid response
-        if (!err && resp.statusCode === 200) {
-            //parse answer String to a JSON Object
-            var json = JSON.parse(body);
-            json = json.filter(function (element) {
-                return element.description === "Group 5"; //only includes results from our group
-            });
-            //give JSON object to the callback function
-            callback(json);
+        if (err) {
+            error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        } else {
+            if (resp.statusCode === 200) {
+                //parse answer String to a JSON Object
+                var json = JSON.parse(body);
+                var data = json.data;
+                json = data.filter(function (element) {
+                    return element.description === "Group 5"; //only includes results from our group
+                });
+                //give JSON object to the callback function
+                if (json.length === 0) {
+                    error = new SearchError('No results in database', startDate);
+                    callback(undefined, error);
+                } else {
+                    callback(json);
+                }
+            }
+            if (resp.statusCode === 400) {
+                error = new SearchError('Usage of invalid database schema', startDate);
+                callback(undefined, error);
+            }
+            if (resp.statusCode === 404) {
+                error = new SearchError('Invalid character or timeframe', startDate);
+                callback(undefined, error);
+            }
         }
     });
 };
@@ -106,12 +157,26 @@ exports.airDate = function (season, episode, callback) {
     };
     //Make POST request to API
     request.post(url, form, function (err, resp, body) {
-        if (!err && resp.statusCode === 200) {
-            //just get the airing date information
-            var json = JSON.parse(body);
-            var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
-            //make a Date object for the callback function to use
-            callback(new Date(airDate));
+        var error;
+        if(err){
+            error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        } else {
+            if (resp.statusCode === 400) {
+                error = new SearchError('Usage of invalid database schema');
+                callback(undefined, error);
+            }
+            if (resp.statusCode === 404) {
+                error = new SearchError('Invalid season / episode');
+                callback(undefined, error);
+            }
+            if (resp.statusCode === 200) {
+                //just get the airing date information
+                var json = JSON.parse(body);
+                var airDate = json.data[0].airDate; //dateString is in format: "2011-04-16T22:00:00.000Z"
+                //make a Date object for the callback function to use
+                callback(new Date(airDate));
+            }
         }
     });
 };
@@ -124,7 +189,12 @@ exports.characterNames = function (callback) {
     var url = config.database.characterNamesURL;
     //GET request to API
     request.get(url, function (err, resp, body) {
-        //check foŕ valid response
+        var error;
+        //check for valid response
+        if (err) {
+            error = new SearchError('Error connecting to database');
+            callback(undefined, error);
+        }
         if (!err && resp.statusCode === 200) {
             //parse answer String to a JSON Object
             var json = JSON.parse(body);
@@ -136,7 +206,12 @@ exports.characterNames = function (callback) {
                 });
             }
             //give JSON object to the callback function
-            callback(formatted);
+            if (json.length === 0) {
+                error = new SearchError('No results in database');
+                callback(undefined, error);
+            } else {
+                callback(formatted);
+            }
         }
     });
 };

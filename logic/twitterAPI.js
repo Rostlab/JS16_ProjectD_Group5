@@ -13,29 +13,43 @@ var apiAccess = {
 
 var client = new twitter(apiAccess);
 
+var SearchError = function (message, date, searchedName) {
+    this.name = 'SearchError';
+    this.message = message || 'Some Failure happened while searching for a SentimentAnalysis';
+    this.stack = (new Error()).stack;
+    this.date = date;
+    this.character = searchedName;
+};
 
+SearchError.prototype = Object.create(Error.prototype);
+SearchError.prototype.constructor = SearchError;
 //launch Streaming-API search
 //timeFrame in seconds
 exports.getStream = function (characterName, duration, isSaved, callback) {
     var tweetArray = [];
-    var startTime = new Date();
     var currentDate = getCurrentDateAsString();
     var trimmedCharacterName = removeParentheses(characterName);
+
     client.stream('statuses/filter', {track: trimmedCharacterName}, function (stream) {
         stream.on('data', function (tweet) {
             tweetArray.push(tweet);
-            var currentTime = new Date();
-            if (currentTime.getTime() >= (startTime.getTime() + duration * 1000)) {
-                console.log('Timelimit reached!');
-                var filteredTweets = filterTweetsByHashtags(tweetArray, characterName);
-                runSentimentAnalysis(filteredTweets, characterName, currentDate, currentDate, isSaved, callback);
-                stream.destroy();
+        });
+        stream.on('error', function () {
+            var streamError = new SearchError('Error connecting to Twitter. Check connection and request limit!');
+            callback(undefined, streamError);
+            stream.destroy();
+        });
+        setTimeout(function () {
+            if (tweetArray.length === 0) {
+                var error = new SearchError('No tweets recorded', new Date().toISOString(), characterName);
+                callback(undefined, error);
+            } else {
+                runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
             }
-        });
-        stream.on('error', function (error) {
-            throw error;
-        });
+            stream.destroy();
+        }, duration * 1000);
     });
+
 };
 
 //launch Rest-API search
@@ -70,13 +84,10 @@ function getJSONTweetArray(tweetArray, characterName) {
 
 function getTweetAsJSON(tweet, characterName) {
     var jsonTweet = {};
-    // jsonTweet.id = tweet.id_str;
-    // jsonTweet.characterName = characterName;
     jsonTweet.created_at = tweet.created_at;
     jsonTweet.text = tweet.text;
     jsonTweet.retweeted = tweet.retweet_count;
     jsonTweet.fav = tweet.favorite_count;
-    // jsonTweet.lang = tweet.lang;
     return jsonTweet;
 }
 
