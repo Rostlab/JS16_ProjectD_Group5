@@ -68,6 +68,45 @@ var getMostNFromArray2 = function (array, n, arrayOfProp) {
     return nMost;
 };
 
+var calculateTopSum = function (array, n, property1, property2) {
+    var result = [];
+    //combine entries for same character names
+    array.reduce(function (previousValue, currentValue, currentIndex, array) {
+        var exists = false;
+        var pos;
+        for (var i = 0; i < result.length; i++) {
+            if (currentValue.character === result[i].character) {
+                exists = true;
+                pos = i;
+                break;
+            }
+        }
+        if (exists) {
+            assert(result[pos].character === currentValue.character); //testing purpose only
+            result[pos].posSum = result[pos].posSum + currentValue.posSum;
+            result[pos].negSum = result[pos].negSum + currentValue.negSum;
+            result[pos].posCount = result[pos].posCount + currentValue.posCount;
+            result[pos].negCount = result[pos].negCount + currentValue.negCount;
+            result[pos].nullCount = result[pos].nullCount + currentValue.nullCount;
+        } else {
+            result.push(currentValue);
+        }
+        return result;
+    }, result); //initial value is result end of callback function for reduce
+    //sort result by property
+    if(!property2) {
+        result.sort(function (a, b) {
+            return b[property1] - a[property1];
+        })
+    } else {
+        result.sort(function (a, b) {
+            return (b[property1]+b[property2])-(a[property1]+a[property2]);
+        })
+    }
+    //select top n from result array
+    result = result.slice(0, n-1);
+    return result;
+};
 
 module.exports = {
 
