@@ -134,7 +134,7 @@ module.exports = {
                 result.posCount = posDaily;
                 result.negCount = negDaily;
                 result.nullCount = nullDaily;
-                result.date = start.toISOString();
+                result.date = start;
                 callback(result);
             }
         });
