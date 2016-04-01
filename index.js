@@ -82,7 +82,6 @@ var calculateTopSum = function (array, n, property1, property2) {
             }
         }
         if (exists) {
-            assert(result[pos].character === currentValue.character); //testing purpose only
             result[pos].posSum = result[pos].posSum + currentValue.posSum;
             result[pos].negSum = result[pos].negSum + currentValue.negSum;
             result[pos].posCount = result[pos].posCount + currentValue.posCount;
