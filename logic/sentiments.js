@@ -28,9 +28,9 @@ exports.calculateSentimentsForTweets = function (characterName, tweets, startDat
 
     sentimentJSON.date = endDate;
     sentimentJSON.posSum = posSentiment;
-    sentimentJSON.negSum = negSentiment;
+    sentimentJSON.negSum = (negSentiment * (-1));
     sentimentJSON.posCount = posTweets;
-    sentimentJSON.negCount = (negTweets * (-1));
+    sentimentJSON.negCount = negTweets;
     sentimentJSON.nullCount = nullTweets;
     sentimentJSON.description = "Group 5";
     if (isSaved) {

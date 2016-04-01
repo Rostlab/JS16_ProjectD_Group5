@@ -13,28 +13,41 @@ var apiAccess = {
 
 var client = new twitter(apiAccess);
 
+var SearchError = function (message, date, searchedName) {
+    this.name = 'SearchError';
+    this.message = message || 'Some Failure happened while searching for a SentimentAnalysis';
+    this.stack = (new Error()).stack;
+    this.date = date;
+    this.character = searchedName;
+};
 
+SearchError.prototype = Object.create(Error.prototype);
+SearchError.prototype.constructor = SearchError;
 //launch Streaming-API search
 //timeFrame in seconds
 exports.getStream = function (characterName, duration, isSaved, callback) {
     var tweetArray = [];
-    var startTime = new Date();
     var currentDate = getCurrentDateAsString();
     var trimmedCharacterName = removeParentheses(characterName);
+
     client.stream('statuses/filter', {track: trimmedCharacterName}, function (stream) {
         stream.on('data', function (tweet) {
             tweetArray.push(tweet);
-            var currentTime = new Date();
-            if (currentTime.getTime() >= (startTime.getTime() + duration * 1000)) {
-                console.log('Timelimit reached!');
-                runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
-                stream.destroy();
-            }
         });
         stream.on('error', function (error) {
             throw error;
         });
+        setTimeout(function () {
+            stream.destroy();
+            if (tweetArray.length === 0) {
+                var error = new SearchError('No tweets recorded', new Date().toISOString(), characterName);
+                callback(undefined, error);
+            } else {
+                runSentimentAnalysis(tweetArray, characterName, currentDate, currentDate, isSaved, callback);
+            }
+        }, duration * 1000);
     });
+
 };
 
 //launch Rest-API search
