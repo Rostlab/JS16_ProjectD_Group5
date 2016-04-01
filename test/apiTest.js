@@ -342,8 +342,7 @@ setTimeout(function(){//This function is needed to get all the requires straight
 				it('Specified response-JSON gets checked:',function(done){
 					api.runTwitterREST('Jon Snow', date.toISOString(), function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						should.ok(resp);
 						should.ok(resp.character);
@@ -368,13 +367,12 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 		describe('#runTwitterStreaming',function() {
-			this.timeout(30000);
+			this.timeout(32000);
 			describe('Scrapes data for the next half minute for Jon Snow:',function(){
 				it('Specified response-JSON gets checked:',function(done){
-					api.runTwitterStreaming('Jon Snow', 10, function(resp,err){
+					api.runTwitterStreaming('Jon Snow', 30, function(resp,err){
 						if (err){
-							done();
-							throw err;
+							return done(err);
 						}
 						should.ok(resp);
 						should.ok(resp.character);
