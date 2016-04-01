@@ -36,7 +36,11 @@ var inputValidation = function (json) {
     if (json.hasOwnProperty("startDate") && json.hasOwnProperty("endDate")) {
         dateTest = isNaN(Date.parse(json.startDate)) || isNaN(Date.parse(json.endDate));
     }
-    return !(nameTest || dateTest);
+    var dateRange = false;
+    if(!dateTest){
+        dateRange = (new Date(json.endDate).getTime() - new Date(json.startDate).getTime())<=0;
+    }
+    return !(nameTest || dateTest || dateRange);
 };
 
 var calculateTopSum = function (array, n, properties) {
