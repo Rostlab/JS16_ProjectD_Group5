@@ -95,15 +95,15 @@ setTimeout(function(){//This function is needed to get all the requires straight
 			});
 			describe('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
-					(function getSenForNameNO_DATA(){
-						api.getSentimentForName({"character":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
-							if (err){
-								done(); 
-								throw err;
-							}
-							return resp;
-						});
-					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),character: 'Jon Snow'});
+					
+					api.getSentimentForName({"character":"Jon Snow","date": new Date(1990,1,1).toISOString()}, function(resp, err){
+						should.ok(err);
+						err.message.should.equal('No results in database');
+						err.name.should.equal('SearchError');
+						should.ok(err.date);
+						err.character.should.equal('Jon Snow');
+						done();
+					});
 				});
 			});
 		});
@@ -148,33 +148,32 @@ setTimeout(function(){//This function is needed to get all the requires straight
 					loopfunction(dataArray[i]);
 				}
 			});
-			describe.skip('name is not present',function (){
+			describe('name is not present',function (){
 				it('should throw an SearchException',function(done){
-					(function getSenForTime_NAME_ERROR(){
-						api.getSentimentForNameTimeframe({
-							"character": "Donald Trump", "startDate" : new Date(2016,2,16).toISOString(), "endDate": new Date(2016,2,16).toISOString()
+					api.getSentimentForNameTimeframe({
+						"character": "Donald Trump", "startDate" : new Date(2016,2,16).toISOString(), "endDate": new Date(2016,2,17).toISOString()
 					}, function(resp,err){
-							if (err){
-								done(); 
-								throw err;
-							}
-							done();
-							return resp;
-						});
-					}).should.throw("This is not a GoT-Character",{name:"SearchError",date:new Date(2016,2,16).toISOString(), character:'Donald Trump'});
+						should.ok(err);
+						err.message.should.equal('No data for this character');
+						err.name.should.equal('SearchError');
+						err.date.should.equal(new Date(2016,2,16).toISOString());
+						err.character.should.equal('Donald Trump');
+						done();
+					});
 				});
 			});
-			describe.skip('No Data exists for this date', function (){
+			describe('No Data exists for this date', function (){
 				it ('should throw an SearchException',function (done){
-					(function getSenForTime_NO_DATA(){
-						api.getSentimentForNameTimeframe({"character":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()}, function(resp, err){
-							if (err) {
-								done(); 
-								throw err;
-							}
-							return resp;
-						});
-					}).should.throw("For this date does no Twitterdata exist",{name:"SearchError",date:new Date(1990,1,1).toISOString(),character: 'Jon Snow'});
+					api.getSentimentForNameTimeframe({
+						"character":"Jon Snow","startDate": new Date(1990,1,1).toISOString(), "endDate": new Date(1990,1,4).toISOString()
+					}, function(resp, err){
+						should.ok(err);
+						err.message.should.equal('No results in database');
+						err.name.should.equal('SearchError');
+						err.date.should.equal(new Date(1990,1,1).toISOString());
+						err.character.should.equal('Jon Snow');
+						done(); 
+					});
 				});
 			});
 		});
@@ -316,22 +315,20 @@ setTimeout(function(){//This function is needed to get all the requires straight
 
 
 
-		describe.skip('#sentimentPerEpisode:',function(){
+		describe('#sentimentPerEpisode:',function(){
 			describe('Tests the DB-connection:',function(){
 				it('It should throw as there can\'t be any data about an episode',function(done){
-					(function sentPerEpisode(){
-						api.sentimentPerEpisode({
-							 	"character" : "Jon Snow",
-							    "season" : 1,
-							    "episode" : 1
-						    },function(resp,err){if (err) {
-						    	done();
-						    	throw err;
-						    }
-						    done();
-						    return resp;
-						});
-					}).should.throw('No results in database',{name:'SearchError', character: 'Jon Snow'});
+					api.sentimentPerEpisode({
+						 	"character" : "Jon Snow",
+						    "season" : 1,
+						    "episode" : 1
+					    },function(resp,err){
+					   	should.ok(err);
+						err.message.should.equal('No results in database');
+						err.name.should.equal('SearchError');
+						err.character.should.equal('Jon Snow');
+						done();
+					});
 				});
 			});
 		});
